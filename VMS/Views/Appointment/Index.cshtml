@@ -1,487 +1,519 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
-    Layout = null;
+    ViewData["Title"] = "A";
+    Layout = "/Views/Appointment/_Layout.cshtml";
 }
 
 
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div id="login">
+    <h3 class="text-center text-white pt-5">Visitor Form</h3>
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <div id="login-form" class="form">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <title>Hello, world!</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #17a2b8;
-            height: 100vh;
-            min-height: 100%;
-            background: linear-gradient(0deg, rgba(22, 21, 22, 0.3), rgba(22, 21, 22, 0.3)), url(https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
-            background-size: cover;
- 
-        }
+                        <div id="firstForm">
+                            <h3 class="text-center text-info">Welcome!</h3>
 
-        #login .container #login-row #login-column #login-box {
-            margin-top: 120px;
-            max-width: 600px;
-            background-color: #EAEAEA;
-        }
-
-            #login .container #login-row #login-column #login-box #login-form {
-                padding: 20px;
-            }
-
-                #login .container #login-row #login-column #login-box #login-form #register-link {
-                    margin-top: -85px;
-                }
-
-
-        
-    </style>
-</head>
-<body>
-
-
-    <div id="login">
-        <h3 class="text-center text-white pt-5">Visitor Form</h3>
-        <div class="container">
-            <div id="login-row" class="row justify-content-center align-items-center">
-                <div id="login-column" class="col-md-6">
-                    <div id="login-box" class="col-md-12">
-                        <div id="login-form" class="form">
-
-                            <div id="firstForm"  >
-                                <h3 class="text-center text-info">Welcome!</h3>
-
-                                <div class="form-group">
-                                    <label for="username" class="text-info">Please enter your number:</label><br>
-                                    <input type="text" name="username" id="username" class="form-control">
-                                </div>
-
-                                <div class="form-group">
-                                    <button onclick="btnNext()" type="button" class="btn btn-info btn-md col-md-12">Next</button>
-                                </div>
-
+                            <div class="form-group">
+                                <label for="username" class="text-info">Please enter your number:</label><br>
+                                <input type="text" id="phoneNumber" class="form-control">
+                                <span class="text-danger" id="val_PhoneNumber" style="display:none;">Please enter your number</span>
                             </div>
 
-                            <div id="SecondForm" style="display:none;">
-                                <h3 class="text-center text-info">Welcome!</h3>
-
-                                <div class="form-group">
-                                    <label for="username" class="text-info">Enter Your Full Name:</label><br>
-                                    <input type="text" class="form-control" />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="username" class="text-info">Enter Your Company Name:</label><br>
-                                    <input type="text" class="form-control" />
-                                </div>
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div class="form-group">
+                                <button onclick="btnNext()" type="button" class="btn btn-info btn-md col-md-12">Next</button>
                             </div>
-
-                            <div id="ThirdForm" style="display:none;">
-                                <h3 class="text-center text-info">What is the purpose of your visit!</h3>
-
-
-                                <div class="row mb-4 mt-4">
-                                    <div class="col-md-4">
-                                        <button onclick="btnMeetingPurpose(1)" id="btnOptionOne" type="button" class="btn btn-info col-12">Meeting</button>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <button onclick="btnMeetingPurpose(2)" id="btnOptionTwo" type="button" class="btn btn-info col-12">Contractor</button>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <button onclick="btnMeetingPurpose(3)" id="btnOptionThree" type="button" class="btn btn-info col-12">Other</button>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="form-group" id="OtherReason" style="display:none;">
-                                    <label for="username" class="text-info">Your other reason:</label><br>
-                                    <input type="text" class="form-control" />
-                                </div>
-
-
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div id="FourthForm" style="display:none;">
-                                <h3 class="text-center text-info">Welcome!</h3>
-
-
-
-
-                                <div class="form-group" id="OtherReason">
-                                    <label for="username" class="text-info">Car Registration Number:</label><br>
-                                    <input type="text" class="form-control" />
-                                </div>
-
-
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div id="FiftForm" style="display:none;">
-                                <h3 class="text-center text-info">Add a photo</h3>
-
-                                <div class="form-group text-center">
-                                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=50&w=50" class="rounded-circle" alt="Cinque Terre">
-                                </div>
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-
-
-                                        <div class="col-md-12 text-center">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Skip <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div id="SixthForm" style="display:none;">
-                                <h3 class="text-center text-info">Please read & acknowledge</h3>
-
-
-                                <div class="form-group" style="height:200px; overflow:scroll;">
-                                    <p>Welcome to our workspace</p>
-
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                                        <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
-                                        <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
-                                    </ul>
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                                        <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
-                                        <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
-                                    </ul>
-
-
-                                    <ul>
-                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                                        <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
-                                        <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
-                                    </ul>
-
-
-
-                                </div>
-
-
-
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div id="SeventhForm" style="display:none;">
-                                <h5 class="text-center text-info">Please review your visitor record and select : <span class="text-danger" >Proceed</span></h5>
-
-
-                                <div class="form-group">
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item">Full Name : <span>Deigo</span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)" >Edit</button> </li> 
-                                        <li class="list-group-item">Company Name : <span>NoCompany</span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li> 
-                                        <li class="list-group-item">Phone Number : <span>883242323</span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li> 
-                                        <li class="list-group-item">Purpose of visit : <span>Meeting</span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li> 
-                                        <li class="list-group-item">Car Registration Number : <span>Car33434</span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li> 
-                                    </ul>
-
-                                </div>
-
-
-
-
-                                <div class="form-group">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <button onclick="btnNext()" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
 
                         </div>
+
+                        <div id="SecondForm" style="display:none;">
+                            <h3 class="text-center text-info">Welcome!</h3>
+
+                            <div class="form-group">
+                                <label for="username" class="text-info">Enter Your Full Name:</label><br>
+                                <input type="text" class="form-control" id="fullName" />
+                                <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username" class="text-info">Enter Your Company Name:</label><br>
+                                <input type="text" class="form-control" />
+                                <span class="text-danger" id="val_CompanyName" style="display:none;">Please enter your company name</span>
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="ThirdForm" style="display:none;">
+                            <h3 class="text-center text-info">What is the purpose of your visit!</h3>
+                            <span class="text-danger" id="val_Purpose" style="display: table; margin: 0 auto; display:none;">Please choose your purpose</span>
+
+                            <div class="row mb-4 mt-4">
+                                <div class="col-md-4">
+                                    <button onclick="btnMeetingPurpose(1)" id="btnOptionOne" type="button" class="btn btn-info col-12">Meeting</button>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <button onclick="btnMeetingPurpose(2)" id="btnOptionTwo" type="button" class="btn btn-info col-12">Contractor</button>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <button onclick="btnMeetingPurpose(3)" id="btnOptionThree" type="button" class="btn btn-info col-12">Other</button>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group" id="OtherReason" style="display:none;">
+                                <label for="username" class="text-info">Your other reason:</label><br>
+                                <input type="text" class="form-control" />
+                                <span class="text-danger" id="val_Reason" style="display:none">Reason is required</span>
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="FourthForm" style="display:none;">
+                            <h3 class="text-center text-info">Welcome!</h3>
+
+
+
+
+                            <div class="form-group" id="OtherReason">
+                                <label for="username" class="text-info">Car Registration Number:</label><br>
+                                <input type="text" class="form-control" />
+                                <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="FiftForm" style="display:none;">
+                            <h3 class="text-center text-info">Add a photo</h3>
+
+                            <div class="form-group text-center">
+                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=50&w=50" class="rounded-circle" alt="Cinque Terre">
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Skip <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="SixthForm" style="display:none;">
+                            <h3 class="text-center text-info">Please read & acknowledge</h3>
+
+
+                            <div class="form-group" style="height:200px; overflow:scroll;">
+                                <p>Welcome to our workspace</p>
+
+                                <ul>
+                                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                    <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
+                                    <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
+                                </ul>
+                                <ul>
+                                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                    <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
+                                    <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
+                                </ul>
+
+
+                                <ul>
+                                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                    <li>Curabitur non quam cursus lorem aliquam sollicitudin.</li>
+                                    <li>Maecenas at neque vitae orci accumsan eleifend ac a ligula.</li>
+                                </ul>
+
+
+
+                            </div>
+
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="SeventhForm" style="display:none;">
+                            <h5 class="text-center text-info">Please review your visitor record and select : <span class="text-danger">Proceed</span></h5>
+
+
+                            <div class="form-group">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item">Full Name : <span>Deigo</span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button> </li>
+                                    <li class="list-group-item">Company Name : <span>NoCompany</span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
+                                    <li class="list-group-item">Phone Number : <span>883242323</span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li>
+                                    <li class="list-group-item">Purpose of visit : <span>Meeting</span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
+                                    <li class="list-group-item">Car Registration Number : <span>Car33434</span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
+                                </ul>
+
+                            </div>
+
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</div>
 
-    <script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        var stepNumber = 1;
+<script>
 
-        function btnNext() {
+    var stepNumber = 1;
+    var meetingType = 0;
+    var selectedOption = [];
 
-            stepNumber = stepNumber + 1;
+    function btnNext() {
+
+       
+
+        let phoneNumber = $("#phoneNumber").val();
+        let fullName = $("#fullName").val();
+
+        let isRunned = false;
+        
+
+        console.log("right");
+        console.log(stepNumber);
+        
+        
 
 
-            console.log("Run");
-            if (stepNumber == 1) {
-                $("#firstForm").show();
-                $("#SecondForm").hide();
+        if (stepNumber == 1) {
+             
+            if (phoneNumber == '') {  
+                return;
             }
 
-            if (stepNumber == 2) {
-                $("#firstForm").hide();
-                $("#SecondForm").show();
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
             }
-
-
-            if (stepNumber == 3) {
-                console.log("Run");
-                $("#SecondForm").hide();
-                $("#ThirdForm").show();
-            }
-
-            if (stepNumber == 4) {
-                console.log("Run");
-                $("#ThirdForm").hide();
-                $("#FourthForm").show();
-            }
-
-            if (stepNumber == 5) {
-                console.log("Run");
-                $("#FourthForm").hide();
-                $("#FiftForm").show();
-            }
-
-            if (stepNumber == 6) {
-                console.log("Run");
-                $("#FiftForm").hide();
-                $("#SixthForm").show();
-            }
-
-            if (stepNumber == 7) {
-                console.log("Run");
-                $("#SixthForm").hide();
-                $("#SeventhForm").show();
-            }
-
-            if (stepNumber == 8) {
-                stepNumber = 7;
-            }
-
-        }
-
-        function btnPrev() {
-            console.log(stepNumber);
-            if (stepNumber == 1) {
-                $("#firstForm").hide();
-                $("#SecondForm").show();
-            }
-
-            if (stepNumber == 2) {
-                $("#firstForm").show();
-                $("#SecondForm").hide();
-                stepNumber = 1;
-            }
-
-            if (stepNumber == 3) {
-                $("#SecondForm").show();
-                $("#ThirdForm").hide();
-                stepNumber = 2;
-            }
-
-            if (stepNumber == 4) {
-                $("#ThirdForm").show();
-                $("#FourthForm").hide();
-                stepNumber = 3;
-            }
-
-            if (stepNumber == 5) {
-                $("#FourthForm").show();
-                $("#FiftForm").hide();
-                stepNumber = 4;
-            }
-
-            if (stepNumber == 6) {
-                $("#FiftForm").show();
-                $("#SixthForm").hide();
-                stepNumber = 5;
-            }
-
-            if (stepNumber == 7) {
-                $("#SixthForm").show();
-                $("#SeventhForm").hide();
-                stepNumber = 6;
-            }
-        }
-
-        function jumpToForm(FormNumber) {
-
-            $("#SeventhForm").hide();
-
-
-            if (FormNumber == 1) {
-                $("#firstForm").show(); 
-                stepNumber = 1;
-            }
-
-            if (FormNumber == 2) { 
-                $("#SecondForm").show();
-                stepNumber = 2;
-            }
-
-            if (FormNumber == 3) { 
-                $("#ThirdForm").show();
-                stepNumber = 3;
-            }
-
-            if (FormNumber == 4) { 
-                $("#FourthForm").show();
-                stepNumber = 4;
-            }
-
-            if (FormNumber == 5) { 
-                $("#FiftForm").show();
-                stepNumber = 5;
-            }
-
-            if (FormNumber == 6) { 
-                $("#SixthForm").show();
-                stepNumber = 6;
-            }
-
-            if (FormNumber == 7) { 
-                $("#SeventhForm").show();
-                stepNumber = 7;
-            }
-        }
-
-        function btnMeetingPurpose(optionNumber) {
-            console.log(optionNumber);
-
-
-            if (optionNumber == 1) {
-                $("#btnOptionOne").css({ "backgroundColor": "#17a2b8"});
-                $("#btnOptionTwo").css({ "backgroundColor": "#62bcca" });
-                $("#btnOptionThree").css({ "backgroundColor": "#62bcca" });
-                $("#OtherReason").hide();
-                
-            }
-
-            if (optionNumber == 2) {
-
-                $("#btnOptionOne").css({ "backgroundColor": "#62bcca" });
-                $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
-                $("#btnOptionThree").css({ "backgroundColor": "#62bcca" });
-                $("#OtherReason").hide();
-            }
-
-            if (optionNumber == 3) {
-                $("#btnOptionOne").css({ "backgroundColor": "#62bcca" });
-                $("#btnOptionTwo").css({ "backgroundColor": "#62bcca" });
-                $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
-                $("#OtherReason").show();
-            }
-
             
+            $("#firstForm").show();
+            $("#SecondForm").hide();
+        }
+
+        if (stepNumber == 2) {
+
+
+            if (fullName == '') { 
+                return;
+            }
+
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1; 
+            }
+
+            $("#firstForm").hide();
+            $("#SecondForm").show();
         }
 
 
+        if (stepNumber == 3) {
+            console.log("Run");
 
-    </script>
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
+                isRunned = true;
+            }
+
+            $("#SecondForm").hide();
+            $("#ThirdForm").show();
+        }
+
+        if (stepNumber == 4) {
+            console.log("Run");
+
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
+                isRunned = true;
+            }
+
+            $("#ThirdForm").hide();
+            $("#FourthForm").show();
+        }
+
+        if (stepNumber == 5) {
+            
+            console.log("Run");
+
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
+                isRunned = true;
+            }
+
+            $("#FourthForm").hide();
+            $("#FiftForm").show();
+        }
+
+        if (stepNumber == 6) {
+            console.log("Run");
+
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
+                isRunned = true;
+            }
 
 
-</body>
-</html>
+            $("#FiftForm").hide();
+            $("#SixthForm").show();
+        }
+
+        if (stepNumber == 7) {
+            console.log("Run");
+
+            if (isRunned == false) {
+                stepNumber = stepNumber + 1;
+                isRunned = true;
+            }
+
+            $("#SixthForm").hide();
+            $("#SeventhForm").show();
+        }
+
+
+        if (isRunned == false) {
+            stepNumber = stepNumber + 1;
+            isRunned = true;
+
+        }
+       
+        if (stepNumber == 8) {
+            stepNumber = 7;
+        }
+
+     
+    }
+
+    function btnPrev() {
+        console.log(stepNumber);
+        if (stepNumber == 1) {
+            $("#firstForm").hide();
+            $("#SecondForm").show();
+        }
+
+        if (stepNumber == 2) {
+            $("#firstForm").show();
+            $("#SecondForm").hide();
+            stepNumber = 1;
+        }
+
+        if (stepNumber == 3) {
+            $("#SecondForm").show();
+            $("#ThirdForm").hide();
+            stepNumber = 2;
+        }
+
+        if (stepNumber == 4) {
+            $("#ThirdForm").show();
+            $("#FourthForm").hide();
+            stepNumber = 3;
+        }
+
+        if (stepNumber == 5) {
+            $("#FourthForm").show();
+            $("#FiftForm").hide();
+            stepNumber = 4;
+        }
+
+        if (stepNumber == 6) {
+            $("#FiftForm").show();
+            $("#SixthForm").hide();
+            stepNumber = 5;
+        }
+
+        if (stepNumber == 7) {
+            $("#SixthForm").show();
+            $("#SeventhForm").hide();
+            stepNumber = 6;
+        }
+    }
+
+    function jumpToForm(FormNumber) {
+
+        $("#SeventhForm").hide();
+
+
+        if (FormNumber == 1) {
+            $("#firstForm").show();
+            stepNumber = 1;
+        }
+
+        if (FormNumber == 2) {
+            $("#SecondForm").show();
+            stepNumber = 2;
+        }
+
+        if (FormNumber == 3) {
+            $("#ThirdForm").show();
+            stepNumber = 3;
+        }
+
+        if (FormNumber == 4) {
+            $("#FourthForm").show();
+            stepNumber = 4;
+        }
+
+        if (FormNumber == 5) {
+            $("#FiftForm").show();
+            stepNumber = 5;
+        }
+
+        if (FormNumber == 6) {
+            $("#SixthForm").show();
+            stepNumber = 6;
+        }
+
+        if (FormNumber == 7) {
+            $("#SeventhForm").show();
+            stepNumber = 7;
+        }
+    }
+
+    function btnMeetingPurpose(optionNumber) {
+        console.log(optionNumber);
+
+
+        if (optionNumber == 1) {
+            meetingType = 1;
+            $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionTwo").css({ "backgroundColor": "#62bcca" });
+            $("#btnOptionThree").css({ "backgroundColor": "#62bcca" });
+            $("#OtherReason").hide();
+
+        }
+
+        if (optionNumber == 2) {
+            meetingType = 2;
+            $("#btnOptionOne").css({ "backgroundColor": "#62bcca" });
+            $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionThree").css({ "backgroundColor": "#62bcca" });
+            $("#OtherReason").hide();
+        }
+
+        if (optionNumber == 3) {
+            meetingType = 3;
+            $("#btnOptionOne").css({ "backgroundColor": "#62bcca" });
+            $("#btnOptionTwo").css({ "backgroundColor": "#62bcca" });
+            $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
+            $("#OtherReason").show();
+        }
+
+
+    }
+
+
+
+</script>
+
