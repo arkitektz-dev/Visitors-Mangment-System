@@ -13,7 +13,7 @@
                 <div id="login-box" class="col-md-12">
                     <div id="login-form" class="form">
 
-                        <div id="firstForm">
+                        <div id="firstForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
 
                             <div class="form-group">
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button onclick="btnNext()" type="button" class="btn btn-info btn-md col-md-12">Next</button>
+                                <button onclick="btnNext(1)" type="button" class="btn btn-info btn-md col-md-12">Next</button>
                             </div>
 
                         </div>
@@ -33,13 +33,13 @@
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter Your Full Name:</label><br>
-                                <input type="text" class="form-control" id="fullName" />
+                                <input type="text" class="form-control" id="formFullName" />
                                 <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
                             </div>
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter Your Company Name:</label><br>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="company" />
                                 <span class="text-danger" id="val_CompanyName" style="display:none;">Please enter your company name</span>
                             </div>
 
@@ -52,7 +52,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(2)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
 
                             <div class="form-group" id="OtherReason" style="display:none;">
                                 <label for="username" class="text-info">Your other reason:</label><br>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="otherReason" />
                                 <span class="text-danger" id="val_Reason" style="display:none">Reason is required</span>
                             </div>
 
@@ -96,7 +96,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(3)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
 
                             <div class="form-group" id="OtherReason">
                                 <label for="username" class="text-info">Car Registration Number:</label><br>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="carRegistrationNumber" />
                                 <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
                             </div>
 
@@ -126,7 +126,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(4)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                             <h3 class="text-center text-info">Add a photo</h3>
 
                             <div class="form-group text-center">
-                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=50&w=50" class="rounded-circle" alt="Cinque Terre">
+                                <img id="profileImage" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" style="height:100px; width:100px;" class="rounded-circle" alt="Cinque Terre">
                             </div>
 
                             <div class="form-group">
@@ -147,7 +147,8 @@
 
 
                                     <div class="col-md-12 text-center">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                        <button type="button" id="takePhoto" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                        <input type="file" style="display:none" id="openFile" onchange="previewFile(this);" />
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +165,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Skip <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(5)" type="button" class="btn btn-info col-12">Skip <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +213,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(6)" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -226,11 +227,11 @@
                             <div class="form-group">
 
                                 <ul class="list-group">
-                                    <li class="list-group-item">Full Name : <span>Deigo</span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button> </li>
-                                    <li class="list-group-item">Company Name : <span>NoCompany</span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
-                                    <li class="list-group-item">Phone Number : <span>883242323</span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li>
-                                    <li class="list-group-item">Purpose of visit : <span>Meeting</span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
-                                    <li class="list-group-item">Car Registration Number : <span>Car33434</span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
+                                    <li class="list-group-item">Full Name : <span id="setFullName"></span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button> </li>
+                                    <li class="list-group-item">Company Name : <span id="setCompany"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
+                                    <li class="list-group-item">Phone Number : <span id="setPhone"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li>
+                                    <li class="list-group-item">Purpose of visit : <span id="setMeeting"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
+                                    <li class="list-group-item">Car Registration Number : <span id="setRegistration"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
                                 </ul>
 
                             </div>
@@ -247,7 +248,43 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext()" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="EightForm">
+                            <h5 class="text-center text-info">Welcome John Doe</h5>
+
+
+                            <div class="card bg-success" style="color:white;"> 
+                                <div class="card-body text-center">
+                                    <i class="fas fa-sign-out-alt mb-5" style="font-size: 58px;"></i> 
+                                    <h6>You have succesfully check in</h6> 
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="text-center">
+                                <span>@DateTime.Now.Date.ToString("hh:mm tt dddd dd MMMM yyyy")</span>
+                            </div>
+                            
+                            <br/>
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -272,33 +309,119 @@
 
     var stepNumber = 1;
     var meetingType = 0;
-    var selectedOption = [];
+    var selectedOption = []; 
 
-    function btnNext() {
-
-       
-
+    function btnNext(formNumber) {
         let phoneNumber = $("#phoneNumber").val();
-        let fullName = $("#fullName").val();
+        let fullName = $("#formFullName").val();
+        let companyName = $("#company").val();
+        let otherReason = $("#otherReason").val();
+        let carRegistrationNumber = $("#carRegistrationNumber").val();
+
+
 
         let isRunned = false;
-        
 
-        console.log("right");
-        console.log(stepNumber);
-        
-        
+        if (formNumber == 1) {
+            if (phoneNumber === '') {
+                $('#val_PhoneNumber').show();
+                return;
+            } else {
+                $('#val_PhoneNumber').hide();
+            }
+        }
 
+        if (formNumber == 2) {
+            if (fullName === '') {
+                $('#val_FullName').show();
+                return;
+            } else {
+                $('#val_FullName').hide();
+            }
+
+            if (companyName === '') {
+                $('#val_CompanyName').show();
+                return;
+            } else {
+                $('#val_CompanyName').hide();
+
+            }
+        }
+
+        if (formNumber == 3) {
+            if (meetingType == 0) {
+                $("#val_Purpose").show();
+                return;
+            } else {
+                $("#val_Purpose").hide();
+            }
+
+            if (meetingType == 3) {
+                if (otherReason === '') {
+                    $("#val_Reason").show();
+                    return;
+                } else {
+                    $("#val_Reason").hide();
+                }
+            }
+        }
+
+        if (formNumber == 4) {
+            if (meetingType == 0) {
+                $("#val_Purpose").show();
+                return;
+            } else {
+                $("#val_Purpose").hide();
+            }
+
+            if (meetingType == 3) {
+                if (otherReason === '') {
+                    $("#val_Reason").show();
+                    return;
+                } else {
+                    $("#val_Reason").hide();
+                }
+            }
+        }
+
+        if (formNumber == 5) {
+            if (carRegistrationNumber == '') {
+                $('#val_CarRegistration').show();
+                return;
+            } else {
+                $('#val_CarRegistration').hide();
+            }
+        }
+
+        if (formNumber == 6) { 
+            $("#setFullName").text('787878');
+            $("#setCompany").text(companyName);
+            $("#setPhone").text(phoneNumber);
+            $("#setRegistration").text(carRegistrationNumber);
+
+            if (meetingType == 1) {
+                //Meeting
+                $("#setMeeting").text("Meeting");
+            }
+
+            if (meetingType == 2) {
+                //Contractor
+                $("#setMeeting").text("Contractor");
+            }
+
+            if (meetingType == 3) {
+                //other
+                $("#setMeeting").text("other Reason");
+            }
+
+
+
+        }
+
+        stepNumber = stepNumber + 1;
 
         if (stepNumber == 1) {
-             
-            if (phoneNumber == '') {  
-                return;
-            }
-
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-            }
+           
             
             $("#firstForm").show();
             $("#SecondForm").hide();
@@ -307,13 +430,6 @@
         if (stepNumber == 2) {
 
 
-            if (fullName == '') { 
-                return;
-            }
-
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1; 
-            }
 
             $("#firstForm").hide();
             $("#SecondForm").show();
@@ -323,10 +439,6 @@
         if (stepNumber == 3) {
             console.log("Run");
 
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-                isRunned = true;
-            }
 
             $("#SecondForm").hide();
             $("#ThirdForm").show();
@@ -335,10 +447,6 @@
         if (stepNumber == 4) {
             console.log("Run");
 
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-                isRunned = true;
-            }
 
             $("#ThirdForm").hide();
             $("#FourthForm").show();
@@ -348,10 +456,6 @@
             
             console.log("Run");
 
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-                isRunned = true;
-            }
 
             $("#FourthForm").hide();
             $("#FiftForm").show();
@@ -360,10 +464,6 @@
         if (stepNumber == 6) {
             console.log("Run");
 
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-                isRunned = true;
-            }
 
 
             $("#FiftForm").hide();
@@ -372,23 +472,13 @@
 
         if (stepNumber == 7) {
             console.log("Run");
-
-            if (isRunned == false) {
-                stepNumber = stepNumber + 1;
-                isRunned = true;
-            }
+             
 
             $("#SixthForm").hide();
             $("#SeventhForm").show();
         }
 
-
-        if (isRunned == false) {
-            stepNumber = stepNumber + 1;
-            isRunned = true;
-
-        }
-       
+ 
         if (stepNumber == 8) {
             stepNumber = 7;
         }
@@ -513,7 +603,24 @@
 
     }
 
+    $("#takePhoto").on('click', function () {
+        $("#openFile").click();
+    });
 
+    
+    function previewFile(input) {
+        var file = $("input[type=file]").get(0).files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                $("#profileImage").attr("src", reader.result);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
 
 </script>
 
