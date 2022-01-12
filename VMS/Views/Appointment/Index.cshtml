@@ -13,7 +13,7 @@
                 <div id="login-box" class="col-md-12">
                     <div id="login-form" class="form">
 
-                        <div id="firstForm" style="display:none;">
+                        <div id="firstForm">
                             <h3 class="text-center text-info">Welcome!</h3>
 
                             <div class="form-group">
@@ -255,14 +255,14 @@
 
                         </div>
 
-                        <div id="EightForm">
-                            <h5 class="text-center text-info">Welcome John Doe</h5>
+                        <div id="EightForm" style="display:none;">
+                            <h5 class="text-center text-info" id="setEndFullName">Welcome John Doe</h5>
 
 
-                            <div class="card bg-success" style="color:white;"> 
+                            <div class="card bg-success" style="color:white;">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-sign-out-alt mb-5" style="font-size: 58px;"></i> 
-                                    <h6>You have succesfully check in</h6> 
+                                    <i class="fas fa-sign-out-alt mb-5" style="font-size: 58px;"></i>
+                                    <h6>You have succesfully check in</h6>
                                 </div>
                             </div>
 
@@ -271,8 +271,8 @@
                             <div class="text-center">
                                 <span>@DateTime.Now.Date.ToString("hh:mm tt dddd dd MMMM yyyy")</span>
                             </div>
-                            
-                            <br/>
+
+                            <br />
 
 
                             <div class="form-group">
@@ -284,7 +284,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(8)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Done </button>
                                     </div>
                                 </div>
                             </div>
@@ -301,17 +301,18 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
 
     var stepNumber = 1;
     var meetingType = 0;
-    var selectedOption = []; 
+    var selectedOption = [];
 
     function btnNext(formNumber) {
+
+
+
         let phoneNumber = $("#phoneNumber").val();
         let fullName = $("#formFullName").val();
         let companyName = $("#company").val();
@@ -393,8 +394,8 @@
             }
         }
 
-        if (formNumber == 6) { 
-            $("#setFullName").text('787878');
+        if (formNumber == 6) {
+            $("#setFullName").text(fullName);
             $("#setCompany").text(companyName);
             $("#setPhone").text(phoneNumber);
             $("#setRegistration").text(carRegistrationNumber);
@@ -418,11 +419,102 @@
 
         }
 
+        if (formNumber == 8) {
+            
+
+
+
+            var input = document.getElementById('openFile');
+            var files = input.files;
+            var formData = new FormData();
+
+            formData.append("file", files[0]);
+
+            $.ajax(
+                {
+                    url: "@Url.Action("UploadImage", "Appointment")",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+
+                         
+
+                        var row = {
+                            FullName: $("#formFullName").val(),
+                            PhoneNumber: phoneNumber,
+                            CompanyName: companyName,
+                            MeetingPurpose: meetingType,
+                            MeetingDescription: otherReason,
+                            CarRegistration: carRegistrationNumber,
+                            PhotoName: data == undefined ? null : data.fileName
+                        };
+
+                        console.log(row);
+
+
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddAppoitment", "Appointment")",
+                            data: { appointment: row },
+                            success: function (response) {
+
+                                if (response == "Done") {
+                                    stepNumber = 1;
+                                    meetingType = 0;
+
+                                    $("#phoneNumber").val('');
+                                    $("#formFullName").val('');
+                                    $("#company").val('');
+                                    $("#otherReason").val('');
+                                    $("#carRegistrationNumber").val('');
+                                    $("#OtherReason").hide();
+                                    $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
+                                    $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
+                                    $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
+                                    $("#openFile").val('');
+                                    $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+                                    $("#EightForm").hide();
+                                    $("#firstForm").show();
+                                    return;
+                                }
+
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+
+                    }
+                }
+            );
+
+
+
+
+
+          
+            return;
+           
+
+
+        }
+
+
         stepNumber = stepNumber + 1;
 
         if (stepNumber == 1) {
-           
-            
+
+
             $("#firstForm").show();
             $("#SecondForm").hide();
         }
@@ -453,7 +545,7 @@
         }
 
         if (stepNumber == 5) {
-            
+
             console.log("Run");
 
 
@@ -472,18 +564,27 @@
 
         if (stepNumber == 7) {
             console.log("Run");
-             
+
 
             $("#SixthForm").hide();
             $("#SeventhForm").show();
         }
 
- 
         if (stepNumber == 8) {
-            stepNumber = 7;
+            console.log("Run");
+
+            $("#setEndFullName").text(`Welcome ${fullName}`);
+
+            $("#SeventhForm").hide();
+            $("#EightForm").show();
         }
 
-     
+
+        if (stepNumber == 9) {
+            stepNumber = 8;
+        }
+
+
     }
 
     function btnPrev() {
@@ -572,8 +673,8 @@
     }
 
     function btnMeetingPurpose(optionNumber) {
-        console.log(optionNumber);
-
+        console.log('This is option number', optionNumber);
+        meetingType = optionNumber;
 
         if (optionNumber == 1) {
             meetingType = 1;
@@ -607,7 +708,8 @@
         $("#openFile").click();
     });
 
-    
+
+
     function previewFile(input) {
         var file = $("input[type=file]").get(0).files[0];
 
@@ -621,6 +723,8 @@
             reader.readAsDataURL(file);
         }
     }
+
+
 
 </script>
 
