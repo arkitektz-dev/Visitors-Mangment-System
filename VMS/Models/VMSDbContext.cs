@@ -18,14 +18,15 @@ namespace VMS.Models
         }
 
         public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<MeetingPurpose> MeetingPurposes { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=VMSDb;Integrated Security=True");
-                
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-K6CQJAP;Initial Catalog=VMSDb;Integrated Security=True");
             }
         }
 
@@ -40,7 +41,7 @@ namespace VMS.Models
                 entity.Property(e => e.CompanyName).HasMaxLength(50);
 
                 entity.Property(e => e.CreatedDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.FullName).HasMaxLength(30);
@@ -51,7 +52,12 @@ namespace VMS.Models
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(30);
 
-                entity.Property(e => e.UpdatedDate).HasColumnType("date");
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<MeetingPurpose>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Tenant>(entity =>

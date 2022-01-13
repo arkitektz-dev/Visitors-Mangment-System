@@ -28,6 +28,8 @@ namespace VMS.Controllers
             return View();
         }
 
+       
+
         [HttpPost]
         public JsonResult AddAppoitment(AddAppointmentDto appointment)
         {
