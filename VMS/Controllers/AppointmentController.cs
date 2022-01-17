@@ -62,11 +62,13 @@ namespace VMS.Controllers
             if (file == null)
                 return Ok(null);
 
+            Guid obj = Guid.NewGuid();
+            
             string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
 
             filename = this.EnsureCorrectFilename(filename);
 
-            using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename)))
+            using (FileStream output = System.IO.File.Create(this.GetPathAndFilename(filename+obj.ToString()+".jpg")))
                 await file.CopyToAsync(output);
 
 

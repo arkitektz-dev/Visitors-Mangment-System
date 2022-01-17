@@ -4,23 +4,39 @@
     Layout = "/Views/Appointment/_Layout.cshtml";
 }
 
+<style>
+    #qrcode-container {
+        display: none;
+    }
+
+    .qrcode {
+        padding: 16px;
+    }
+
+        .qrcode img {
+            margin: 0 auto;
+        }
+</style>
 
 <div id="login">
     <h3 class="text-center text-white pt-5">Visitor Form</h3>
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
-            <div id="login-column" class="col-md-6">
+            <div id="login-column" class="col-md-7">
                 <div id="login-box" class="col-md-12">
                     <div id="login-form" class="form">
 
-                        <div id="firstForm">
+
+
+                        <div id="firstForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
 
                             <div class="form-group">
-                                <label for="username" class="text-info">Please enter your number:</label><br>
-                                <input type="text" id="phoneNumber" class="form-control">
-                                <span class="text-danger" id="val_PhoneNumber" style="display:none;">Please enter your number</span>
+                                <label for="username" class="text-info">Enter your first name and last name and select <strong>next*</strong></label><br>
+                                <input type="text" class="form-control" id="formFullName" />
+                                <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
                             </div>
+
 
                             <div class="form-group">
                                 <button onclick="btnNext(1)" type="button" class="btn btn-info btn-md col-md-12">Next</button>
@@ -30,12 +46,6 @@
 
                         <div id="SecondForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
-
-                            <div class="form-group">
-                                <label for="username" class="text-info">Enter Your Full Name:</label><br>
-                                <input type="text" class="form-control" id="formFullName" />
-                                <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
-                            </div>
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter Your Company Name:</label><br>
@@ -60,6 +70,42 @@
                         </div>
 
                         <div id="ThirdForm" style="display:none;">
+
+                            <h3 class="text-center text-info">Welcome!</h3>
+
+                            <div class="form-group">
+                                <label for="username" class="text-info">Visiting Employee:</label><br>
+                                <select class="form-control col-md-12" id="cmbVisitingEmployee">
+                                    <option value="1">Arkitektz</option>
+                                    <option value="2">New Company</option>
+                                </select>
+                                <span class="text-danger" id="val_Employee" style="display:none;">Please enter your company name</span>
+                                <br />
+                                <p>
+                                    <span>
+                                        Enter your host's name and select their name from the resulting search
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(3)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="FourthForm" style="display:none;">
+
                             <h3 class="text-center text-info">What is the purpose of your visit!</h3>
                             <span class="text-danger" id="val_Purpose" style="display: table; margin: 0 auto; display:none;">Please choose your purpose</span>
 
@@ -87,35 +133,6 @@
 
 
 
-                            <div class="form-group">
-
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <button onclick="btnNext(3)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div id="FourthForm" style="display:none;">
-                            <h3 class="text-center text-info">Welcome!</h3>
-
-
-
-
-                            <div class="form-group" id="OtherReason">
-                                <label for="username" class="text-info">Car Registration Number:</label><br>
-                                <input type="text" class="form-control" id="carRegistrationNumber" />
-                                <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
-                            </div>
-
-
 
                             <div class="form-group">
 
@@ -134,45 +151,58 @@
                         </div>
 
                         <div id="FiftForm" style="display:none;">
-                            <h3 class="text-center text-info">Add a photo</h3>
+                            <h3 class="text-center text-info">Welcome!</h3>
 
-                            <div class="form-group text-center">
-                                <img id="profileImage" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" style="height:100px; width:100px;" class="rounded-circle" alt="Cinque Terre">
+
+                            <div class="form-group" id="OtherReason">
+                                <label for="username" class="text-info">Car Registration Number:</label><br>
+                                <input type="text" class="form-control" id="carRegistrationNumber" />
+                                <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
                             </div>
 
                             <div class="form-group">
-
-
-                                <div class="row">
-
-
-                                    <div class="col-md-12 text-center">
-                                        <button type="button" id="takePhoto" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
-                                        <input type="file" style="display:none" id="openFile" onchange="previewFile(this);" />
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="form-group">
-
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(5)" type="button" class="btn btn-info col-12">Skip <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(5)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
 
+
+
                         <div id="SixthForm" style="display:none;">
+                            <h3 class="text-center text-info">Welcome!</h3>
+
+
+
+                            <div class="form-group">
+                                <label for="username" class="text-info">Please enter your number:</label><br>
+                                <input type="text" id="phoneNumber" class="form-control">
+                                <span class="text-danger" id="val_PhoneNumber" style="display:none;">Please enter your number</span>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(6)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="SeventhForm" style="display:none;">
                             <h3 class="text-center text-info">Please read & acknowledge</h3>
 
 
@@ -204,40 +234,6 @@
 
 
 
-                            <div class="form-group">
-
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <button onclick="btnNext(6)" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div id="SeventhForm" style="display:none;">
-                            <h5 class="text-center text-info">Please review your visitor record and select : <span class="text-danger">Proceed</span></h5>
-
-
-                            <div class="form-group">
-
-                                <ul class="list-group">
-                                    <li class="list-group-item">Full Name : <span id="setFullName"></span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button> </li>
-                                    <li class="list-group-item">Company Name : <span id="setCompany"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
-                                    <li class="list-group-item">Phone Number : <span id="setPhone"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li>
-                                    <li class="list-group-item">Purpose of visit : <span id="setMeeting"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
-                                    <li class="list-group-item">Car Registration Number : <span id="setRegistration"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
-                                </ul>
-
-                            </div>
-
-
-
 
                             <div class="form-group">
 
@@ -248,7 +244,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Procced <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -256,6 +252,84 @@
                         </div>
 
                         <div id="EightForm" style="display:none;">
+
+                            <h3 class="text-center text-info">Add a photo</h3>
+
+                            <div class="form-group text-center">
+                                <img id="profileImage" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" style="height:100px; width:100px;" class="rounded-circle" alt="Cinque Terre">
+                            </div>
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+
+
+                                    <div class="col-md-12 text-center">
+                                        <button type="button" id="takePhoto" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                        <input type="file" style="display:none" id="openFile" onchange="previewFile(this);" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(8)" type="button" class="btn btn-info col-12"><span id="PhotoSkip">Skip</span> <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="NinthForm" style="display:none;">
+
+
+                            <h5 class="text-center text-info">Please review your visitor record and select : <span class="text-danger">Proceed</span></h5>
+
+
+                            <div class="form-group">
+
+                                <ul class="list-group">
+                                    <li class="list-group-item">Full Name : <span id="setFullName"></span>  <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button> </li>
+                                    <li class="list-group-item">Company Name : <span id="setCompany"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
+                                    <li class="list-group-item">Visiting Employee : <span id="setEmployee"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
+                                    <li class="list-group-item">Purpose of visit : <span id="setMeeting"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
+                                    <li class="list-group-item">Mobile Number : <span id="setPhone"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(6)">Edit</button></li>
+                                    <li class="list-group-item">Car Registration Number : <span id="setRegistration"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(5)">Edit</button></li>
+                                </ul>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(9)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Done </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="TenthForm" style="display:none;">
+
                             <h5 class="text-center text-info" id="setEndFullName">Welcome John Doe</h5>
 
 
@@ -275,6 +349,11 @@
                             <br />
 
 
+
+                            <br />
+
+
+
                             <div class="form-group">
 
 
@@ -284,13 +363,86 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(8)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Done </button>
+                                        <button onclick="btnNext(10)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Next </button>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+                        <div id="ElventhForm" style="display:none;">
 
+                            <div class="form-group">
+                                <p>Have you experienced flu like symptoms in the last 14 days?</p>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button type="button" onclick="SetFlu(true)" class="btn btn-info col-12">Yes</button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button id="btnDone" type="button" onclick="SetFlu(false)" class="btn btn-primary col-12">No </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <button onclick="btnNext(11)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div id="TwelfthForm" >
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+
+                                    <i class="far fa-address-card display-4"></i>
+                                    <h4><strong>Visitor Managment System</strong></h4>
+                                    <p>Welcome to VMS</p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <p>Scan the QR code using your smartphone's camera to sign in</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div id="qrcode"></div>
+                                </div>
+                                <div class="col-md-5">
+                                    <button class="btn btn-primary btn-block" onclick="btnNext(12)"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</button>
+                                    <button class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in with qr code</button>
+                                    <button class="btn btn-danger btn-block"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign out</button>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
 
                     </div>
                 </div>
@@ -299,15 +451,73 @@
     </div>
 </div>
 
+
+<div id="modal-camera" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="my_camera"></div>
+                <br />
+                <input class="btn btn-primary btn-block" type=button value="Take Photo" onClick="take_snapshot()">
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="~/js/webcam.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="~/js/qrcode.js"></script>
 <script>
+
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+
+    function take_snapshot() {
+
+        // take snapshot and get image data
+        Webcam.snap(function (data_uri) {
+            // display results in page
+            //openFile
+            //document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
+            //var blob = dataURItoBlob(data_uri);
+            // document.querySelector('#openFile').files = blob;
+            $("#PhotoSkip").text("Next");
+            document.getElementById('profileImage').setAttribute('src', `${data_uri}`);
+            $("#modal-camera").modal('hide')
+        });
+    }
+
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "http://jindo.dev.naver.com/collie",
+        width: 100,
+        height: 100,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
 
     var stepNumber = 1;
     var meetingType = 0;
     var selectedOption = [];
+    var isFlue = false;
 
     function btnNext(formNumber) {
 
@@ -318,52 +528,42 @@
         let companyName = $("#company").val();
         let otherReason = $("#otherReason").val();
         let carRegistrationNumber = $("#carRegistrationNumber").val();
+        let visitingEmployee = $("#cmbVisitingEmployee").val();
 
+        if (formNumber == 12) {
+            console.log(stepNumber)
+            $("#TwelfthForm").hide();
+            $("#firstForm").show();
+            stepNumber = 0;
 
-
-        let isRunned = false;
-
-        if (formNumber == 1) {
-            if (phoneNumber === '') {
-                $('#val_PhoneNumber').show();
-                return;
-            } else {
-                $('#val_PhoneNumber').hide();
-            }
         }
 
-        if (formNumber == 2) {
+
+        if (formNumber == 1) {
             if (fullName === '') {
                 $('#val_FullName').show();
                 return;
             } else {
                 $('#val_FullName').hide();
             }
+        }
 
+
+        if (formNumber == 2) {
             if (companyName === '') {
                 $('#val_CompanyName').show();
                 return;
             } else {
                 $('#val_CompanyName').hide();
-
             }
         }
 
         if (formNumber == 3) {
-            if (meetingType == 0) {
-                $("#val_Purpose").show();
+            if (visitingEmployee === '') {
+                $('#val_Employee').show();
                 return;
             } else {
-                $("#val_Purpose").hide();
-            }
-
-            if (meetingType == 3) {
-                if (otherReason === '') {
-                    $("#val_Reason").show();
-                    return;
-                } else {
-                    $("#val_Reason").hide();
-                }
+                $('#val_Employee').hide();
             }
         }
 
@@ -385,6 +585,7 @@
             }
         }
 
+
         if (formNumber == 5) {
             if (carRegistrationNumber == '') {
                 $('#val_CarRegistration').show();
@@ -395,52 +596,29 @@
         }
 
         if (formNumber == 6) {
-            $("#setFullName").text(fullName);
-            $("#setCompany").text(companyName);
-            $("#setPhone").text(phoneNumber);
-            $("#setRegistration").text(carRegistrationNumber);
-
-            if (meetingType == 1) {
-                //Meeting
-                $("#setMeeting").text("Meeting");
+            if (phoneNumber === '') {
+                $('#val_PhoneNumber').show();
+                return;
+            } else {
+                $('#val_PhoneNumber').hide();
             }
-
-            if (meetingType == 2) {
-                //Contractor
-                $("#setMeeting").text("Contractor");
-            }
-
-            if (meetingType == 3) {
-                //other
-                $("#setMeeting").text("other Reason");
-            }
-
-
-
         }
 
-        if (formNumber == 8) {
-            
+        if (formNumber == 11) {
+
+            const file = dataURItoBlob($("#profileImage")[0].currentSrc);
+            const formData = new FormData();
+            formData.append("file", file);
 
 
-
-            var input = document.getElementById('openFile');
-            var files = input.files;
-            var formData = new FormData();
-
-            formData.append("file", files[0]);
-
-            $.ajax(
-                {
+          
+            $.ajax({
                     url: "@Url.Action("UploadImage", "Appointment")",
                     data: formData,
                     processData: false,
                     contentType: false,
                     type: "POST",
                     success: function (data) {
-                        console.log(data);
-
-                         
 
                         var row = {
                             FullName: $("#formFullName").val(),
@@ -456,8 +634,7 @@
 
 
 
-
-                        $.ajax({
+                          $.ajax({
                             type: "POST",
                             url: "@Url.Action("AddAppoitment", "Appointment")",
                             data: { appointment: row },
@@ -479,8 +656,8 @@
                                     $("#openFile").val('');
                                     $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
-                                    $("#EightForm").hide();
-                                    $("#firstForm").show();
+                                    $("#ElventhForm").hide();
+                                    $("#TwelfthForm").show();
                                     return;
                                 }
 
@@ -494,20 +671,40 @@
                         })
 
 
+
+
+                        return;
                     }
-                }
-            );
-
-
-
-
-
-          
-            return;
-           
-
+             });
 
         }
+
+
+        if (formNumber == 8) {
+            $("#setFullName").text(fullName);
+            $("#setCompany").text(companyName);
+            $("#setPhone").text(phoneNumber);
+            $("#setRegistration").text(carRegistrationNumber);
+            $("#setEmployee").text($("#cmbVisitingEmployee option:selected").text());
+
+
+            if (meetingType == 1) {
+                //Meeting
+                $("#setMeeting").text("Meeting");
+            }
+
+            if (meetingType == 2) {
+                //Contractor
+                $("#setMeeting").text("Contractor");
+            }
+
+            if (meetingType == 3) {
+                //other
+                $("#setMeeting").text("other Reason");
+            }
+
+        }
+
 
 
         stepNumber = stepNumber + 1;
@@ -573,15 +770,40 @@
         if (stepNumber == 8) {
             console.log("Run");
 
-            $("#setEndFullName").text(`Welcome ${fullName}`);
+            //$("#setEndFullName").text(`Welcome ${fullName}`);
 
             $("#SeventhForm").hide();
             $("#EightForm").show();
         }
 
-
         if (stepNumber == 9) {
-            stepNumber = 8;
+            $("#EightForm").hide();
+            $("#NinthForm").show();
+        }
+
+        if (stepNumber == 10) {
+            $("#NinthForm").hide();
+            $("#TenthForm").show();
+
+        }
+
+        if (stepNumber == 11) {
+
+            $("#TenthForm").hide();
+            $("#ElventhForm").show();
+        }
+
+        if (stepNumber == 12) {
+
+            $("#ElventhForm").hide();
+            $("#TwelfthForm").show();
+        }
+
+
+
+
+        if (stepNumber == 13) {
+            stepNumber = 12;
         }
 
 
@@ -629,11 +851,39 @@
             $("#SeventhForm").hide();
             stepNumber = 6;
         }
+
+        if (stepNumber == 8) {
+            $("#SeventhForm").show();
+            $("#EightForm").hide();
+            stepNumber = 7;
+        }
+
+        if (stepNumber == 9) {
+            $("#EightForm").show();
+            $("#NinthForm").hide();
+            stepNumber = 8;
+        }
+
+        if (stepNumber == 10) {
+            $("#NinthForm").show();
+            $("#TenthForm").hide();
+            stepNumber = 9;
+        }
+
+
+        if (stepNumber == 11) {
+            $("#TenthForm").show();
+            $("#ElventhForm").hide();
+            stepNumber = 10;
+        }
+
+
+
     }
 
     function jumpToForm(FormNumber) {
 
-        $("#SeventhForm").hide();
+        $("#NinthForm").hide();
 
 
         if (FormNumber == 1) {
@@ -656,20 +906,17 @@
             stepNumber = 4;
         }
 
-        if (FormNumber == 5) {
-            $("#FiftForm").show();
-            stepNumber = 5;
-        }
-
         if (FormNumber == 6) {
             $("#SixthForm").show();
             stepNumber = 6;
         }
 
-        if (FormNumber == 7) {
-            $("#SeventhForm").show();
-            stepNumber = 7;
+        if (FormNumber == 5) {
+            $("#FiftForm").show();
+            stepNumber = 5;
         }
+
+
     }
 
     function btnMeetingPurpose(optionNumber) {
@@ -705,7 +952,10 @@
     }
 
     $("#takePhoto").on('click', function () {
-        $("#openFile").click();
+        //$("#openFile").click();
+        $("#modal-camera").modal('show')
+
+
     });
 
 
@@ -724,7 +974,29 @@
         }
     }
 
+    function dataURItoBlob(dataURI) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
 
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ia], { type: mimeString });
+    }
+
+    function SetFlu(value) {
+        isFlu = value;
+    }
 
 </script>
 
