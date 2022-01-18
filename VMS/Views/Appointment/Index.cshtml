@@ -16,6 +16,15 @@
         .qrcode img {
             margin: 0 auto;
         }
+
+    .swal2-cancel {
+        margin-right: 10px;
+    }
+
+    #ThirdForm > div:nth-child(2) > span.select2.select2-container.select2-container--default.select2-container--below {
+        width: 100%;
+    }
+
 </style>
 
 <div id="login">
@@ -33,7 +42,7 @@
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter your first name and last name and select <strong>next*</strong></label><br>
-                                <input type="text" class="form-control" id="formFullName" />
+                                <input type="text" class="form-control" id="formFullName" autofocus autocomplete="off" />
                                 <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
                             </div>
 
@@ -49,7 +58,7 @@
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter Your Company Name:</label><br>
-                                <input type="text" class="form-control" id="company" />
+                                <input type="text" class="form-control" id="company" autocomplete="off" />
                                 <span class="text-danger" id="val_CompanyName" style="display:none;">Please enter your company name</span>
                             </div>
 
@@ -75,10 +84,12 @@
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Visiting Employee:</label><br>
-                                <select class="form-control col-md-12" id="cmbVisitingEmployee">
-                                    <option value="1">Arkitektz</option>
-                                    <option value="2">New Company</option>
+                                <select class="form-control js-example-basic-single col-md-12" name="state">
+                                    <option value=""></option>
+                                    <option value="1">John Lee</option>
+                                    <option value="2">John Doe</option>
                                 </select>
+                               
                                 <span class="text-danger" id="val_Employee" style="display:none;">Please enter your company name</span>
                                 <br />
                                 <p>
@@ -127,7 +138,7 @@
 
                             <div class="form-group" id="OtherReason" style="display:none;">
                                 <label for="username" class="text-info">Your other reason:</label><br>
-                                <input type="text" class="form-control" id="otherReason" />
+                                <input type="text" class="form-control" id="otherReason" autocomplete="off" />
                                 <span class="text-danger" id="val_Reason" style="display:none">Reason is required</span>
                             </div>
 
@@ -156,7 +167,7 @@
 
                             <div class="form-group" id="OtherReason">
                                 <label for="username" class="text-info">Car Registration Number:</label><br>
-                                <input type="text" class="form-control" id="carRegistrationNumber" />
+                                <input type="text" class="form-control" id="carRegistrationNumber" autocomplete="off" />
                                 <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
                             </div>
 
@@ -183,7 +194,7 @@
 
                             <div class="form-group">
                                 <label for="username" class="text-info">Please enter your number:</label><br>
-                                <input type="text" id="phoneNumber" class="form-control">
+                                <input type="text" id="phoneNumber" class="form-control" autocomplete="off">
                                 <span class="text-danger" id="val_PhoneNumber" style="display:none;">Please enter your number</span>
                             </div>
 
@@ -316,11 +327,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Cancel</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(9)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Done </button>
+                                        <button onclick="btnNext(9)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Proceed </button>
                                     </div>
                                 </div>
                             </div>
@@ -371,6 +382,7 @@
                         </div>
                         <div id="ElventhForm" style="display:none;">
 
+
                             <div class="form-group">
                                 <p>Have you experienced flu like symptoms in the last 14 days?</p>
                                 <div class="row">
@@ -383,7 +395,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="form-group">
 
@@ -405,7 +416,7 @@
 
                         </div>
 
-                        <div id="TwelfthForm" >
+                        <div id="TwelfthForm">
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -474,14 +485,14 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="~/js/webcam.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/js/qrcode.js"></script>
 <script>
-
+    $('.js-example-basic-single').select2({ width: '100%' });
     Webcam.set({
         width: 320,
         height: 240,
@@ -535,6 +546,7 @@
             $("#TwelfthForm").hide();
             $("#firstForm").show();
             stepNumber = 0;
+            document.getElementById("formFullName").focus();
 
         }
 
@@ -550,6 +562,7 @@
 
 
         if (formNumber == 2) {
+
             if (companyName === '') {
                 $('#val_CompanyName').show();
                 return;
@@ -611,7 +624,7 @@
             formData.append("file", file);
 
 
-          
+
             $.ajax({
                     url: "@Url.Action("UploadImage", "Appointment")",
                     data: formData,
@@ -722,6 +735,8 @@
 
             $("#firstForm").hide();
             $("#SecondForm").show();
+
+            document.getElementById("company").focus();
         }
 
 
@@ -748,6 +763,7 @@
 
             $("#FourthForm").hide();
             $("#FiftForm").show();
+            document.getElementById("carRegistrationNumber").focus();
         }
 
         if (stepNumber == 6) {
@@ -757,6 +773,7 @@
 
             $("#FiftForm").hide();
             $("#SixthForm").show();
+            document.getElementById("phoneNumber").focus();
         }
 
         if (stepNumber == 7) {
@@ -859,9 +876,44 @@
         }
 
         if (stepNumber == 9) {
-            $("#EightForm").show();
-            $("#NinthForm").hide();
-            stepNumber = 8;
+            //$("#EightForm").show();
+            //$("#NinthForm").hide();
+            //stepNumber = 8;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "Are you sure to cancel it?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'No,',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled!',
+                        'Your appointment is cancelled',
+                        'success'
+                    )
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your appointment has saved',
+                        'error'
+                    )
+                }
+            })
+
         }
 
         if (stepNumber == 10) {
@@ -946,6 +998,8 @@
             $("#btnOptionTwo").css({ "backgroundColor": "#62bcca" });
             $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
             $("#OtherReason").show();
+            document.getElementById("otherReason").focus();
+
         }
 
 

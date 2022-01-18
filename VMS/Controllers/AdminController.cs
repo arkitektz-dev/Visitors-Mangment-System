@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using VMS.Models;
 using System.Linq.Dynamic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VMS.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
 
