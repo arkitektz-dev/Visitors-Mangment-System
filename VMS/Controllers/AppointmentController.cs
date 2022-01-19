@@ -28,7 +28,12 @@ namespace VMS.Controllers
             return View();
         }
 
-       
+        public JsonResult ListEmployee()
+        {
+            var employeeList = _context.Employees.ToList();
+
+            return Json(employeeList);
+        }
 
         [HttpPost]
         public JsonResult AddAppoitment(AddAppointmentDto appointment)
