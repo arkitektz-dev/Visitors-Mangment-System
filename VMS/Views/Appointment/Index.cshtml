@@ -511,7 +511,7 @@
             <div class="modal-body">
                 <div id="my_camera"></div>
                 <br />
-                <input class="btn btn-primary btn-block" type=button value="Take Photo" onClick="take_snapshot()">
+                <input class="btn btn-primary btn-block" id="btnSendPhoto" type=button value="Take Photo" onClick="take_snapshot()">
 
 
             </div>
@@ -538,7 +538,7 @@
 <script>
 
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "http://jindo.dev.naver.com/collie",
+        text: "https://arkitektz.com/",
         width: 200,
         height: 200,
         colorDark: "#000000",
@@ -592,13 +592,7 @@
 
 
     //$('.js-example-basic-single').select2({ width: '100%' });
-    Webcam.set({
-        width: 320,
-        height: 240,
-        image_format: 'jpeg',
-        jpeg_quality: 90
-    });
-    Webcam.attach('#my_camera');
+  
 
     Webcam.on('error', function (err) {
         isError = true;
@@ -606,6 +600,8 @@
         $('#takePhoto').hide()
         $("#profileImage").hide()
         $('#lblErrorPhoto').show()
+        $("#btnSendPhoto").prop("disabled", true);
+
     });
 
     function take_snapshot() {
@@ -621,6 +617,8 @@
             document.getElementById('profileImage').setAttribute('src', `${data_uri}`);
             $("#modal-camera").modal('hide')
         });
+
+        Webcam.reset();
     }
 
 
@@ -634,7 +632,7 @@
         let companyName = $("#company").val();
         let otherReason = $("#otherReason").val();
         let carRegistrationNumber = $("#carRegistrationNumber").val();
-        let visitingEmployee = $("#cmbVisitingEmployee").val();
+        let visitingEmployee = $("#visitingEmployee").val();
 
         if (formNumber == 12) {
             console.log(stepNumber)
@@ -715,7 +713,8 @@
             }
         }
 
-        if (formNumber == 11) {
+        if (formNumber == 10) {
+
 
             const file = dataURItoBlob($("#profileImage")[0].currentSrc);
             const formData = new FormData();
@@ -751,14 +750,17 @@
                             data: { appointment: row },
                             success: function (response) {
 
+                                console.log("The response from insert", response);
+
                                 if (response == "Done") {
-                                    stepNumber = 1;
+                                    console.log("Form clear") 
                                     meetingType = 0;
 
                                     $("#phoneNumber").val('');
                                     $("#formFullName").val('');
                                     $("#company").val('');
                                     $("#otherReason").val('');
+                                    $("#visitingEmployee").val('');
                                     $("#carRegistrationNumber").val('');
                                     $("#OtherReason").hide();
                                     $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
@@ -767,9 +769,10 @@
                                     $("#openFile").val('');
                                     $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
-                                    $("#ElventhForm").hide();
-                                    $("#TwelfthForm").show();
-                                    return;
+                                    //$("#ElventhForm").hide();
+                                    //$("#TwelfthForm").show();
+                                    console.log("Form open");
+                                     
                                 }
 
                             },
@@ -796,7 +799,7 @@
             $("#setCompany").text(companyName);
             $("#setPhone").text(phoneNumber);
             $("#setRegistration").text(carRegistrationNumber);
-            $("#setEmployee").text($("#cmbVisitingEmployee option:selected").text());
+            $("#setEmployee").text($("#visitingEmployee").val());
 
 
             if (meetingType == 1) {
@@ -822,14 +825,15 @@
 
         if (stepNumber == 1) {
 
-
+            console.log("This is from 1")
+            $("#TwelfthForm").hide();
             $("#firstForm").show();
             $("#SecondForm").hide();
         }
 
         if (stepNumber == 2) {
 
-
+            $("#TwelfthForm").hide();
 
             $("#firstForm").hide();
             $("#SecondForm").show();
@@ -841,7 +845,7 @@
         if (stepNumber == 3) {
             console.log("Run");
 
-
+            $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#ThirdForm").show();
         }
@@ -849,7 +853,7 @@
         if (stepNumber == 4) {
             console.log("Run");
 
-
+            $("#TwelfthForm").hide();
             $("#ThirdForm").hide();
             $("#FourthForm").show();
         }
@@ -858,7 +862,7 @@
 
             console.log("Run");
 
-
+            $("#TwelfthForm").hide();
             $("#FourthForm").hide();
             $("#FiftForm").show();
             document.getElementById("carRegistrationNumber").focus();
@@ -868,7 +872,7 @@
             console.log("Run");
 
 
-
+            $("#TwelfthForm").hide();
             $("#FiftForm").hide();
             $("#SixthForm").show();
             document.getElementById("phoneNumber").focus();
@@ -882,10 +886,11 @@
                 $('#lblPhoto').show()
                 $('#takePhoto').show()
                 $('#lblErrorPhoto').hide()
+                $("#btnSendPhoto").prop("disabled", true);
 
             }
 
-
+            $("#TwelfthForm").hide();
             $("#SixthForm").hide();
             $("#SeventhForm").show();
         }
@@ -894,24 +899,26 @@
             console.log("Run");
 
             //$("#setEndFullName").text(`Welcome ${fullName}`);
-
+            $("#TwelfthForm").hide();
             $("#SeventhForm").hide();
             $("#EightForm").show();
         }
 
         if (stepNumber == 9) {
+            $("#TwelfthForm").hide();
             $("#EightForm").hide();
             $("#NinthForm").show();
         }
 
         if (stepNumber == 10) {
+            $("#TwelfthForm").hide();
             $("#NinthForm").hide();
             $("#TenthForm").show();
 
         }
 
         if (stepNumber == 11) {
-
+            $("#TwelfthForm").hide();
             $("#TenthForm").hide();
             $("#ElventhForm").show();
         }
@@ -1004,11 +1011,33 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
+
+                    meetingType = 0;
+
+                    $("#phoneNumber").val('');
+                    $("#formFullName").val('');
+                    $("#company").val('');
+                    $("#otherReason").val('');
+                    $("#visitingEmployee").val('');
+                    $("#carRegistrationNumber").val('');
+                    $("#OtherReason").hide();
+                    $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
+                    $("#openFile").val('');
+                    $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+                    $("#TwelfthForm").show();
+                    stepNumber = 1;
+
                     swalWithBootstrapButtons.fire(
                         'Cancelled!',
                         'Your appointment is cancelled',
                         'success'
                     )
+
+                    $("#NinthForm").hide();
+
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
@@ -1112,8 +1141,21 @@
     }
 
     $("#takePhoto").on('click', function () {
+        $("#btnSendPhoto").prop("disabled", true);
         //$("#openFile").click();
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
         $("#modal-camera").modal('show')
+        Webcam.attach('#my_camera');
+
+        setTimeout(() => {
+            $("#btnSendPhoto").prop("disabled", false);
+
+        },1000)
 
 
     });
@@ -1160,7 +1202,7 @@
 
 
     function isValidPhone(p) {
-        var phoneRe = /^[2-9]\d{2}[2-9]\d{2}\d{4}$/;
+        var phoneRe = /(^[0][2][12579]{1})(\d{6,7}$)/;
         var digits = p.replace(/\D/g, "");
         return phoneRe.test(digits);
     }
