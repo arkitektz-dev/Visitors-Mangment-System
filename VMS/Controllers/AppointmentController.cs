@@ -50,6 +50,8 @@ namespace VMS.Controllers
                 CarRegistration = appointment.CarRegistration,
                 ProfilePhotoUrl = appointment.PhotoName,
                 IsPhoto = appointment.PhotoName != null ?  true : false,
+                VisitingEmployee = appointment.VisitingEmployee,
+                IsFlu = appointment.isFlu,
                 CreatedBy = 1
             };
 
@@ -58,7 +60,7 @@ namespace VMS.Controllers
 
 
 
-            return Json("Done");
+            return Json(objSave);
         }
 
         [HttpPost]
@@ -77,7 +79,7 @@ namespace VMS.Controllers
                 await file.CopyToAsync(output);
 
 
-            return Ok(file);
+            return Ok(filename + obj.ToString() + ".jpg");
         }
 
         private string EnsureCorrectFilename(string filename)

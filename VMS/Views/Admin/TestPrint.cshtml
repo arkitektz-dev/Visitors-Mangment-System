@@ -1,0 +1,82 @@
+﻿@model VMS.Models.Appointment;
+@{
+    ViewData["Title"] = "TestPrint";
+    Layout = null;
+}
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     
+     
+</head>
+<body> 
+    <div class="container-fluid">
+        <div class="row no-gutters">
+            <div class="col-md-2" style=" max-width: 107px !important;">
+
+
+                @if (Model != null)
+                {
+
+                    @if (Model.ProfilePhotoUrl != null)
+                    {
+                        <img id="profileImage" src="https://localhost:44308/uploads/@Model.ProfilePhotoUrl" style="height:100px; width:100px; margin-left:-7px;" class="rounded-circle" alt="Cinque Terre">
+                    }
+                    else
+                    {
+                        <img id="profileImage" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" style="height:100px; width:100px; margin-left:-7px;" class="rounded-circle" alt="Cinque Terre">
+
+                    }
+
+
+
+                }
+                else
+                {       
+                    <img id="profileImage" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" style="height:100px; width:100px; margin-left:-7px;" class="rounded-circle" alt="Cinque Terre">
+
+                }
+
+
+
+            </div>
+
+            <div class="col-md-6" style="margin-left: -8px;">
+                <p style="font-size:12px;"><strong>Visitor Managment System</strong></p>
+
+                <p class="mb-0"><strong>@Model.FullName</strong></p>
+                <p class="mb-0">@Model.CompanyName</p>
+                <p class="mb-0">@DateTime.Now.Date.ToString("dd/MM/yyyy")</p>
+
+                <div class="row">
+                    <div class="col-md-2"><p class="mb-0">Visiting</p></div>
+                    <div class="col-md-2"><p class="mb-0">Pass No</p></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"><p class="mb-0">@Model.VisitingEmployee</p></div>
+                    <div class="col-md-2"><p class="mb-0">@Model.Id</p></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+     
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

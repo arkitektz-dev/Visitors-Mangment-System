@@ -25,7 +25,8 @@ namespace VMS.Controllers
             return View();
         }
 
-        public IActionResult LoadData()
+        [HttpPost]
+        public IActionResult LoadEmployeeData()
         {
 
             var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
@@ -56,8 +57,7 @@ namespace VMS.Controllers
             var employmentData = (from employee in _context.Employees 
                                    select new
                                    { 
-                                       employee.Id,
-                                       employee.TenantId,
+                                       employee.Id, 
                                        employee.Name
                                    });
 
@@ -83,12 +83,13 @@ namespace VMS.Controllers
 
         }
 
+        [HttpPost]
         public IActionResult CreateEmployee(EmployeeViewModel param)
         {
             var model = new Employee()
             {
                 Name = param.Name,
-                TenantId = param.TenantId,
+                TenantId = 1,
                 CreatedBy = 1
             };
 
@@ -101,13 +102,20 @@ namespace VMS.Controllers
         public IActionResult DeleteEmployee(int EmployeeId) {
 
             var employee = _context.Employees.Where(x => x.Id == EmployeeId).FirstOrDefault();
+            var appoitment = _context.Appointments.Where(x => x.VisitingEmployee == employee.Name).FirstOrDefault();
+
+            if (appoitment != null) {
+                return Json("Fail");
+            }
 
             if (employee != null) { 
                 _context.Remove(employee);
-                _context.SaveChanges();            
+                _context.SaveChanges();
+
+                return Json("Done");
             }
 
-            return Json("Done");
+            return Json("Fail");
                  
         }
 

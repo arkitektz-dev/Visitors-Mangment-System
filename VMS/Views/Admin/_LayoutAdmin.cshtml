@@ -106,8 +106,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
-     
+
     <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap 4 -->
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- DataTables  & Plugins -->
@@ -137,15 +138,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     "type": "POST",
                     "datatype": "json"
                 },
-                "columnDefs": [{
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false
-                }],
+
                 "columns": [
                     { "data": "fullName", "name": "fullName", "autoWidth": true },
-                    { "data": "phoneNumber", "name": "phoneNumber", "autoWidth": true },
                     { "data": "companyName", "name": "companyName", "autoWidth": true },
+                    { "data": "phoneNumber", "name": "phoneNumber", "autoWidth": true },
                     { "data": "name", "name": "name", "autoWidth": true },
                     { "data": "carRegistration", "name": "carRegistration", "autoWidth": true },
                     {
@@ -157,6 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ]
 
             });
+
         });
 
         const ShowAppointment = (id) => {
@@ -167,9 +165,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             url: "@Url.Action("GetAppointment", "Admin")",
                             data: { Id: id },
                             success: function (response) {
+                                let profileLink = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
                                 console.log(response)
                                 let htmlTemplate = `
-                                 <dt class="col-sm-4">FullName</dt>
+
+                                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                    <div class="image mx-auto">
+                                        <img id="imgUser" src="${response.profilePhotoUrl == null ? profileLink : `https://localhost:44308/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
+                                    </div>
+                                </div>
+
+                                <dt class="col-sm-4">FullName</dt>
                                 <dd class="col-sm-8">${response.fullName}.</dd>
 
                                 <dt class="col-sm-4">Phone Number</dt>
@@ -190,7 +196,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 `;
 
                                 $('#AppointmentDetail').html(htmlTemplate);
-                                $('#showAppointment').modal('show')
+                                $('#showAppointment').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                                })
                             },
                             failure: function (response) {
                                 console.error(response.responseText);
@@ -201,8 +210,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         })
 
 
-          
+
         }
+
+
 
     </script>
 </body>

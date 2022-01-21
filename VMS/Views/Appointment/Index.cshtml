@@ -71,6 +71,68 @@
     }
 </style>
 
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
 <div id="login">
     <h2 class="text-center text-white pt-5">Visitor Form</h2>
     <div class="container">
@@ -129,7 +191,7 @@
                             <div class="form-group">
                                 <label for="username" class="text-info">Visiting Employee:</label><br>
                                 <input type="text" class="form-control" id="visitingEmployee" autocomplete="off" />
-
+                                <span class="text-danger" id="val_Visiting_Employee" style="display:none;">Your employee name does'nt match with our record</span>
 
                             </div>
 
@@ -379,13 +441,16 @@
                             <div class="form-group">
                                 <p>Have you experienced flu like symptoms in the last 14 days?</p>
                                 <div class="row">
-                                    <div class="col-md-2">
-                                        <button type="button" onclick="SetFlu(true)" class="btn btn-info col-12">Yes</button>
-                                    </div>
+
 
                                     <div class="col-md-2">
-                                        <button id="btnDone" type="button" onclick="SetFlu(false)" class="btn btn-primary col-12">No </button>
+
+                                        <label class="switch">
+                                            <input type="checkbox" id="SwitchFlu" onchange="SetFlu()" checked>
+                                            <span class="slider round"></span>
+                                        </label> 
                                     </div>
+ 
                                 </div>
                             </div>
 
@@ -549,23 +614,28 @@
     var stepNumber = 1;
     var meetingType = 0;
     var selectedOption = [];
-    var isFlue = false;
+    var isFlue = true;
     var isError = false;
-    var src = { 
+    var src = {
     }
+
+    var EmployeeNameArray = [
+
+    ];
 
     LoadEmployeeToArray();
     function LoadEmployeeToArray() {
 
                 $.ajax({
-                    url: "@Url.Action("ListEmployee", "Appointment")", 
+                    url: "@Url.Action("ListEmployee", "Appointment")",
                     type: "GET",
                     success: function (data) {
 
                         data.map((item, index) => {
                             src[item.name] = item.id
-                        })
-                       
+                            EmployeeNameArray.push(item.name);
+                        });
+
 
                         console.log(data);
                         return data;
@@ -576,7 +646,7 @@
     }
 
 
- 
+
 
     function onSelectItem(item, element) {
         console.log(item, element);
@@ -592,7 +662,7 @@
 
 
     //$('.js-example-basic-single').select2({ width: '100%' });
-  
+
 
     Webcam.on('error', function (err) {
         isError = true;
@@ -666,10 +736,19 @@
 
         if (formNumber == 3) {
             if (visitingEmployee === '') {
-                $('#val_Employee').show();
+                $('#val_Visiting_Employee').show();
                 return;
             } else {
-                $('#val_Employee').hide();
+                $('#val_Visiting_Employee').hide();
+            }
+
+
+
+            if (EmployeeNameArray.indexOf(visitingEmployee) === -1) {
+                $('#val_Visiting_Employee').show();
+                return;
+            } else {
+                $('#val_Visiting_Employee').hide();
             }
         }
 
@@ -730,6 +809,8 @@
                     type: "POST",
                     success: function (data) {
 
+                        console.log(data)
+
                         var row = {
                             FullName: $("#formFullName").val(),
                             PhoneNumber: phoneNumber,
@@ -737,7 +818,9 @@
                             MeetingPurpose: meetingType,
                             MeetingDescription: otherReason,
                             CarRegistration: carRegistrationNumber,
-                            PhotoName: data == undefined ? null : data.fileName
+                            PhotoName: data == undefined ? null : data,
+                            VisitingEmployee: visitingEmployee,
+                            isFlu: isFlue
                         };
 
                         console.log(row);
@@ -752,8 +835,25 @@
 
                                 console.log("The response from insert", response);
 
-                                if (response == "Done") {
-                                    console.log("Form clear") 
+                                if (response != undefined) {
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "@Url.Action("PrintPage", "Admin")",
+                                        data: { Id: response.id },
+                                        success: function (response) {
+
+
+                                        },
+                                        failure: function (response) {
+                                            console.error(response.responseText);
+                                        },
+                                        error: function (response) {
+                                            console.error(response.responseText);
+                                        }
+                                    })
+
+                                    console.log("Form clear")
                                     meetingType = 0;
 
                                     $("#phoneNumber").val('');
@@ -772,12 +872,15 @@
                                     //$("#ElventhForm").hide();
                                     //$("#TwelfthForm").show();
                                     console.log("Form open");
-                                     
+
                                 }
 
                             },
                             failure: function (response) {
                                 console.error(response.responseText);
+
+
+
                             },
                             error: function (response) {
                                 console.error(response.responseText);
@@ -848,6 +951,7 @@
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#ThirdForm").show();
+            document.getElementById("visitingEmployee").focus();
         }
 
         if (stepNumber == 4) {
@@ -1196,9 +1300,15 @@
         return new Blob([ia], { type: mimeString });
     }
 
-    function SetFlu(value) {
-        isFlu = value;
+    function SetFlu() {
+        let value = $("#SwitchFlu").val();
+        if (value == "On") {
+            isFlue = true;
+        } else {
+            isFlue = false;
+        }
     }
+
 
 
     function isValidPhone(p) {

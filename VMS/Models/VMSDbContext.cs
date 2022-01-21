@@ -54,6 +54,8 @@ namespace VMS.Models
 
                 entity.Property(e => e.FullName).HasMaxLength(30);
 
+                entity.Property(e => e.IsFlu).HasColumnName("isFlu");
+
                 entity.Property(e => e.IsPhoto).HasColumnName("isPhoto");
 
                 entity.Property(e => e.MeetingDescription).HasMaxLength(50);

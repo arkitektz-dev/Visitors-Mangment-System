@@ -14,9 +14,11 @@ namespace VMS.Models
         public string CompanyName { get; set; }
         public int? MeetingPurpose { get; set; }
         public string MeetingDescription { get; set; }
+        public string VisitingEmployee { get; set; }
         public string CarRegistration { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public bool? IsPhoto { get; set; }
+        public bool? IsFlu { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }

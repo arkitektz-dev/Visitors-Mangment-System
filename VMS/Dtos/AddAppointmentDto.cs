@@ -15,6 +15,8 @@ namespace VMS.Dtos
         public string MeetingDescription { get; set; }
         public string CarRegistration { get; set; }
         public string PhotoName { get; set; }
+        public string VisitingEmployee { get; set;}
+        public bool isFlu { get; set;}
 
          
 
