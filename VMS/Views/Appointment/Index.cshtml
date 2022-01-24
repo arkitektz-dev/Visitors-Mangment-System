@@ -37,9 +37,9 @@
         font-size: 26px;
     }
 
-    .btn {
+   /* .btn {
         font-size: 26px !important;
-    }
+    }*/
 
     input,
     input::-webkit-input-placeholder {
@@ -133,15 +133,12 @@
         }
 </style>
 
-<div id="login">
-    <h2 class="text-center text-white pt-5">Visitor Form</h2>
+<div id="login"> 
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-12">
                 <div id="login-box" class="col-md-12">
                     <div id="login-form" class="form">
-
-
 
                         <div id="firstForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
@@ -154,7 +151,8 @@
 
 
                             <div class="form-group">
-                                <button onclick="btnNext(1)" type="button" class="btn btn-info btn-md col-md-12">Next</button>
+                                <button class="btn btn-change-button btn-block" role="button" onclick="btnNext(1)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
+                                @*<button onclick="btnNext(1)" type="button" class="button-64 btn-block">Next</button>*@
                             </div>
 
                         </div>
@@ -173,11 +171,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(2)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(2)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -200,11 +198,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(3)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(3)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -218,15 +216,15 @@
 
                             <div class="row mb-4 mt-4">
                                 <div class="col-md-4">
-                                    <button onclick="btnMeetingPurpose(1)" id="btnOptionOne" type="button" class="btn btn-info col-12">Meeting</button>
+                                    <button onclick="btnMeetingPurpose(1)" id="btnOptionOne" type="button" class="btn btn-info   col-12">Meeting</button>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <button onclick="btnMeetingPurpose(2)" id="btnOptionTwo" type="button" class="btn btn-info col-12">Contractor</button>
+                                    <button onclick="btnMeetingPurpose(2)" id="btnOptionTwo" type="button" class="btn btn-info   col-12">Contractor</button>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <button onclick="btnMeetingPurpose(3)" id="btnOptionThree" type="button" class="btn btn-info col-12">Other</button>
+                                    <button onclick="btnMeetingPurpose(3)" id="btnOptionThree" type="button" class="btn btn-info   col-12">Other</button>
                                 </div>
 
                             </div>
@@ -246,11 +244,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(4)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(4)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -270,11 +268,11 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(5)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(5)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -297,11 +295,11 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(6)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(6)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +311,7 @@
                             <h3 class="text-center text-info">Please read & acknowledge</h3>
 
 
-                            <div class="form-group" style="height:200px; overflow:scroll;">
+                            <div class="form-group" style="height:200px; overflow-y:scroll;">
                                 <p>Welcome to our workspace</p>
 
                                 <ul>
@@ -347,11 +345,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(7)" type="button" class="btn btn-info col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(7)" type="button" class="btn btn-info btn-change-button col-12">Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -374,7 +372,7 @@
 
 
                                     <div class="col-md-12 text-center">
-                                        <button type="button" id="takePhoto" class="btn btn-info col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                        <button type="button" id="takePhoto" class="btn btn-info btn-change-button col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
                                         <input type="file" style="display:none" id="openFile" onchange="previewFile(this);" />
                                     </div>
                                 </div>
@@ -387,11 +385,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(8)" type="button" class="btn btn-info col-12"><span id="PhotoSkip">Skip</span> <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(8)" type="button" class="btn btn-info btn-change-button col-12"><span id="PhotoSkip">Skip</span> <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -424,11 +422,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Cancel</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Cancel</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(9)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Proceed </button>
+                                        <button onclick="btnNext(9)" id="btnDone" type="button" class="btn btn-info btn-change-button col-12"><i class="fas fa-check"></i>&nbsp;Proceed </button>
                                     </div>
                                 </div>
                             </div>
@@ -448,9 +446,9 @@
                                         <label class="switch">
                                             <input type="checkbox" id="SwitchFlu" onchange="SetFlu()" checked>
                                             <span class="slider round"></span>
-                                        </label> 
+                                        </label>
                                     </div>
- 
+
                                 </div>
                             </div>
 
@@ -462,11 +460,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(10)" id="btnDone" type="button" class="btn btn-info col-12"><i class="fas fa-check"></i>&nbsp;Next </button>
+                                        <button onclick="btnNext(10)" id="btnDone" type="button" class="btn btn-info btn-change-button col-12"><i class="fas fa-check"></i>&nbsp;Next </button>
                                     </div>
                                 </div>
                             </div>
@@ -504,11 +502,11 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <button onclick="btnNext(11)" type="button" class="btn btn-info col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        <button onclick="btnNext(11)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
@@ -519,16 +517,17 @@
 
                         </div>
 
+
                         <div id="TwelfthForm">
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
 
-                                    <h1>
+                                    <h1 class="text-white">
                                         <i class="far fa-address-card display-4"></i>
                                     </h1>
-                                    <h1><strong>Visitor Managment System</strong></h1>
-                                    <h3>Welcome to VMS</h3>
+                                    <h1 class="text-white"><strong>Visitor Managment System</strong></h1>
+                                    <h3 class="text-white">Welcome to VMS</h3>
 
 
                                 </div>
@@ -539,20 +538,27 @@
 
                             <div class="row">
 
-                                <div class="col-md-4">
-                                    <p style="font-size:38px;">Scan the QR code using your smartphone's camera to sign in</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <div id="qrcode"></div>
-                                </div>
-                                <div class="col-md-5">
-                                    <button class="btn btn-primary btn-block" onclick="btnNext(12)"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</button>
-                                    <button class="btn btn-primary btn-block"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in with qr code</button>
-                                    <button class="btn btn-danger btn-block"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign out</button>
+                                
+                                <div class="col-md-3 mx-auto">
+                                    <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
+                                    <button class="btn btn-block btn-change-button mt-2" role="button"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button>
+
+
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-12 text-center mt-4">
+                                    <p class="text-white" id="demo">Scan the QR code using your smartphone's camera to sign in</p>
 
+                                </div>
+                             
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div id="qrcode"></div>
+                                </div>
+                            </div>
 
 
 
@@ -604,12 +610,16 @@
 
     var qrcode = new QRCode(document.getElementById("qrcode"), {
         text: "https://arkitektz.com/",
-        width: 200,
-        height: 200,
+        width: 100,
+        height: 100,
         colorDark: "#000000",
         colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
+        correctLevel: QRCode.CorrectLevel.H,
     });
+
+    setTimeout(() => {
+        document.querySelector("#qrcode > img").style.display = "inline";
+    },2000 )
 
     var stepNumber = 1;
     var meetingType = 0;
@@ -717,9 +727,11 @@
         if (formNumber == 1) {
             if (fullName === '') {
                 $('#val_FullName').show();
+                document.getElementById("formFullName").focus();
                 return;
             } else {
                 $('#val_FullName').hide();
+                $('#formFullName').blur();
             }
         }
 
@@ -728,27 +740,33 @@
 
             if (companyName === '') {
                 $('#val_CompanyName').show();
+                document.getElementById("company").focus();
                 return;
             } else {
                 $('#val_CompanyName').hide();
+                $('#company').blur();
             }
         }
 
         if (formNumber == 3) {
             if (visitingEmployee === '') {
                 $('#val_Visiting_Employee').show();
+                document.getElementById("visitingEmployee").focus();
                 return;
             } else {
                 $('#val_Visiting_Employee').hide();
+                $('#visitingEmployee').blur();
             }
 
 
 
             if (EmployeeNameArray.indexOf(visitingEmployee) === -1) {
                 $('#val_Visiting_Employee').show();
+                document.getElementById("visitingEmployee").focus();
                 return;
             } else {
                 $('#val_Visiting_Employee').hide();
+                $('#visitingEmployee').blur();
             }
         }
 
@@ -763,30 +781,36 @@
             if (meetingType == 3) {
                 if (otherReason === '') {
                     $("#val_Reason").show();
+                    document.getElementById("otherReason").focus();
                     return;
                 } else {
                     $("#val_Reason").hide();
+                    $('#otherReason').blur();
                 }
             }
         }
 
 
         if (formNumber == 5) {
-            if (carRegistrationNumber == '') {
-                $('#val_CarRegistration').show();
-                return;
-            } else {
-                $('#val_CarRegistration').hide();
-            }
+            //if (carRegistrationNumber == '') {
+            //    $('#val_CarRegistration').show();
+            //    document.getElementById("carRegistrationNumber").focus();
+            //    return;
+            //} else {
+            //    $('#val_CarRegistration').hide();
+            //    $('#carRegistrationNumber').blur();
+            //}
         }
 
         if (formNumber == 6) {
             if (phoneNumber != '') {
                 if (isValidPhone(phoneNumber) == false) {
                     $('#val_PhoneNumber').show();
+                    document.getElementById("phoneNumber").focus();
                     return;
                 } else {
                     $('#val_PhoneNumber').hide();
+                    $('#phoneNumber').blur();
                 }
 
             }
@@ -1134,23 +1158,15 @@
                     $("#TwelfthForm").show();
                     stepNumber = 1;
 
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled!',
-                        'Your appointment is cancelled',
-                        'success'
-                    )
+                    //swalWithBootstrapButtons.fire(
+                    //    'Cancelled!',
+                    //    'Your appointment is cancelled',
+                    //    'success'
+                    //)
 
                     $("#NinthForm").hide();
 
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your appointment has saved',
-                        'error'
-                    )
-                }
+                }  
             })
 
         }

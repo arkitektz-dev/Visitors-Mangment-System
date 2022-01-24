@@ -9,23 +9,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-   
+    <link href="~/css/front.css" rel="stylesheet" />
     <title>VMS</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #17a2b8;
+            /*background-color: #17a2b8;*/
             height: 100vh;
             min-height: 100%;
-            background: linear-gradient(0deg, rgba(22, 21, 22, 0.3), rgba(22, 21, 22, 0.3)), url(https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+            /*background: linear-gradient(0deg, rgba(22, 21, 22, 0.3), rgba(22, 21, 22, 0.3)), url(https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);*/
+            /*background: url(*/@Url.Content("~/img/bg-9.jpg"));
+            background: url(@Url.Content("https://image.freepik.com/free-vector/gradient-dynamic-purple-lines-background_23-2148995757.jpg"));
             background-size: cover;
         }
 
         #login .container #login-row #login-column #login-box {
             /*   margin-top: 50px;
             max-width: 600px;*/
-            background-color: #EAEAEA;
+            background-color: #ffffff42;
         }
 
             #login .container #login-row #login-column #login-box #login-form {
@@ -35,13 +37,43 @@
                 #login .container #login-row #login-column #login-box #login-form #register-link {
                     margin-top: -85px;
                 }
+
+
+        .text-info {
+            color: white !important;
+        }
+
+        .btn-change-button {
+            background-color: #56a3f2 !important;
+            color: white !important;
+            border-radius: 31px !important;
+        }
+
+        .text {
+            font-size:16px !important;
+        
+        }
+
+        #qrcode > img {
+            display: inline !important;
+        }
+
+        #login-row {
+            padding-top: 8% !important;
+        }
+
+        .btn-change-previous {
+            background-color: #d33f50 !important;
+            color: white !important;
+            border-radius: 31px !important;
+        }
     </style>
 </head>
 <body>
 
     @RenderBody()
+
+
     
-
-
 </body>
 </html>
