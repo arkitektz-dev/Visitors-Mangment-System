@@ -52,6 +52,7 @@ namespace VMS.Controllers
                 IsPhoto = appointment.PhotoName != null ?  true : false,
                 VisitingEmployee = appointment.VisitingEmployee,
                 IsFlu = appointment.isFlu,
+                CheckIn = DateTime.Now.Date,
                 CreatedBy = 1
             };
 

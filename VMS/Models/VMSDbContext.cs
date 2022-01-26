@@ -46,6 +46,10 @@ namespace VMS.Models
             {
                 entity.Property(e => e.CarRegistration).HasMaxLength(50);
 
+                entity.Property(e => e.CheckIn).HasColumnType("datetime");
+
+                entity.Property(e => e.CheckOut).HasColumnType("datetime");
+
                 entity.Property(e => e.CompanyName).HasMaxLength(50);
 
                 entity.Property(e => e.CreatedDate)
