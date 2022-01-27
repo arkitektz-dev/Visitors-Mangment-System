@@ -38,7 +38,7 @@ namespace VMS.Controllers
         [HttpPost]
         public JsonResult AddAppoitment(AddAppointmentDto appointment)
         {
-
+             
             var objSave = new Appointment()
             {
                 TenantId = 1,

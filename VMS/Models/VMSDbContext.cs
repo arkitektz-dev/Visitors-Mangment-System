@@ -17,6 +17,7 @@ namespace VMS.Models
         {
         }
 
+        public virtual DbSet<AddInStartTime> AddInStartTimes { get; set; }
         public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
@@ -41,6 +42,13 @@ namespace VMS.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<AddInStartTime>(entity =>
+            {
+                entity.ToTable("AddInStartTime");
+
+                entity.Property(e => e.StartTime).HasColumnType("date");
+            });
 
             modelBuilder.Entity<Appointment>(entity =>
             {

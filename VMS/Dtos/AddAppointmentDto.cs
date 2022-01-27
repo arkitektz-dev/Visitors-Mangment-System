@@ -23,6 +23,7 @@ namespace VMS.Dtos
         [Required]
         public string VisitingEmployee { get; set;}
         public bool isFlu { get; set;}
+        public DateTime CheckIn { get; set; }
 
          
 
