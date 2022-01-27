@@ -24,25 +24,38 @@ namespace VMS.Controllers
         [HttpPost("add-appointment")]
         public IActionResult AddAppointment(AddAppointmentDto appointment)
         {
-            var objSave = new Appointment()
-            {
-                TenantId = 1,
-                FullName = appointment.FullName,
-                PhoneNumber = appointment.PhoneNumber,
-                CompanyName = appointment.CompanyName,
-                MeetingPurpose = appointment.MeetingPurpose,
-                MeetingDescription = appointment.MeetingDescription,
-                CarRegistration = appointment.CarRegistration,
-                ProfilePhotoUrl = appointment.PhotoName,
-                IsPhoto = appointment.PhotoName != null ? true : false,
-                VisitingEmployee = appointment.VisitingEmployee,
-                IsFlu = appointment.isFlu,
-                CheckIn = DateTime.Now.Date,
-                CreatedBy = 1
-            };
 
-            _context.Appointments.Add(objSave);
-            _context.SaveChanges();
+            var row = _context.Appointments.Where(
+              x => x.FullName == appointment.FullName &&
+              x.VisitingEmployee == appointment.VisitingEmployee &&
+              x.MeetingPurpose == appointment.MeetingPurpose &&
+              x.CheckIn.Value.Date == appointment.CheckIn.Date).FirstOrDefault();
+
+            if (row == null) {
+                var objSave = new Appointment()
+                {
+                    TenantId = 1,
+                    FullName = appointment.FullName,
+                    PhoneNumber = appointment.PhoneNumber,
+                    CompanyName = appointment.CompanyName,
+                    MeetingPurpose = appointment.MeetingPurpose,
+                    MeetingDescription = appointment.MeetingDescription,
+                    CarRegistration = appointment.CarRegistration,
+                    ProfilePhotoUrl = appointment.PhotoName,
+                    IsPhoto = appointment.PhotoName != null ? true : false,
+                    VisitingEmployee = appointment.VisitingEmployee,
+                    IsFlu = appointment.isFlu,
+                    CheckIn = appointment.CheckIn.Date,
+                    CreatedBy = 1
+                };
+
+                _context.Appointments.Add(objSave);
+                _context.SaveChanges();
+            }
+
+       
+
+        
 
             return Ok(appointment);
         }

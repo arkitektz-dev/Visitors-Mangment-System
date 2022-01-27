@@ -18,7 +18,7 @@ using CoreHtmlToImage;
 
 namespace VMS.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class AdminController : Controller
     {
         int AppointmentId;
