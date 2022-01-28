@@ -60,5 +60,24 @@ namespace VMS.Controllers
             return Ok(appointment);
         }
 
+        [HttpGet("outlook-tenant-intitaltime")]
+        public IActionResult AddStartingTime(int tenantId)
+        {
+            var row = _context.AddInStartTimes.Where(x => x.TenantId == tenantId).FirstOrDefault();
+            if (row != null) {
+                return Ok(row.StartTime);
+            }
+
+            var insertRow = new AddInStartTime()
+            {
+                StartTime = DateTime.Now.Date.AddDays(-4),
+                TenantId = tenantId
+            };
+
+            _context.AddInStartTimes.Add(insertRow);
+            _context.SaveChanges();
+
+            return Ok(insertRow.StartTime);
+        }
     }
 }
