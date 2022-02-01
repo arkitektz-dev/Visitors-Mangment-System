@@ -95,5 +95,17 @@ namespace VMS.Controllers
         {
             return environment.WebRootPath + "\\uploads\\" + filename;
         }
+
+        [HttpPost]
+        public IActionResult BarcodeSignOut(int Barcode)
+        {
+            var row = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
+            if (row != null) {
+                row.CheckOut = DateTime.Now.Date;
+                _context.SaveChanges();
+            }
+            
+            return Ok();
+        }
     }
 }
