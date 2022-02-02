@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Dashboard</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3 id="todayVisitor">20</h3>
+
+                <p>Today Visitors</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-suitcase"></i>
+            </div>
+        </div>
+
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3 id="todayEmployee">20</h3>
+
+                <p>Total Employees</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-friends"></i>
+            </div>
+        </div>
+
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3 id="todayAppointment">20</h3>
+
+                <p>Total Appointment</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-week"></i>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Last 7 days</h3>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                    <canvas id="sales-chart" height="200"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                
+                    <span>
+                        <i class="fas fa-square text-primary"></i> Total Visitors
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+
+
+    </div>
+    <!-- /.col-md-6 -->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Employees table</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="dt-employee-appointment" class="table table-bordered table-hover">
+                    <thead>
+                        <tr> 
+                            <th>Name</th>
+                            <th>Joined Date</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<!-- jQuery -->
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- OPTIONAL SCRIPTS -->
+<script src="~/plugins/chart.js/Chart.min.js"></script>
+<script>
+    /* global Chart:false */
+
+                $.ajax({
+                    url: "@Url.Action("MontlyVisitors", "Admin")",
+                    type: "GET",
+                    success: function (data) {
+                        $("#todayVisitor").text(data.totalVisitors);
+                        $("#todayEmployee").text(data.totalEmployees);
+                        $("#todayAppointment").text(data.totalAppointment);
+
+                        console.log(data);
+
+                        var ticksStyle = {
+                            fontColor: '#495057',
+                            fontStyle: 'bold'
+                        }
+
+                        var mode = 'index'
+                        var intersect = true
+
+                        var $salesChart = $('#sales-chart')
+                        $salesChart.height(250);
+                        // eslint-disable-next-line no-unused-vars
+                        var salesChart = new Chart($salesChart, {
+                            type: 'bar',
+                            data: {
+                                labels: ['1', '2', '3', '4', '5', '6', '7', '8','9','10'],
+                                datasets: [
+                                    {
+                                        backgroundColor: '#007bff',
+                                        borderColor: '#007bff',
+                                        data: data.lastDaysCheckIn
+                                    },
+                                ]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                tooltips: {
+                                    mode: mode,
+                                    intersect: intersect
+                                },
+                                hover: {
+                                    mode: mode,
+                                    intersect: intersect
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        // display: false,
+                                        gridLines: {
+                                            display: true,
+                                            lineWidth: '4px',
+                                            color: 'rgba(0, 0, 0, .2)',
+                                            zeroLineColor: 'transparent'
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        display: true,
+                                        gridLines: {
+                                            display: false
+                                        },
+                                        ticks: ticksStyle
+                                    }]
+                                }
+                            }
+                        })
+
+            
+
+                    }
+                });
+
+
+
+
+
+
+</script>

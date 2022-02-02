@@ -252,7 +252,10 @@
                             <h3 class="text-center text-info">What is the purpose of your visit!</h3>
                             <span class="text-danger" id="val_Purpose" style="display: table; margin: 0 auto; display:none;">Please choose your purpose</span>
 
-                            <div class="row mb-4 mt-4 ml-5">
+                            <div class="row mb-4 mt-4">
+                                <div class="col-md-1">
+
+                                </div>
                                 <div class="col-md-2">
                                     <button onclick="btnMeetingPurpose(1)" style="height:60px;" id="btnOptionOne" type="button" class="btn btn-info btn-block">Meeting</button>
                                 </div>
@@ -275,7 +278,7 @@
                                     <button onclick="btnMeetingPurpose(3)" style="height:60px;" id="btnOptionThree" type="button" class="btn btn-info btn-block">Other</button>
                                 </div>
 
-                                <div class="col-md-2" style="display:none;">
+                                <div class="col-md-1">
 
                                 </div>
 
@@ -645,7 +648,7 @@
     }
 
     $("#visitingEmployee").autocomplete({
-        treshold : 2,
+        treshold : 1,
         source: src,
         onSelectItem: onSelectItem,
         highlightClass: 'text-danger',

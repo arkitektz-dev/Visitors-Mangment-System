@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/plugins/toastr/toastr.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -29,8 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="index3.html" class="brand-link">
                 <img src="~/dist/img/arkitektz-logo.png" alt="VMS" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">VMS</span>
-            </a>
-
+            </a> 
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
@@ -41,21 +41,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="info">
                         <a href="#" class="d-block">Admin</a>
                     </div>
-                </div>
-
+                </div> 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"> 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="@Url.Action("Index", "Admin")" class="nav-link">
                                 <i class="nav-icon fas fa-calendar-check"></i>
                                 <p>
                                     Appoitments
                                 </p>
                             </a>
-                        </li>
-
+                        </li> 
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Employee")" class="nav-link">
                                 <i class="nav-icon fas fa-user-tie"></i>
@@ -64,14 +61,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
-        </aside>
-
+        </aside> 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Main content -->
@@ -105,8 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
-
+    <!-- jQuery --> 
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap 4 -->
@@ -124,9 +118,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
     <script>
+
+        var itemCheckOut = "";
+
         $(document).ready(function () {
             $("#dt-appointment-list").DataTable({
                 "processing": true, // for show progress bar
@@ -142,15 +140,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 "columns": [
                     { "data": "fullName", "name": "fullName", "autoWidth": true },
                     { "data": "companyName", "name": "companyName", "autoWidth": true },
-                    { "data": "phoneNumber", "name": "phoneNumber", "autoWidth": true },
                     { "data": "name", "name": "name", "autoWidth": true },
-                    { "data": "carRegistration", "name": "carRegistration", "autoWidth": true },
+                    { "data": "checkIn", "name": "checkIn", "autoWidth": true },
+                    { "data": "checkOut", "name": "checkOut", "autoWidth": true },
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return "<button onClick='ShowAppointment("+data.id+")' class='btn btn-primary'>View</button>";
+                            return `
+                                <button onClick='ShowAppointment("+data.id+")' class='btn btn-primary'>View</button>
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Sign Out</button>"}
+
+
+                            `;
                         }
                     },
+                ]
+
+            });
+            $("#dt-employee-appointment").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": "@Url.Action("LoadGraphData", "Admin")",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    { "data": "createdDate", "name": "createdDate", "autoWidth": true },
                 ]
 
             });
@@ -213,6 +233,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         }
 
+        const ForceSignOut = (id, value) => {
+
+
+                      $.ajax({
+                            type: "GET",
+                            url: "@Url.Action("ForceCheckOut", "Admin")",
+                            data: { AppointmentId: id },
+                          success: function (response) {
+                              itemCheckOut = value;
+                                 value.closest("td").previousSibling.innerText = response
+                                toastr.success("Successfully Signed Out")
+                                 value.remove();
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+        }
 
 
     </script>
