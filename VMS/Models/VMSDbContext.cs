@@ -27,6 +27,7 @@ namespace VMS.Models
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<ExcelSheetImport> ExcelSheetImports { get; set; }
         public virtual DbSet<MeetingPurpose> MeetingPurposes { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
 
@@ -181,6 +182,13 @@ namespace VMS.Models
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ExcelSheetImport>(entity =>
+            {
+                entity.ToTable("ExcelSheetImport");
+
+                entity.Property(e => e.ImportDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<MeetingPurpose>(entity =>

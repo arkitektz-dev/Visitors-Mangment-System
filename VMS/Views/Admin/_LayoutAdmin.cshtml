@@ -20,6 +20,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <link href="~/plugins/toastr/toastr.css" rel="stylesheet" />
+    <script>
+
+        function CustomerFormatedDate(unformattedDate) {
+            const monthNames = ["Jan", "Feb", "March", "April", "May", "June",
+                "July", "August", "Sept", "Oct", "Nov", "Dec"
+            ];
+
+
+            var customDate = new Date(unformattedDate)
+            let day = customDate.getDay();
+            let Month = Number(customDate.getMonth()) + 1;
+            let year = customDate.getFullYear();
+            var hours = customDate.getHours();
+            var minutes = customDate.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+
+            return day + "-" + monthNames[customDate.getMonth()] + "-" + year + "   "+ hours + ":" + minutes +" "+ ampm;
+        }
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -30,7 +49,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="index3.html" class="brand-link">
                 <img src="~/dist/img/arkitektz-logo.png" alt="VMS" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">VMS</span>
-            </a> 
+            </a>
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
@@ -41,10 +60,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="info">
                         <a href="#" class="d-block">Admin</a>
                     </div>
-                </div> 
+                </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"> 
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Admin")" class="nav-link">
                                 <i class="nav-icon fas fa-calendar-check"></i>
@@ -52,7 +71,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     Appoitments
                                 </p>
                             </a>
-                        </li> 
+                        </li>
                         <li class="nav-item">
                             <a href="@Url.Action("Index", "Employee")" class="nav-link">
                                 <i class="nav-icon fas fa-user-tie"></i>
@@ -61,12 +80,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("ImportEmployee", "Employee")" class="nav-link">
+                                <i class="nav-icon fas fa-file-import"></i>
+                                <p>
+                                    Import Employee
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
-        </aside> 
+        </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Main content -->
@@ -100,7 +127,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery --> 
+    <!-- jQuery -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap 4 -->
@@ -121,6 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
         var itemCheckOut = "";
@@ -141,14 +169,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     { "data": "fullName", "name": "fullName", "autoWidth": true },
                     { "data": "companyName", "name": "companyName", "autoWidth": true },
                     { "data": "name", "name": "name", "autoWidth": true },
-                    { "data": "checkIn", "name": "checkIn", "autoWidth": true },
-                    { "data": "checkOut", "name": "checkOut", "autoWidth": true },
+                    //{ "data": "checkIn", "name": "checkIn", "autoWidth": true },
+                    //{ "data": "checkOut", "name": "checkOut", "autoWidth": true },
                     {
                         data: null,
                         render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.checkIn);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            if (data.checkOut != null) {
+                                return CustomerFormatedDate(data.checkOut);
+                            } else {
+                                return data.checkOut;
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                         
                             return `
-                                <button onClick='ShowAppointment("+data.id+")' class='btn btn-primary'>View</button>
-                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Sign Out</button>"}
+                                <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
 
 
                             `;
@@ -185,6 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             url: "@Url.Action("GetAppointment", "Admin")",
                             data: { Id: id },
                             success: function (response) {
+
                                 let profileLink = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
                                 console.log(response)
                                 let htmlTemplate = `
@@ -216,10 +264,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 `;
 
                                 $('#AppointmentDetail').html(htmlTemplate);
-                                $('#showAppointment').modal({
-                                    backdrop: 'static',
-                                    keyboard: false
-                                })
+                                $('#appointment-list-table').hide();
+                                $('#show-appointment').show();
+                                
                             },
                             failure: function (response) {
                                 console.error(response.responseText);
@@ -235,14 +282,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         const ForceSignOut = (id, value) => {
 
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success ml-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
 
-                      $.ajax({
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You want to check out for this user!",
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                       $.ajax({
                             type: "GET",
                             url: "@Url.Action("ForceCheckOut", "Admin")",
                             data: { AppointmentId: id },
-                          success: function (response) {
-                              itemCheckOut = value;
-                                 value.closest("td").previousSibling.innerText = response
+                            success: function (response) {
+                                itemCheckOut = value;
+                                value.closest("td").previousSibling.innerText = CustomerFormatedDate(response);
                                 toastr.success("Successfully Signed Out")
                                  value.remove();
                             },
@@ -253,9 +317,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 console.error(response.responseText);
                             }
                         })
+ 
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your changes has not saved', 
+                    )
+                }
+            })
+
+
 
         }
 
+        function CloseAppointmentDetail() {
+            $('#appointment-list-table').show();
+            $('#show-appointment').hide();
+        }
 
     </script>
 </body>

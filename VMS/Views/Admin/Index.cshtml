@@ -22,7 +22,7 @@
 </div>
 
 
-<div class="row">
+<div class="row"  id="appointment-list-table">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -52,6 +52,24 @@
     <!-- /.col -->
 </div>
 
+<div class="row" style="display:none;" id="show-appointment">
+    <div class="col-md-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Appointment Detail</h3>
+            </div>
+
+            <div class="card-body" id="AppointmentDetail">
+
+            </div>
+
+
+            <div class="card-footer">
+                <button type="button" onclick="CloseAppointmentDetail()" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
  
 
 <div class="modal" tabindex="-1" role="dialog" id="showAppointment">
@@ -64,9 +82,7 @@
                
  
             </div>
-            <div class="modal-footer"> 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+           
         </div>
     </div>
 </div>

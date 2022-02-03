@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VMS.Models;
@@ -14,6 +18,7 @@ namespace VMS.Controllers
 
         private IWebHostEnvironment environment;
         private VMSDbContext _context;
+        
         public EmployeeController(IWebHostEnvironment _environment, VMSDbContext context)
         {
             environment = _environment;
@@ -134,6 +139,44 @@ namespace VMS.Controllers
             }
             
             return Json("Done");
+        }
+
+    
+        public IActionResult ImportEmployee()
+        { 
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult ImportEmployee(IFormFile file) 
+        {
+            List<string> employeeList = new List<string>();
+            string path = Path.Combine(environment.WebRootPath, Path.GetFileName(file.FileName));
+            using (Stream fileStream = new FileStream(path, FileMode.Create))
+            {
+                 file.CopyTo(fileStream);
+            }
+            using (XLWorkbook workbook = new XLWorkbook(path))
+            {
+                IXLWorksheet worksheet = workbook.Worksheet(1);
+                bool FirstRow = true;
+                //Range for reading the cells based on the last cell used.  
+                string readRange = "1:1";
+                foreach (IXLRow row in worksheet.RowsUsed())
+                {
+                    foreach (IXLCell cell in row.Cells(readRange))
+                    {
+                        //Debug.WriteLine(cell.Value.ToString());
+                        employeeList.Add(cell.Value.ToString());
+
+                    }
+
+                }
+                 
+            }
+             
+            return View();
         }
 
 

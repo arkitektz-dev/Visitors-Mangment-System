@@ -52,7 +52,7 @@ namespace VMS.Controllers
                 IsPhoto = appointment.PhotoName != null ?  true : false,
                 VisitingEmployee = appointment.VisitingEmployee,
                 IsFlu = appointment.isFlu,
-                CheckIn = DateTime.Now.Date,
+                CheckIn = DateTime.Now,
                 CreatedBy = 1
             };
 
@@ -101,8 +101,10 @@ namespace VMS.Controllers
         {
             var row = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (row != null) {
-                row.CheckOut = DateTime.Now.Date;
-                _context.SaveChanges();
+                if (row.CheckOut == null) { 
+                    row.CheckOut = DateTime.Now.Date;
+                    _context.SaveChanges();           
+                }
             }
             
             return Ok();
