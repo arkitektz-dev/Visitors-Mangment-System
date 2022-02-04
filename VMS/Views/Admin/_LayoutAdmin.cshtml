@@ -38,6 +38,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             return day + "-" + monthNames[customDate.getMonth()] + "-" + year + "   "+ hours + ":" + minutes +" "+ ampm;
         }
+
+        function btnUploadSheet() {
+            $("#sheetUploadForm").slideToggle();
+        }
+
     </script>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -58,7 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Admin</a>
+                        <a href="@Url.Action("Dashboard","Admin")" class="d-block">Admin</a>
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
@@ -192,7 +197,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     {
                         data: null,
                         render: function (data, type, row) {
-                         
+
                             return `
                                 <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
                                 ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
@@ -221,7 +226,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 ]
 
             });
+            $("#dt-sheet-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                  "url": "@Url.Action("SheetList", "Employee")",
+                    "type": "POST",
+                    "datatype": "json"
+                },
 
+                "columns": [
+                    { "data": "sheetName", "name": "sheetName", "autoWidth": true },
+                    { "data": "rowsCount", "name": "rowsCount", "autoWidth": true },
+                    { "data": "rowsImported", "name": "rowsImported", "autoWidth": true },
+                    { "data": "rowsFailed", "name": "rowsFailed", "autoWidth": true }, 
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                             
+                            return `
+                                  <a href="@Url.Action("ImportEmployee", "Employee")?ExcelSheetImport=${data.id}" class='btn btn-primary'>View</a>
+                            `
+                        }
+                    },
+                ]
+
+            });
         });
 
         const ShowAppointment = (id) => {
@@ -266,7 +298,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 $('#AppointmentDetail').html(htmlTemplate);
                                 $('#appointment-list-table').hide();
                                 $('#show-appointment').show();
-                                
+
                             },
                             failure: function (response) {
                                 console.error(response.responseText);
@@ -317,14 +349,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 console.error(response.responseText);
                             }
                         })
- 
+
                 } else if (
                     /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithBootstrapButtons.fire(
                         'Cancelled',
-                        'Your changes has not saved', 
+                        'Your changes has not saved',
                     )
                 }
             })

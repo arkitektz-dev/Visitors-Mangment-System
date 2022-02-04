@@ -1,4 +1,5 @@
-﻿
+﻿@model VMS.ViewModels.ImportedEmployeeViewModel
+
 @{
     ViewData["Title"] = "ImportEmployee";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
@@ -20,15 +21,15 @@
     </div><!-- /.container-fluid -->
 </div>
 
-<div class="row">
+<div class="row" style="display:none;" id="sheetUploadForm">
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Excel Sheet Import</h3>
-            </div> 
+            </div>
             <form action="@Url.Action("ImportEmployee","Employee")" enctype="multipart/form-data" method="post">
                 <div class="card-body">
-                 
+
                     <div class="form-group">
                         <label for="exampleInputFile">File input</label>
                         <div class="input-group">
@@ -36,10 +37,10 @@
                                 <input type="file" name="file" class="custom-file-input" id="exampleInputFile">
                                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
-                             
+
                         </div>
                     </div>
-                     
+
                 </div>
                 <!-- /.card-body -->
 
@@ -51,3 +52,170 @@
     </div>
 </div>
 
+@if (Model.isShow == false)
+{
+
+
+    <div class="row" id="EmployeeFormList">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="card-title">Employee list table</h3>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" onclick="btnUploadSheet()">Upload Sheet</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="dt-sheet-list" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sheet Name</th>
+                                <th>Total Rows</th>
+                                <th>Imported Rows</th>
+                                <th>Failed Rows</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+@if (Model.isShow == true)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Imported Rows</h3>
+                </div>
+                <div class="card-body">
+                    <table id="dt-imported-employee-list" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Added Date</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-danger">
+                <div class="card-header">
+                    <h3 class="card-title">Failed Rows</h3>
+                </div>
+                <div class="card-body">
+                    <table id="dt-failed-employee-list" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Error</th>
+                                <th>AddedDate</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@if (Model.isShow == true)
+{
+
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+    <script>
+      $(document).ready(function () {
+          $("#dt-failed-employee-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                  "url": "@Url.Action("FailedSheetRows", "Employee")" + "?ExcelSheetImport" +@Model.Id,
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "employeeName", "name": "employeeName", "autoWidth": true },
+                    { "data": "error", "name": "error", "autoWidth": true },
+                    /*   { "data": "addedDate", "name": "addedDate", "autoWidth": true },*/
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.addedDate);
+                        }
+                    },
+                ]
+
+            });
+          $("#dt-imported-employee-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                  "url": "@Url.Action("SuccessSheetRows", "Employee")" + "?ExcelSheetImport" +@Model.Id,
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "employeeName", "name": "employeeName", "autoWidth": true },
+                    /*   { "data": "addedDate", "name": "addedDate", "autoWidth": true },*/
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.addedDate);
+                        }
+                    },
+                ]
+
+          });
+          
+      });
+   
+
+       
+    </script>
+}
