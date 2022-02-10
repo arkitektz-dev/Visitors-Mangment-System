@@ -37,7 +37,7 @@
         font-size: 26px;
     }
 
-   /* .btn {
+    /* .btn {
         font-size: 26px !important;
     }*/
 
@@ -133,7 +133,7 @@
         }
 </style>
 
-<div id="login"> 
+<div id="login">
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-12">
@@ -150,7 +150,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-change-button btn-block" role="button" onclick="btnNext(14)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
- 
+
                                 </div>
                             </div>
                             <div id="SignOutForm" style="display:none;">
@@ -180,15 +180,52 @@
 
                             <div id="SignInForm" style="display:none;">
 
-                                <h3 class="text-center text-info">Welcome!</h3>
-                                <div class="form-group">
-                                    <label for="username" class="text-info">Enter your first name and last name and select <strong>next*</strong></label><br>
-                                    <input type="text" class="form-control" id="formFullName" autofocus autocomplete="off" />
-                                    <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
+                                <h3 class="text-center text-info">What is the purpose of your visit!</h3>
+                                <span class="text-danger" id="val_Purpose" style="display: table; margin: 0 auto; display:none;">Please choose your purpose</span>
+                                <div class="row mb-4 mt-4">
+                                    <div class="col-md-1">
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button onclick="btnMeetingPurpose(1)" style="height:60px;" id="btnOptionOne" type="button" class="btn btn-info btn-block">Meeting</button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button onclick="btnMeetingPurpose(2)" style="height:60px;" id="btnOptionTwo" type="button" class="btn btn-info btn-block">Contractor</button>
+                                    </div>
+
+
+
+                                    <div class="col-md-2">
+                                        <button onclick="btnMeetingPurpose(4)" style="height:60px;" id="btnOptionFour" type="button" class="btn btn-info btn-block">Interview</button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button onclick="btnMeetingPurpose(5)" style="height:60px;" id="btnOptionFive" type="button" class="btn btn-info btn-block">Delivery</button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button onclick="btnMeetingPurpose(3)" style="height:60px;" id="btnOptionThree" type="button" class="btn btn-info btn-block">Other</button>
+                                    </div>
+
+                                    <div class="col-md-1">
+
+                                    </div>
+
+                                </div>
+                                <div class="form-group" id="OtherReason" style="display:none;">
+                                    <label for="username" class="text-info">Your other reason:</label><br>
+                                    <input type="text" class="form-control" id="otherReason" autocomplete="off" />
+                                    <span class="text-danger" id="val_Reason" style="display:none">Reason is required</span>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-change-button btn-block" role="button" onclick="btnNext(1)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
-                                    @*<button onclick="btnNext(1)" type="button" class="button-64 btn-block">Next</button>*@
+                                    <div class="row">
+
+
+                                        <div class="col-md-12">
+                                            <button onclick="btnNext(1)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -197,40 +234,23 @@
 
                         <div id="SecondForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Enter your first name and last name and select <strong>next*</strong></label><br>
+                                <input type="text" class="form-control" id="formFullName" autofocus autocomplete="off" />
+                                <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-change-button btn-block" role="button" onclick="btnNext(2)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
+                            </div>
+                        </div>
 
+                        <div id="ThirdForm" style="display:none;">
+                            <h3 class="text-center text-info">Welcome!</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter Your Company Name:</label><br>
                                 <input type="text" class="form-control" id="company" autocomplete="off" />
                                 <span class="text-danger" id="val_CompanyName" style="display:none;">Please enter your company name</span>
                             </div>
-
-                            <div class="form-group">
-
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <button onclick="btnNext(2)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div id="ThirdForm" style="display:none;">
-
-                            <h3 class="text-center text-info">Welcome!</h3>
-
-                            <div class="form-group">
-                                <label for="username" class="text-info">Visiting Employee:</label><br>
-                                <input type="text" class="form-control" id="visitingEmployee" autocomplete="off" />
-                                <span class="text-danger" id="val_Visiting_Employee" style="display:none;">Your employee name does'nt match with our record</span>
-
-                            </div>
-
                             <div class="form-group">
 
 
@@ -244,56 +264,16 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div id="FourthForm" style="display:none;">
-
-                            <h3 class="text-center text-info">What is the purpose of your visit!</h3>
-                            <span class="text-danger" id="val_Purpose" style="display: table; margin: 0 auto; display:none;">Please choose your purpose</span>
-
-                            <div class="row mb-4 mt-4">
-                                <div class="col-md-1">
-
-                                </div>
-                                <div class="col-md-2">
-                                    <button onclick="btnMeetingPurpose(1)" style="height:60px;" id="btnOptionOne" type="button" class="btn btn-info btn-block">Meeting</button>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <button onclick="btnMeetingPurpose(2)" style="height:60px;" id="btnOptionTwo" type="button" class="btn btn-info btn-block">Contractor</button>
-                                </div>
-
-
-
-                                <div class="col-md-2">
-                                    <button onclick="btnMeetingPurpose(4)" style="height:60px;" id="btnOptionFour" type="button" class="btn btn-info btn-block">Interview</button>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <button onclick="btnMeetingPurpose(5)" style="height:60px;" id="btnOptionFive" type="button" class="btn btn-info btn-block">Delivery</button>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <button onclick="btnMeetingPurpose(3)" style="height:60px;" id="btnOptionThree" type="button" class="btn btn-info btn-block">Other</button>
-                                </div>
-
-                                <div class="col-md-1">
-
-                                </div>
+                            <h3 class="text-center text-info">Welcome!</h3>
+                            <div class="form-group">
+                                <label for="username" class="text-info">Visiting Employee:</label><br>
+                                <input type="text" class="form-control" id="visitingEmployee" autocomplete="off" />
+                                <span class="text-danger" id="val_Visiting_Employee" style="display:none;">Your employee name does'nt match with our record</span>
 
                             </div>
-
-
-                            <div class="form-group" id="OtherReason" style="display:none;">
-                                <label for="username" class="text-info">Your other reason:</label><br>
-                                <input type="text" class="form-control" id="otherReason" autocomplete="off" />
-                                <span class="text-danger" id="val_Reason" style="display:none">Reason is required</span>
-                            </div>
-
-
-
-
                             <div class="form-group">
 
 
@@ -308,13 +288,14 @@
                                 </div>
                             </div>
 
+
                         </div>
 
                         <div id="FiftForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
 
 
-                            <div class="form-group" >
+                            <div class="form-group">
                                 <label for="username" class="text-info">Car Registration Number:</label><br>
                                 <input type="text" class="form-control" id="carRegistrationNumber" autocomplete="off" />
                                 <span class="text-danger" id="val_CarRegistration" style="display:none">Please enter your car registration number</span>
@@ -333,7 +314,7 @@
                             </div>
 
                         </div>
-                          
+
                         <div id="SixthForm" style="display:none;">
                             <h3 class="text-center text-info">Welcome!</h3>
                             <div class="form-group">
@@ -454,15 +435,15 @@
                             </div>
                         </div>
 
-                        <div id="TenthForm" style="display:none;"> 
+                        <div id="TenthForm" style="display:none;">
                             <h5 class="text-center text-info">Please review your visitor record and select : <span class="text-danger">Proceed</span></h5>
                             <div class="form-group">
 
                                 <ul class="list-group">
-                                    <li class="list-group-item">Full Name : <span id="setFullName"></span>  <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button> </li>
-                                    <li class="list-group-item">Company Name : <span id="setCompany"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button></li>
-                                    <li class="list-group-item">Visiting Employee : <span id="setEmployee"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
-                                    <li class="list-group-item">Purpose of visit : <span id="setMeeting"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
+                                    <li class="list-group-item">Full Name : <span id="setFullName"></span>  <button class="btn btn-primary float-right" onclick="jumpToForm(2)">Edit</button> </li>
+                                    <li class="list-group-item">Company Name : <span id="setCompany"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(3)">Edit</button></li>
+                                    <li class="list-group-item">Visiting Employee : <span id="setEmployee"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(4)">Edit</button></li>
+                                    <li class="list-group-item">Purpose of visit : <span id="setMeeting"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(1)">Edit</button></li>
                                     <li class="list-group-item">Mobile Number : <span id="setPhone"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(6)">Edit</button></li>
                                     <li class="list-group-item">Car Registration Number : <span id="setRegistration"></span> <button class="btn btn-primary float-right" onclick="jumpToForm(5)">Edit</button></li>
                                 </ul>
@@ -499,14 +480,14 @@
                             <br />
                             <div class="form-group">
                                 <div class="row">
-                                    
+
                                     <div class="col-md-6" style="margin:0 auto;">
                                         <button onclick="btnNext(11)" type="button" class="btn btn-info btn-change-button col-12">Home <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         
+
                         <div id="TwelfthForm">
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -611,6 +592,9 @@
     var isFlue = null;
     var isError = false;
     var isClickByCancel = false;
+    var isClickDeliveryCancel = false;
+    var isDelivery = false;
+    var isHomeDelivery = false;
     var src = {
     }
 
@@ -690,6 +674,8 @@
 
     function btnNext(formNumber) {
 
+        console.log("The current form number is " + formNumber)
+
         let phoneNumber = $("#phoneNumber").val();
         let fullName = $("#formFullName").val();
         let companyName = $("#company").val();
@@ -697,6 +683,57 @@
         let carRegistrationNumber = $("#carRegistrationNumber").val();
         let visitingEmployee = $("#visitingEmployee").val();
         let barcode = $("#txtBarcode").val();
+
+
+        if ($('#ElventhForm').is(':visible') == true) {
+            if (isDelivery == true) {
+                $("#firstForm").hide();
+                $("#FourthForm").hide();
+                $("#ElventhForm").hide();
+                $("#TwelfthForm").show();
+                $("#visitingEmployee").val('');
+                stepNumber = 1;
+                isDelivery = false;
+                return;
+            }
+        }
+
+
+        if (isDelivery == true) {
+
+            if (visitingEmployee === '') {
+                $('#val_Visiting_Employee').show();
+                document.getElementById("visitingEmployee").focus();
+                return;
+            } else {
+                $('#val_Visiting_Employee').hide();
+                $('#visitingEmployee').blur();
+
+
+                $("#firstForm").hide();
+                $("#FourthForm").hide();
+                $("#ElventhForm").show();
+
+               setTimeout(() => {
+                   if (isDelivery == true) {
+                       $("#firstForm").hide();
+                       $("#FourthForm").hide();
+                       $("#ElventhForm").hide();
+                       $("#TwelfthForm").show();
+                       $("#visitingEmployee").val('');
+                       stepNumber = 1;
+                       isDelivery = false; 
+                   }
+                }, 10000)
+
+                return;
+
+
+            }
+            
+        }
+
+
 
 
         if (formNumber == 13) {
@@ -711,7 +748,6 @@
             $("#SignOutForm").hide();
             return;
         }
-
 
         if (formNumber == 14) {
             console.log("This is from 1")
@@ -740,9 +776,9 @@
                              data: { Barcode: barcode },
                             success: function (response) {
 
-                                 
 
-                                
+
+
 
                             },
                             failure: function (response) {
@@ -784,7 +820,6 @@
 
         }
 
-
         if (formNumber == 15) {
 
             console.log("This is from 1")
@@ -812,6 +847,29 @@
         }
 
         if (formNumber == 1) {
+
+            if (meetingType == 0) {
+                $("#val_Purpose").show();
+                return;
+            } else {
+                $("#val_Purpose").hide();
+            }
+
+            if (meetingType == 3) {
+                if (otherReason === '') {
+                    $("#val_Reason").show();
+                    document.getElementById("otherReason").focus();
+                    return;
+                } else {
+                    $("#val_Reason").hide();
+                    $('#otherReason').blur();
+                }
+            }
+
+
+        }
+
+        if (formNumber == 2) {
             if (fullName === '') {
                 $('#val_FullName').show();
                 document.getElementById("formFullName").focus();
@@ -822,9 +880,7 @@
             }
         }
 
-
-
-        if (formNumber == 2) {
+        if (formNumber == 3) {
 
             if (companyName === '') {
                 $('#val_CompanyName').show();
@@ -836,7 +892,7 @@
             }
         }
 
-        if (formNumber == 3) {
+        if (formNumber == 4) {
             if (visitingEmployee === '') {
                 $('#val_Visiting_Employee').show();
                 document.getElementById("visitingEmployee").focus();
@@ -855,26 +911,6 @@
             } else {
                 $('#val_Visiting_Employee').hide();
                 $('#visitingEmployee').blur();
-            }
-        }
-
-        if (formNumber == 4) {
-            if (meetingType == 0) {
-                $("#val_Purpose").show();
-                return;
-            } else {
-                $("#val_Purpose").hide();
-            }
-
-            if (meetingType == 3) {
-                if (otherReason === '') {
-                    $("#val_Reason").show();
-                    document.getElementById("otherReason").focus();
-                    return;
-                } else {
-                    $("#val_Reason").hide();
-                    $('#otherReason').blur();
-                }
             }
         }
 
@@ -1047,14 +1083,12 @@
 
         }
 
-
+      
         stepNumber = stepNumber + 1;
-
-
-
 
         if (stepNumber == 1) {
 
+            document.getElementById("formFullName").focus();
             console.log("This is from 1")
             $("#TwelfthForm").hide();
             $("#firstForm").show();
@@ -1071,7 +1105,6 @@
 
             document.getElementById("company").focus();
         }
-
 
         if (stepNumber == 3) {
             console.log("Run");
@@ -1150,6 +1183,9 @@
         }
 
         if (stepNumber == 11) {
+
+          
+
             isClickByUser = false;
             $("#TwelfthForm").hide();
             $("#TenthForm").hide();
@@ -1177,17 +1213,26 @@
 
         }
 
-
-
-
         if (stepNumber == 13) {
             stepNumber = 12;
         }
-
-
     }
 
     function btnPrev() {
+
+        if (isDelivery == true) {
+            $("#firstForm").hide();
+            $("#FourthForm").hide();
+            $("#ElventhForm").hide();
+            $("#TwelfthForm").show();
+            $("#visitingEmployee").val('');
+            stepNumber = 1;
+            isDelivery = false;
+            return;
+        }
+
+
+
         console.log(stepNumber);
         if (stepNumber == 1) {
             $("#firstForm").hide();
@@ -1400,6 +1445,10 @@
             $("#btnOptionFive").css({ "backgroundColor": "#62bcca" });
             $("#OtherReason").hide();
             $("#OtherReason").val('');
+
+            //
+
+
         }
 
         if (optionNumber == 5) {
@@ -1411,8 +1460,23 @@
             $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
             $("#OtherReason").hide();
             $("#OtherReason").val('');
+
+
+            $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionFour").css({ "backgroundColor": "#17a2b8" });
+            $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
+
+            stepNumber = 3;
+             
+            $("#firstForm").hide();
+            $("#FourthForm").show();
+            isDelivery = true;
         }
 
+
+        //Do the thing
 
 
     }
