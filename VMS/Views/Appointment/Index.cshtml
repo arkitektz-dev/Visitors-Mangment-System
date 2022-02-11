@@ -741,8 +741,8 @@
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
-
-
+            $("#SignInForm").hide();
+            $("#txtBarcode").val('');
 
             $("#barCodeArea").show();
             $("#SignOutForm").hide();
@@ -826,6 +826,7 @@
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
+
 
             $("#barCodeArea").hide();
             $("#SignOutForm").hide();
@@ -1191,12 +1192,14 @@
             $("#TenthForm").hide();
             $("#ElventhForm").show();
             $("#btnAcknowledge").prop("disabled", true);
+            
 
             setTimeout(() => {
                 if (isClickByUser == false) {
                     $("#ElventhForm").hide();
                     $("#TwelfthForm").show();
                     isClickByUser = false;
+                    stepNumber = 1;
                 }
             },10000)
 
@@ -1209,6 +1212,7 @@
             $("#ElventhForm").hide();
             $("#TwelfthForm").show();
             isClickByUser = true;
+            stepNumber = 1;
 
 
         }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using VMS.ActionFilter;
 using VMS.Dtos;
 using VMS.Models;
 
@@ -22,7 +23,7 @@ namespace VMS.Controllers
             _context = context;
         }
 
-
+        [WhiteListFilter]
         public IActionResult Index()
         {
             return View();
@@ -108,6 +109,12 @@ namespace VMS.Controllers
             }
             
             return Ok();
+        }
+
+        public IActionResult UnAuthorized()
+        {
+
+            return View();
         }
     }
 }
