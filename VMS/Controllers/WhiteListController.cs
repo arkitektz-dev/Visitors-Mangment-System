@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VMS.Hubs;
 using VMS.Models;
 
 namespace VMS.Controllers
@@ -12,14 +14,17 @@ namespace VMS.Controllers
     {
         private IWebHostEnvironment environment;
         private VMSDbContext _context;
-        public WhiteListController(IWebHostEnvironment _environment, VMSDbContext context)
+        private readonly IHubContext<QrCode> _hub;
+        public WhiteListController(IWebHostEnvironment _environment, VMSDbContext context, IHubContext<QrCode> hub)
         {
             environment = _environment;
             _context = context;
+            _hub = hub;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            
             return View();
         }
 
@@ -81,5 +86,43 @@ namespace VMS.Controllers
 
 
         }
+
+        [HttpPost]
+        public IActionResult AddIPAddress(string IPAddress, string Description)
+        {
+            var checkIpAddress = _context.WhiteListIpaddresses.Where(x => x.Ipaddress == IPAddress).FirstOrDefault();
+            if (checkIpAddress != null) {
+                return Ok();
+            }
+
+            var model = new WhiteListIpaddress()
+            {
+                Ipaddress = IPAddress,
+                Description = Description,
+                CreatedDate = DateTime.Now.Date
+            };
+
+            _context.WhiteListIpaddresses.Add(model);
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        public IActionResult DeleteIPAddress(int Id) 
+        {
+            var IPAddress = _context.WhiteListIpaddresses.Where(x => x.Id == Id).FirstOrDefault();
+            if (IPAddress != null) {
+                _context.WhiteListIpaddresses.Remove(IPAddress);
+                _context.SaveChanges();
+               
+                return Ok();
+            }
+
+            return Ok();
+            
+        }
+
     }
 }

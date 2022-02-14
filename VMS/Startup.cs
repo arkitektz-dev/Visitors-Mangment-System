@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VMS.Data;
+using VMS.Hubs;
 using VMS.Models;
 
 namespace VMS
@@ -38,6 +39,7 @@ namespace VMS
             services.AddControllersWithViews();
 
             services.AddTransient<VMSDbContext>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +63,11 @@ namespace VMS
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseEndpoints(builder =>
+            {
+                builder.MapHub<QrCode>("/qrcode");
+            });
 
             app.UseEndpoints(endpoints =>
             {

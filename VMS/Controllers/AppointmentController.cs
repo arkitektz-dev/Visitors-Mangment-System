@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using VMS.ActionFilter;
 using VMS.Dtos;
+using VMS.Hubs;
 using VMS.Models;
 
 namespace VMS.Controllers
@@ -17,16 +19,36 @@ namespace VMS.Controllers
     {
         private IWebHostEnvironment environment;
         private VMSDbContext _context;
-        public AppointmentController(IWebHostEnvironment _environment, VMSDbContext context)
+        private readonly IHubContext<QrCode> _hub;
+        public AppointmentController(IWebHostEnvironment _environment, VMSDbContext context, IHubContext<QrCode> hub)
         {
             environment = _environment;
             _context = context;
+            _hub = hub;
         }
 
         [WhiteListFilter]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync(string Id)
         {
+            if (Id == null || Id == "") {
+                return View();
+            }
+
+            var checkQr = _context.GeneratedTokens.Where(x => x.TokenNumber == Id).FirstOrDefault();
+            if (checkQr != null) {
+                if (checkQr.IsUsed == true) {
+                    return RedirectToAction("UnAuthorized", "Appointment");
+                }
+                checkQr.IsUsed = true;
+                _context.SaveChanges();
+
+                await _hub.Clients.All.SendAsync("qrCodeChecker", Id);
+            }
+
+           
+
             return View();
+           
         }
 
         public JsonResult ListEmployee()

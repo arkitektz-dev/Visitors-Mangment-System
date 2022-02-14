@@ -139,6 +139,10 @@
             <div id="login-column" class="col-md-12">
                 <div id="login-box" class="col-md-12">
                     <div id="login-form" class="form">
+                        
+                        <div id="ShowExit" style="display:none;"> 
+                            <h1 style="text-align:right;" onclick="Exit()"><i class="fa fa-times"></i></h1>
+                        </div>
 
                         <div id="firstForm" style="display:none;">
                             <div id="barCodeArea" style="display:none;">
@@ -149,7 +153,8 @@
                                     <span class="text-danger" id="val_Barcode" style="display:none;">Please enter your barcode</span>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-change-button btn-block" role="button" onclick="btnNext(14)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
+                                    <button class="btn btn-change-button btn-block" role="button" 
+                                            onclick="btnNext(14)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
 
                                 </div>
                             </div>
@@ -516,6 +521,10 @@
                             </div>
                         </div>
 
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -541,8 +550,7 @@
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
@@ -556,14 +564,73 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-4-autocomplete/dist/bootstrap-4-autocomplete.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@@aspnet/signalr@@1.0.0-rc1-final/dist/browser/signalr.js"></script>
 <script>
 
-    //$("#AcknowledgeList").scroll(function () {
-    //    if ($("#AcknowledgeList").scrollTop() + $("#AcknowledgeList").height() == $("#AcknowledgeList").height()) {
-    //        $("#btnAcknowledge").prop("disabled", false);
-    //    }
-    //});
 
+
+   
+
+    //SignalR Work Here
+
+    var qrPageCode = "";
+
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/qrcode")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    connection.on('qrCodeChecker', (qrCode) => {
+        console.log(qrCode)
+
+        if (qrCode == qrPageCode) {
+            GenerateNewToken();
+            
+        }
+    });
+
+    connection.start()
+        .then(() => console.log('connected!'))
+        .catch(console.error);
+
+    GenerateNewToken()
+
+
+
+    function GenerateNewToken() {
+
+                $.ajax({
+                    url: "@Url.Action("GenerateNewToken", "Home")",
+                    type: "POST",
+                    success: function (data) {
+
+                      
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                          
+
+                            return;
+                        }
+                        
+                            $("#qrcode").html('');
+
+                            qrPageCode = data;
+
+
+                            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                                text: window.location.origin + "/Appointment/Index?Id=" + data,
+                                width: 100,
+                                height: 100,
+                                colorDark: "#000000",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H,
+                            });
+
+                           
+                           
+                        
+                    }
+                });
+    }
 
     const acknowledgeList = document.querySelector('#AcknowledgeList')
     acknowledgeList.addEventListener('scroll', () => {
@@ -572,17 +639,10 @@
         }
     })
 
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "https://arkitektz.com/",
-        width: 100,
-        height: 100,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H,
-    });
+    
 
     setTimeout(() => {
-        document.querySelector("#qrcode > img").style.display = "inline";
+     //   document.querySelector("#qrcode > img").style.display = "inline";
     },2000 )
 
     var stepNumber = 1;
@@ -603,6 +663,7 @@
     ];
 
     LoadEmployeeToArray();
+
     function LoadEmployeeToArray() {
 
                 $.ajax({
@@ -653,6 +714,7 @@
 
     });
 
+
     function take_snapshot() {
 
         // take snapshot and get image data
@@ -669,8 +731,6 @@
 
         Webcam.reset();
     }
-
-
 
     function btnNext(formNumber) {
 
@@ -698,6 +758,14 @@
             }
         }
 
+        if ($('#TwelfthForm').is(':visible') == true) {
+            $("#ShowExit").show()
+        }
+
+
+         
+      
+
 
         if (isDelivery == true) {
 
@@ -722,7 +790,7 @@
                        $("#TwelfthForm").show();
                        $("#visitingEmployee").val('');
                        stepNumber = 1;
-                       isDelivery = false; 
+                       isDelivery = false;
                    }
                 }, 10000)
 
@@ -730,7 +798,7 @@
 
 
             }
-            
+
         }
 
 
@@ -1084,7 +1152,7 @@
 
         }
 
-      
+
         stepNumber = stepNumber + 1;
 
         if (stepNumber == 1) {
@@ -1120,7 +1188,7 @@
             console.log("Run");
 
             $("#TwelfthForm").hide();
-            $("#ThirdForm").hide();
+            $("#ThirdForm").hide(); 
             $("#FourthForm").show();
         }
 
@@ -1185,14 +1253,14 @@
 
         if (stepNumber == 11) {
 
-          
+
 
             isClickByUser = false;
             $("#TwelfthForm").hide();
             $("#TenthForm").hide();
             $("#ElventhForm").show();
             $("#btnAcknowledge").prop("disabled", true);
-            
+
 
             setTimeout(() => {
                 if (isClickByUser == false) {
@@ -1295,9 +1363,7 @@
         }
 
         if (stepNumber == 10) {
-            //$("#NinthForm").show();
-            //$("#TenthForm").hide();
-            //stepNumber = 9;
+
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -1473,7 +1539,7 @@
             $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
 
             stepNumber = 3;
-             
+
             $("#firstForm").hide();
             $("#FourthForm").show();
             isDelivery = true;
@@ -1504,8 +1570,6 @@
 
 
     });
-
-
 
     function previewFile(input) {
         var file = $("input[type=file]").get(0).files[0];
@@ -1557,11 +1621,80 @@
         }
     }
 
-
     function isValidPhone(p) {
         var phoneRe = /(^[0][2][12579]{1})(\d{6,7}$)/;
         var digits = p.replace(/\D/g, "");
         return phoneRe.test(digits);
+    }
+
+    function Exit() {
+        console.log("This is out of exit")
+        if (stepNumber < 11) {
+
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "Are you sure to cancel it?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'No,',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+
+
+                    console.log("This is in of exit")
+                    $("#phoneNumber").val('');
+                    $("#formFullName").val('');
+                    $("#company").val('');
+                    $("#otherReason").val('');
+                    $("#visitingEmployee").val('');
+                    $("#carRegistrationNumber").val('');
+                    $("#OtherReason").hide();
+                    $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionTwo").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionFour").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
+                    $("#btnHasFlu").css({ "backgroundColor": "#007bff" });
+                    $("#btnNoFlu").css({ "backgroundColor": "#dc3545" });
+                    $("#openFile").val('');
+                    $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+                    $('#val_PhoneNumber').hide();
+                    stepNumber = 1;
+                    isDelivery = false;
+
+                    $("#firstForm").hide();
+                    $("#SecondForm").hide();
+                    $("#ThirdForm").hide();
+                    $("#FourthForm").hide();
+                    $("#FiftForm").hide();
+                    $("#SixthForm").hide();
+                    $("#SeventhForm").hide();
+                    $("#EightForm").hide();
+                    $("#NinthForm").hide();
+                    $("#TenthForm").hide();
+                    $("#ElventhForm").hide();
+                    $("#SignOutForm").hide();
+                    $("#barCodeArea").hide();
+                    $("#TwelfthForm").show();
+
+                    $("#ShowExit").hide()
+
+                }
+            })
+
+        }
     }
 
 </script>

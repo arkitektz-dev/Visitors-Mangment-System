@@ -60,21 +60,27 @@
         <!-- /.card-header -->
         <!-- form start -->
         <div>
-            <div class="card-body"> 
+            <div class="card-body">
                 <div class="form-group">
-                    <label for="ipAddress">IP Address</label>
-                    <input type="text" class="form-control" id="ipAddress" placeholder="Enter IP Address">
+                    <label for="txtIPAddress">IP Address</label>
+                    <input type="text" class="form-control" id="txtIPAddress" placeholder="Enter IP Address">
                     <span class="text-danger" id="val_IPAddress" style="display:none;"> IP Address is required</span>
                 </div>
+
+                <div class="form-group">
+                    <label for="txtDescription">Description</label>
+                    <input type="text" class="form-control" id="txtDescription" placeholder="Description">
+                </div>
+
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer">
                 <div class="row">
-                    <button type="submit" onclick="SaveEmployee()" class="btn btn-primary col-md-5" style="margin: 0 auto;">
+                    <button type="submit" onclick="SaveIPAddress()" class="btn btn-primary col-md-5" style="margin: 0 auto;">
                         Submit
                     </button>
-                    <button type="submit" onclick="CancelEmployee()" class="btn btn-danger col-md-5" style="margin: 0 auto;">
+                    <button type="submit" onclick="CancelIPAddress()" class="btn btn-danger col-md-5" style="margin: 0 auto;">
                         Cancel
                     </button>
 
@@ -109,7 +115,7 @@
 <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
 
-    var tblEmployee = $('#dt-ip-addresses-list').DataTable({
+    var tblIPAddresses= $('#dt-ip-addresses-list').DataTable({
                         "processing": true,
                         "serverSide": true,
                         "filter": true,
@@ -135,27 +141,97 @@
 
 
     const AddIPAddressForm = () => {
+        $("#txtIPAddress").val('');
+        $("#AddIPAddress").show();
+        $("#WhiteListFormList").hide();
+    }
 
-        let ipAddress = $("#ipAddress").val();
 
-        if (ipAddress !== "") {
+    const SaveIPAddress = () => {
+
+        const IPAddress = $("#txtIPAddress").val();
+        const Description = $("#txtDescription").val();
+
+        if (IPAddress !== "") {
             $('#val_IPAddress').hide();
         } else {
             $('#val_IPAddress').show();
             return;
         }
 
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddIPAddress", "WhiteList")",
+            data: { IPAddress: IPAddress, Description: Description  },
+            success: function (response) {
 
-        $("#AddIPAddress").show();
-        $("#WhiteListFormList").hide();
+                $("#AddIPAddress").hide();
+                $("#WhiteListFormList").show();
+                tblIPAddresses.clear().draw();
+
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        })
+
+
+
 
 
 
 
     }
 
+    const CancelIPAddress = () => {
+        $('#val_IPAddress').hide();
+        $("#AddIPAddress").hide();
+        $("#WhiteListFormList").show();
+    }
 
 
+    const DeleteIPAddress = (Id) => {
+
+         Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                 $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteIPAddress", "WhiteList")",
+                        data: { Id: Id},
+                        success: function (response) {
+
+                            $("#AddIPAddress").hide();
+                            $("#WhiteListFormList").show();
+                            tblIPAddresses.clear().draw();
+
+                        },
+                        failure: function (response) {
+
+                        },
+                        error: function (response) {
+
+                        }
+                    })
+
+
+            }
+        })
+
+
+
+    }
 
 </script>
 
