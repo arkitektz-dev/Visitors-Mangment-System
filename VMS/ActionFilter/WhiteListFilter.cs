@@ -26,6 +26,14 @@ namespace VMS.ActionFilter
                 var checkIP = _context.WhiteListIpaddresses.Where(x => x.Ipaddress == ip).FirstOrDefault();
                 if (checkIP == null) {
 
+                    _context.WhiteListIpaddresses.Add(new WhiteListIpaddress()
+                    {
+                        Ipaddress = ip,
+                        CreatedDate = DateTime.Now.Date
+                    });
+
+                    _context.SaveChanges();
+
                     var values = new RouteValueDictionary(new
                     {
                         action = "UnAuthorized",
@@ -40,6 +48,8 @@ namespace VMS.ActionFilter
             else
             {
                 ip = context.HttpContext.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
+
+
             }
 
          
