@@ -28,8 +28,10 @@ namespace VMS.Models
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<ExcelSheetImport> ExcelSheetImports { get; set; }
+        public virtual DbSet<GeneratedToken> GeneratedTokens { get; set; }
         public virtual DbSet<MeetingPurpose> MeetingPurposes { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
+        public virtual DbSet<WhiteListIpaddress> WhiteListIpaddresses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -191,6 +193,13 @@ namespace VMS.Models
                 entity.Property(e => e.ImportDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<GeneratedToken>(entity =>
+            {
+                entity.ToTable("GeneratedToken");
+
+                entity.Property(e => e.IsUsed).HasColumnName("isUsed");
+            });
+
             modelBuilder.Entity<MeetingPurpose>(entity =>
             {
                 entity.Property(e => e.Name).HasMaxLength(50);
@@ -207,6 +216,15 @@ namespace VMS.Models
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<WhiteListIpaddress>(entity =>
+            {
+                entity.ToTable("WhiteListIPAddress");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Ipaddress).HasColumnName("IPAddress");
             });
 
             OnModelCreatingPartial(modelBuilder);

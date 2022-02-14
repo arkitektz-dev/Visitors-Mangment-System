@@ -12,15 +12,34 @@ namespace VMS.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private VMSDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, VMSDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult GenerateNewToken() 
+        {
+
+            Guid token = Guid.NewGuid();
+
+            var row = _context.GeneratedTokens.Add(new GeneratedToken()
+            {
+                TokenNumber = token.ToString(),
+                IsUsed = false
+            });
+             
+            _context.SaveChanges();
+
+            return Ok(token.ToString());
         }
 
         public IActionResult Privacy()
