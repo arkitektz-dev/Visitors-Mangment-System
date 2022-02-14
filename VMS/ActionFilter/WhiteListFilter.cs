@@ -19,20 +19,41 @@ namespace VMS.ActionFilter
         public void OnActionExecuting(ActionExecutingContext context)
         {
 
+            var checkParamToken = context.ActionArguments.Count == 0 ? null : context.ActionArguments["Id"].ToString();
+            if (checkParamToken == null) {
+
+                //verifyToken
+                var checkQr = _context.GeneratedTokens.Where(x => x.TokenNumber == checkParamToken).FirstOrDefault();
+                if (checkQr != null)
+                {
+                    if (checkQr.IsUsed == true) {
+
+                        var values = new RouteValueDictionary(new
+                        {
+                            action = "UnAuthorized",
+                            controller = "Appointment",
+                            code = "1"
+                        });
+                        context.Result = new RedirectToRouteResult(values);
+                    }
+   
+                }
+                
+             
+            }
+
+
             string ip = string.Empty;
             if (!string.IsNullOrEmpty(context.HttpContext.Request.Headers["X-Forwarded-For"]))
             {
-                ip = context.HttpContext.Request.Headers["X-Forwarded-For"];
+                var ipAddress = context.HttpContext.Request.Headers["X-Forwarded-For"];
+                ip = ipAddress.ToString().Split(':')[0];
+
+
                 var checkIP = _context.WhiteListIpaddresses.Where(x => x.Ipaddress == ip).FirstOrDefault();
-                if (checkIP == null) {
+                if (checkIP == null)
+                {
 
-                    _context.WhiteListIpaddresses.Add(new WhiteListIpaddress()
-                    {
-                        Ipaddress = ip,
-                        CreatedDate = DateTime.Now.Date
-                    });
-
-                    _context.SaveChanges();
 
                     var values = new RouteValueDictionary(new
                     {
@@ -48,11 +69,9 @@ namespace VMS.ActionFilter
             else
             {
                 ip = context.HttpContext.Features.Get<IHttpConnectionFeature>().RemoteIpAddress.ToString();
-
-
             }
 
-         
+
 
         }
         public void OnActionExecuted(ActionExecutedContext context)
