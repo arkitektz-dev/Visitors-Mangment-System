@@ -130,7 +130,7 @@ namespace VMS.Controllers
                 }
             }
             
-            return Ok();
+            return Ok("Error");
         }
 
         public IActionResult UnAuthorized()

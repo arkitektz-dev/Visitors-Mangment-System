@@ -183,6 +183,8 @@ namespace VMS.Models
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
+                entity.Property(e => e.Phone).HasMaxLength(12);
+
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             });
 

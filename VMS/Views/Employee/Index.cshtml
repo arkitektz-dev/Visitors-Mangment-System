@@ -35,11 +35,14 @@
                 </div>
             </div>
             <div class="card-body">
+                
                 <table id="dt-employee-list" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,9 +68,23 @@
                 <input type="hidden" id="EmployeeId" />
                 <div class="form-group">
                     <label for="employeeName">Employee Name</label>
-                    <input type="email" class="form-control" id="employeeName" placeholder="Enter name">
+                    <input type="text" class="form-control" id="employeeName" placeholder="Enter name">
                     <span class="text-danger" id="val_EmployeeName" style="display:none;"> Name is required</span>
                 </div>
+
+                <div class="form-group">
+                    <label for="employeeEmail">Email</label>
+                    <input type="email" class="form-control" id="employeeEmail" placeholder="Enter a email">
+                    <span class="text-danger" id="val_EmployeeEmail" style="display:none;">Email is required</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="employeePhone">Phone</label>
+                    <input type="text" class="form-control" id="employeePhone" placeholder="Enter a phone number">
+                    <span class="text-danger" id="val_EmployeePhone" style="display:none;">Phone is required</span>
+                </div>
+
             </div>
             <!-- /.card-body -->
 
@@ -122,10 +139,12 @@
                     "columns": [
                         { "data": "id", "name": "id", "autoWidth": true },
                         { "data": "name", "name": "name", "autoWidth": true },
+                        { "data": "email", "name": "email", "autoWidth": true },
+                        { "data": "phone", "name": "phone", "autoWidth": true },
                         {
                             data: null,
                             render: function (data, type, row) {
-                                return `<button onClick='EditEmployee(${data.id},"${data.name}")' class='btn btn-primary'>Edit</button>
+                                return `<button onClick='EditEmployee(${data.id},"${data.name}","${data.email}","${data.phone}")' class='btn btn-primary'>Edit</button>
                                         <button onClick='DeleteEmployee(${data.id})' class='btn btn-danger'>Delete</button>`;
                             }
                         },
@@ -133,7 +152,11 @@
 
                 });
 
-     const AddEmployeeForm = () => {
+    const AddEmployeeForm = () => {
+             $('#EmployeeId').val('');
+           $('#employeeName').val('');
+            $("#employeeEmail").val('');
+            $("#employeePhone").val('');
             $("#AddEmployeeForm").show();
             $("#EmployeeFormList").hide();
 
@@ -145,19 +168,40 @@
 
      function SaveEmployee(){
 
-        let EmployeeName = $("#employeeName").val();
         let EmployeeId = $("#EmployeeId").val();
+        let EmployeeName = $("#employeeName").val();
+        let EmployeeEmail = $("#employeeEmail").val();
+        let EmployeePhone = $("#employeePhone").val();
+
 
         if (EmployeeName !== "") {
             $('#val_EmployeeName').hide();
         } else {
             $('#val_EmployeeName').show();
             return;
+        }
+
+         if (EmployeeEmail !== "") {
+             $('#val_EmployeeEmail').hide();
+         } else {
+             $('#val_EmployeeEmail').show();
+             return;
          }
+
+
+         if (EmployeePhone !== "") {
+             $('#val_EmployeePhone').hide();
+         } else {
+             $('#val_EmployeePhone').show();
+             return;
+         }
+
 
          if (EmployeeId != '') {
              var row = {
                  Name: EmployeeName,
+                 Email: EmployeeEmail,
+                 Phone: EmployeePhone
              }
 
               $.ajax({
@@ -189,8 +233,10 @@
 
          if (EmployeeId == '') {
              var row = {
-            Name : EmployeeName,
-         }
+                 Name: EmployeeName,
+                 Email: EmployeeEmail,
+                 Phone: EmployeePhone
+             }
 
 
           $.ajax({
@@ -282,10 +328,12 @@
         })
     }
 
-    const EditEmployee = (id, name) => {
+    const EditEmployee = (id, name,email,phone) => {
         console.log(id, name);
         let EmployeeId = $('#EmployeeId').val(id);
         let EmployeeName = $('#employeeName').val(name);
+        let EmployeeEmail = $("#employeeEmail").val(email);
+        let EmployeePhone = $("#employeePhone").val(phone);
 
         $("#AddEmployeeForm").show();
         $("#EmployeeFormList").hide();

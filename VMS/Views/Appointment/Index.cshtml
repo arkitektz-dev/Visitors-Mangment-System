@@ -141,7 +141,7 @@
                     <div id="login-form" class="form">
                         
                         <div id="ShowExit" style="display:none;"> 
-                            <h1 style="text-align:right;" onclick="Exit()"><i class="fa fa-times"></i></h1>
+                            <h1 style="text-align: right; color: #15013e;" onclick="Exit()"><i class="fa fa-times"></i></h1>
                         </div>
 
                         <div id="firstForm" style="display:none;">
@@ -838,14 +838,46 @@
                 return;
             } else {
 
+               
+
                  $.ajax({
                             type: "POST",
                             url: "@Url.Action("BarcodeSignOut", "Appointment")",
-                             data: { Barcode: barcode },
+                            data: { Barcode: barcode },
                             success: function (response) {
 
+                                if (response != "Error") {
 
 
+                                    isClickByCancel = false
+                                    $('#val_Barcode').hide();
+                                    $('#txtBarcode').blur();
+
+                                    $("#barCodeArea").hide();
+                                    $("#SignOutForm").show();
+
+
+                                    setTimeout(() => {
+                                        if (isClickByCancel == false) {
+                                            $("#TwelfthForm").hide();
+                                            $("#SecondForm").hide();
+                                            $("#firstForm").show();
+
+                                            $("#barCodeArea").hide();
+                                            $("#SignOutForm").hide();
+                                            $("#TwelfthForm").show();
+                                            isClickByCancel = false;
+                                        }
+                                    }, 10000)
+
+
+                                } else {
+                                    $("#val_Barcode").text("Please enter right barcode")
+                                    $("#val_Barcode").show();
+                                }
+
+
+                         
 
 
                             },
@@ -860,27 +892,7 @@
                             }
                         })
 
-                isClickByCancel = false
-                $('#val_Barcode').hide();
-                $('#txtBarcode').blur();
-
-                $("#barCodeArea").hide();
-                $("#SignOutForm").show();
-
-
-                setTimeout(() => {
-                    if (isClickByCancel == false) {
-                        $("#TwelfthForm").hide();
-                        $("#SecondForm").hide();
-                        $("#firstForm").show();
-
-                        $("#barCodeArea").hide();
-                        $("#SignOutForm").hide();
-                        $("#TwelfthForm").show();
-                        isClickByCancel = false;
-                    }
-                }, 10000)
-
+            
                 return;
             }
             return;
