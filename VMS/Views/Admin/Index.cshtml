@@ -12,33 +12,33 @@
                 <h1 class="m-0">Appointment</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Appointment</li>
-                </ol>
+                <div class="custom-control custom-checkbox custom-control-inline float-right">
+                    <input type="checkbox" class="custom-control-input" id="defaultInline1"  onclick="FilterTable('CheckIn')">
+                    <label class="custom-control-label" for="defaultInline1">Show only Checked In Users</label>
+                </div>
+                @*<button class="btn btn-primary float-right mb-5" onclick="FilterTable('CheckIn')">Check In Employees</button>*@
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
 
 
-<div class="row"  id="appointment-list-table">
+<div class="row" id="appointment-list-table">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Appointment list table</h3>
-            </div>
+            
             <!-- /.card-header -->
             <div class="card-body">
+                 
                 <table id="dt-appointment-list" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Full Name</th>
-                            <th>Company</th> 
-                            <th>Meeting Type</th>  
-                            <th>Check In</th> 
-                            <th>Check Out</th> 
-                            <th>Action</th> 
+                            <th>Company</th>
+                            <th>Meeting Type</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -70,19 +70,269 @@
         </div>
     </div>
 </div>
- 
+
 
 <div class="modal" tabindex="-1" role="dialog" id="showAppointment">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Appointment Details</h5> 
+                <h5 class="modal-title">Appointment Details</h5>
             </div>
             <div class="modal-body" id="AppointmentDetail">
-               
- 
+
+
             </div>
-           
+
         </div>
     </div>
 </div>
+
+
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/plugins/jszip/jszip.min.js"></script>
+<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script>
+
+    var filterType = "CheckIn";
+
+    var tableAppointmnet =  $("#dt-appointment-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": "@Url.Action("LoadData", "Admin")",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "fullName", "name": "fullName", "autoWidth": true },
+                    { "data": "companyName", "name": "companyName", "autoWidth": true },
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    //{ "data": "checkIn", "name": "checkIn", "autoWidth": true },
+                    //{ "data": "checkOut", "name": "checkOut", "autoWidth": true },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.checkIn);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            if (data.checkOut != null) {
+                                return CustomerFormatedDate(data.checkOut);
+                            } else {
+                                return data.checkOut;
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            return `
+                                <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
+
+
+                            `;
+                        }
+                    },
+                ]
+
+            });
+
+        const ShowAppointment = (id) => {
+            console.log(id);
+
+               $.ajax({
+                            type: "GET",
+                            url: "@Url.Action("GetAppointment", "Admin")",
+                            data: { Id: id },
+                            success: function (response) {
+
+                                let profileLink = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                                console.log(response)
+                                let htmlTemplate = `
+
+                                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                    <div class="image mx-auto">
+                                        <img id="imgUser" src="${response.profilePhotoUrl == null ? profileLink : `https://localhost:44308/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
+                                    </div>
+                                </div>
+
+                                <dt class="col-sm-4">FullName</dt>
+                                <dd class="col-sm-8">${response.fullName}.</dd>
+
+                                <dt class="col-sm-4">Phone Number</dt>
+                                <dd class="col-sm-8">${response.phoneNumber}</dd>
+
+                                <dt class="col-sm-4">Company Name</dt>
+                                <dd class="col-sm-8">${response.companyName}</dd>
+
+
+                                <dt class="col-sm-4">Meeting Purpose</dt>
+                                <dd class="col-sm-8">${response.name}</dd>
+
+                                <dt class="col-sm-4">Description</dt>
+                                <dd class="col-sm-8">${response.meetingDescription == null ? "-" : response.meetingDescription}</dd>
+
+                                <dt class="col-sm-4">Car Registration</dt>
+                                <dd class="col-sm-8">${response.carRegistration}</dd>
+                                `;
+
+                                $('#AppointmentDetail').html(htmlTemplate);
+                                $('#appointment-list-table').hide();
+                                $('#show-appointment').show();
+
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+
+
+        }
+
+        const ForceSignOut = (id, value) => {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success ml-2',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You want to check out for this user!",
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                       $.ajax({
+                            type: "GET",
+                            url: "@Url.Action("ForceCheckOut", "Admin")",
+                            data: { AppointmentId: id },
+                            success: function (response) {
+                                itemCheckOut = value;
+                                value.closest("td").previousSibling.innerText = CustomerFormatedDate(response);
+                                toastr.success("Successfully Signed Out")
+                                 value.remove();
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your changes has not saved',
+                    )
+                }
+            })
+
+
+
+        }
+
+        function CloseAppointmentDetail() {
+            $('#appointment-list-table').show();
+            $('#show-appointment').hide();
+    }
+
+    function FilterTable() {
+        tableAppointmnet.destroy();
+
+        tableAppointmnet =  $("#dt-appointment-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": "@Url.Action("LoadData", "Admin")?filterType=" + filterType,
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "fullName", "name": "fullName", "autoWidth": true },
+                    { "data": "companyName", "name": "companyName", "autoWidth": true },
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    //{ "data": "checkIn", "name": "checkIn", "autoWidth": true },
+                    //{ "data": "checkOut", "name": "checkOut", "autoWidth": true },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.checkIn);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            if (data.checkOut != null) {
+                                return CustomerFormatedDate(data.checkOut);
+                            } else {
+                                return data.checkOut;
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            return `
+                                <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
+
+
+                            `;
+                        }
+                    },
+                ]
+
+            });
+
+        if (filterType == "CheckIn") {
+            filterType = "CheckOut";
+        } else {
+            filterType = "CheckIn";
+        }
+
+    }
+
+</script>

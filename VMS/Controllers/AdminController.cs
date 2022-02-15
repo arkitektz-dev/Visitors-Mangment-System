@@ -36,7 +36,7 @@ namespace VMS.Controllers
         {
             return View();
         }
-        public IActionResult LoadData()
+        public IActionResult LoadData(string filterType)
         {
              
                 var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
@@ -77,9 +77,22 @@ namespace VMS.Controllers
                                            appointment.CheckIn,
                                            appointment.CheckOut
                                        });
-                                       
-                //Sorting  
-                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+
+                 if (filterType != null) {
+                    
+                    if (filterType == "CheckIn") {
+                         appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.CheckIn != null && x.CheckOut == null);
+                    }
+
+                    if (filterType == "CheckOut")
+                    {
+                        appointmentData = appointmentData.OrderByDescending(x => x.CheckOut).Where(x => x.CheckIn != null && x.CheckOut != null);
+                    }
+
+                 }
+
+            //Sorting  
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
                 {
                   //  appointmentData = appointmentData.OrderBy(sortColumn + " " + sortColumnDirection);
                 }

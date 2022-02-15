@@ -64,7 +64,9 @@ namespace VMS.Controllers
                                   select new
                                   {
                                       employee.Id,
-                                      employee.Name
+                                      employee.Name,
+                                      employee.Email,
+                                      employee.Phone
                                   });
 
             //Sorting  
@@ -96,7 +98,9 @@ namespace VMS.Controllers
             {
                 Name = param.Name,
                 TenantId = 1,
-                CreatedBy = 1
+                CreatedBy = 1,
+                Email = param.Email,
+                Phone = param.Phone
             };
 
             _context.Employees.Add(model);
@@ -134,6 +138,8 @@ namespace VMS.Controllers
 
                 model.Name = param.Name;
                 model.TenantId = param.TenantId;
+                model.Email = param.Email;
+                model.Phone = param.Phone;
 
                 _context.SaveChanges();
 
