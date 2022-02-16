@@ -253,6 +253,8 @@ namespace VMS.Controllers
 
             return Ok(model);
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> TestPrintForImage(int AppointmentId)
         {
             var converter = new HtmlConverter();
