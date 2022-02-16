@@ -26,6 +26,7 @@ namespace VMS.Controllers
         int AppointmentId;
         private IWebHostEnvironment environment;
         private VMSDbContext _context;
+
         public AdminController(IWebHostEnvironment _environment, VMSDbContext context)
         {
             environment = _environment;
@@ -252,8 +253,6 @@ namespace VMS.Controllers
 
             return Ok(model);
         }
-
-        [AllowAnonymous]
         public async Task<IActionResult> TestPrintForImage(int AppointmentId)
         {
             var converter = new HtmlConverter();
@@ -264,6 +263,7 @@ namespace VMS.Controllers
 
 
         }
+
         void pd_PrintPage(object sender, PrintPageEventArgs e)
         {
 
