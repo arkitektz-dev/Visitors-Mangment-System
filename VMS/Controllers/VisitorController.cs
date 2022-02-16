@@ -51,6 +51,8 @@ namespace VMS.Controllers
 
                 _context.Appointments.Add(objSave);
                 _context.SaveChanges();
+
+                return Ok(objSave);
             }
 
        

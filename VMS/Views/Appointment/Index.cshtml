@@ -149,7 +149,7 @@
                                 <h3 class="text-center text-info">Thank You!!!</h3>
                                 <div class="form-group">
                                     <label for="txtBarcode" class="text-info">Enter your barcode number <strong>next*</strong></label><br>
-                                    <input type="number" class="form-control" id="txtBarcode" autofocus autocomplete="off" />
+                                    <input type="number" class="form-control" id="txtBarcode" autocomplete="off" />
                                     <span class="text-danger" id="val_Barcode" style="display:none;">Please enter your barcode</span>
                                 </div>
                                 <div class="form-group">
@@ -241,7 +241,7 @@
                             <h3 class="text-center text-info">Welcome!</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Enter your first name and last name and select <strong>next*</strong></label><br>
-                                <input type="text" class="form-control" id="formFullName" autofocus autocomplete="off" />
+                                <input type="text" class="form-control" id="formFullName" autocomplete="off" tabindex="1" />
                                 <span class="text-danger" id="val_FullName" style="display:none;">Please enter your full name</span>
                             </div>
                             <div class="form-group">
@@ -506,7 +506,7 @@
                             <div class="row">
                                 <div class="col-md-3 mx-auto">
                                     <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
-                                    <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button>
+                                    <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button> 
                                 </div>
                             </div>
                             <div class="row">
@@ -567,8 +567,8 @@
 <script src="https://unpkg.com/@@aspnet/signalr@@1.0.0-rc1-final/dist/browser/signalr.js"></script>
 <script>
 
-
-
+    
+    
    
 
     //SignalR Work Here
@@ -1169,12 +1169,17 @@
 
         if (stepNumber == 1) {
 
-            document.getElementById("formFullName").focus();
             console.log("This is from 1")
             $("#TwelfthForm").hide();
+            $("#SecondForm").hide();
             $("#firstForm").show();
             $("#SignInForm").show();
-            $("#SecondForm").hide();
+            //document.getElementById("formFullName").focus();
+            //$("#formFullName").focus(); 
+            setTimeout(function () {
+                console.log("run")
+                $("#formFullName").focus();
+            }, 0);
         }
 
         if (stepNumber == 2) {

@@ -20,7 +20,7 @@ namespace VMS.ActionFilter
         {
 
             var checkParamToken = context.ActionArguments.Count == 0 ? null : context.ActionArguments["Id"].ToString();
-            if (checkParamToken == null) {
+            if (checkParamToken != null) {
 
                 //verifyToken
                 var checkQr = _context.GeneratedTokens.Where(x => x.TokenNumber == checkParamToken).FirstOrDefault();
@@ -38,8 +38,9 @@ namespace VMS.ActionFilter
                     }
    
                 }
-                
-             
+
+
+                return;
             }
 
 

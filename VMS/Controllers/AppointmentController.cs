@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +32,9 @@ namespace VMS.Controllers
         [WhiteListFilter]
         public async Task<IActionResult> IndexAsync(string Id)
         {
+     
+
+
             if (Id == null || Id == "") {
                 return View();
             }
@@ -53,13 +58,15 @@ namespace VMS.Controllers
 
         public JsonResult ListEmployee()
         {
+
+
             var employeeList = _context.Employees.ToList();
 
             return Json(employeeList);
         }
 
         [HttpPost]
-        public JsonResult AddAppoitment(AddAppointmentDto appointment)
+        public async Task<JsonResult> AddAppoitment(AddAppointmentDto appointment)
         {
              
             var objSave = new Appointment()
@@ -81,6 +88,27 @@ namespace VMS.Controllers
 
             _context.Appointments.Add(objSave);
             _context.SaveChanges();
+
+
+            var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
+            if (employerDetail != null) {
+
+                var apiKey = "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";
+                var client = new SendGridClient(apiKey);
+                var from = new EmailAddress("arkitektzsolutions@gmail.com", "Example User");
+                var subject = "A New Appointment is set";
+                var to = new EmailAddress(employerDetail.Email, "Example User");
+                var plainTextContent = "";
+                var htmlContent = $"<ul> " +
+                    $"<li>${appointment.FullName}</li>" +
+                    $"<li>${appointment.PhoneNumber}</li>" +
+                    $"<li>${appointment.CompanyName}</li>" +
+                    $"<li>${appointment.MeetingPurpose}</li>" +  
+                    $"</ul>";
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var response = await client.SendEmailAsync(msg);
+            }
+
 
 
 
