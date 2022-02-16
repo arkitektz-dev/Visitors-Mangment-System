@@ -153,8 +153,10 @@
                                     <span class="text-danger" id="val_Barcode" style="display:none;">Please enter your barcode</span>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-change-button btn-block" role="button" 
-                                            onclick="btnNext(14)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span> </button>
+                                    <button class="btn btn-change-button btn-block" role="button"
+                                            onclick="btnNext(14)">
+                                        <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span>
+                                    </button>
 
                                 </div>
                             </div>
@@ -234,6 +236,44 @@
                                 </div>
                             </div>
 
+                            <div id="SignInBarCode" style="display:none;">
+                                <div class="form-group">
+                                    <label for="txtBarcode" class="text-info">Enter your invitation number <strong>next*</strong></label><br>
+                                    <input type="number" class="form-control" id="txtBarcode" autocomplete="off" />
+                                    <span class="text-danger" id="val_Barcode" style="display:none;">Please enter your barcode</span>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-change-button btn-block" role="button"
+                                            onclick="btnNext(21)">
+                                        <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div id="SignInBarCodeOut" style="display:none;">
+                                <h5 class="text-center text-info" id="setEndFullName">Thank You!!!</h5>
+                                <div class="card bg-danger" style="color:white;">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-sign-out-alt mb-5" style="font-size: 58px;"></i>
+                                        <h6>You have succesfully check out</h6>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <span class="text-white">@DateTime.Now.ToString("hh:mm tt dddd dd MMMM yyyy")</span>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-md-6" style="margin:0 auto;">
+                                            <button onclick="btnNext(22)" type="button" class="btn btn-info btn-change-button col-12">Home</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
 
@@ -507,6 +547,7 @@
                                 <div class="col-md-3 mx-auto">
                                     <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button> 
+                                    <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(20)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign in using Number</span> </button> 
                                 </div>
                             </div>
                             <div class="row">
@@ -567,14 +608,9 @@
 <script src="https://unpkg.com/@@aspnet/signalr@@1.0.0-rc1-final/dist/browser/signalr.js"></script>
 <script>
 
-    
-    
-   
-
     //SignalR Work Here
 
     var qrPageCode = "";
-
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/qrcode")
         .configureLogging(signalR.LogLevel.Information)
@@ -582,10 +618,8 @@
 
     connection.on('qrCodeChecker', (qrCode) => {
         console.log(qrCode)
-
         if (qrCode == qrPageCode) {
-            GenerateNewToken();
-            
+            GenerateNewToken();  
         }
     });
 
@@ -640,7 +674,6 @@
     })
 
     
-
     setTimeout(() => {
      //   document.querySelector("#qrcode > img").style.display = "inline";
     },2000 )
@@ -654,7 +687,7 @@
     var isClickByCancel = false;
     var isClickDeliveryCancel = false;
     var isDelivery = false;
-    var isHomeDelivery = false;
+    var isHomeDelivery = false; 
     var src = {
     }
 
@@ -686,8 +719,6 @@
     }
 
 
-
-
     function onSelectItem(item, element) {
         console.log(item, element);
     }
@@ -699,10 +730,6 @@
         highlightClass: 'text-danger',
 
     });
-
-
-    //$('.js-example-basic-single').select2({ width: '100%' });
-
 
     Webcam.on('error', function (err) {
         isError = true;
@@ -743,6 +770,7 @@
         let carRegistrationNumber = $("#carRegistrationNumber").val();
         let visitingEmployee = $("#visitingEmployee").val();
         let barcode = $("#txtBarcode").val();
+       
 
 
         if ($('#ElventhForm').is(':visible') == true) {
@@ -761,10 +789,6 @@
         if ($('#TwelfthForm').is(':visible') == true) {
             $("#ShowExit").show()
         }
-
-
-         
-      
 
 
         if (isDelivery == true) {
@@ -801,8 +825,32 @@
 
         }
 
+        if (formNumber == 20) {
+            $('#TwelfthForm').hide();
+            $("#SignInBarCodeOut").hide();
+            $("#firstForm").show();
+            $("#SignInBarCode").show();
 
+            return;
+        }
 
+        if (formNumber == 21) {
+            $('#TwelfthForm').hide();
+            $("#SignInBarCode").hide();
+            $("#firstForm").show();
+            $("#SignInBarCodeOut").show();
+            return;
+        }
+
+        if (formNumber == 22) {
+            $('#TwelfthForm').hide();
+            $("#SignInBarCode").hide();
+            $("#firstForm").hide();
+            $("#SignInBarCodeOut").hide();
+            $('#TwelfthForm').show();
+            $("#ShowExit").hide()
+            return;
+        }
 
         if (formNumber == 13) {
             console.log("This is from 1")
@@ -1705,8 +1753,15 @@
                     $("#SignOutForm").hide();
                     $("#barCodeArea").hide();
                     $("#TwelfthForm").show();
-
+                    $('#TwelfthForm').hide();
+                    $("#SignInBarCodeOut").hide();
+                    $("#firstForm").hide();
+                    $("#SignInBarCode").show();
+                   
                     $("#ShowExit").hide()
+
+                    $('#TwelfthForm').show();
+
 
                 }
             })
