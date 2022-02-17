@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using QRCoder;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -171,5 +173,25 @@ namespace VMS.Controllers
 
             return View();
         }
+
+        public IActionResult SignInUsingInvite(int Barcode)
+        {
+            var appointment = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
+            if (appointment != null) {
+                if (appointment.CheckIn == null) {
+                    appointment.CheckIn = DateTime.Now.Date;
+                    _context.SaveChanges();
+                    return Ok(appointment.Id);
+                }
+                return Ok("Error");
+
+            }
+
+            return Ok("Error");
+        }
+
+      
+        
+
     }
 }

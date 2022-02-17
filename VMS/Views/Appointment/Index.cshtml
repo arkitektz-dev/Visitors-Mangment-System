@@ -549,7 +549,7 @@
                                 <div class="col-md-3 mx-auto">
                                     <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button> 
-                                    <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(20)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign in using Number</span> </button> 
+                                    <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(20)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; I have an invitation</span> </button> 
                                 </div>
                             </div>
                             <div class="row">
@@ -619,9 +619,8 @@
         .build();
 
     connection.on('qrCodeChecker', (qrCode) => {
-        console.log(qrCode)
         if (qrCode == qrPageCode) {
-            GenerateNewToken();  
+            GenerateNewToken();
         }
     });
 
@@ -640,13 +639,13 @@
                     type: "POST",
                     success: function (data) {
 
-                      
+
                         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                          
+
 
                             return;
                         }
-                        
+
                             $("#qrcode").html('');
 
                             qrPageCode = data;
@@ -661,9 +660,9 @@
                                 correctLevel: QRCode.CorrectLevel.H,
                             });
 
-                           
-                           
-                        
+
+
+
                     }
                 });
     }
@@ -675,7 +674,7 @@
         }
     })
 
-    
+
     setTimeout(() => {
      //   document.querySelector("#qrcode > img").style.display = "inline";
     },2000 )
@@ -713,7 +712,6 @@
                         });
 
 
-                        console.log(data);
                         return data;
 
                     }
@@ -723,7 +721,6 @@
 
 
     function onSelectItem(item, element) {
-        console.log(item, element);
     }
 
     $("#visitingEmployee").autocomplete({
@@ -764,7 +761,6 @@
 
     function btnNext(formNumber) {
 
-        console.log("The current form number is " + formNumber)
 
         let phoneNumber = $("#phoneNumber").val();
         let fullName = $("#formFullName").val();
@@ -773,8 +769,9 @@
         let carRegistrationNumber = $("#carRegistrationNumber").val();
         let visitingEmployee = $("#visitingEmployee").val();
         let barcode = $("#txtBarcode").val();
-       
 
+        console.log("This is " + formNumber)
+      
 
         if ($('#ElventhForm').is(':visible') == true) {
             if (isDelivery == true) {
@@ -789,8 +786,14 @@
             }
         }
 
-        if ($('#TwelfthForm').is(':visible') == true) {
-            $("#ShowExit").show()
+        if ($('#TwelfthForm').is(':visible') != true) {
+            console.log("This is this")
+            $("#ShowExit").hide();
+            
+        } else {
+            
+            $("#ShowExit").show();
+            isFlue = null;
         }
 
 
@@ -830,6 +833,7 @@
 
         if (formNumber == 20) {
             $('#TwelfthForm').hide();
+            $('#SignInForm').hide();
             $("#SignInBarCodeOut").hide();
             $("#firstForm").show();
             $("#SignInBarCode").show();
@@ -843,24 +847,80 @@
             var SignInBarCode = $("#txtSignInBarCode").val();
 
             if (SignInBarCode != '') {
-                $("#val_SignInBarCode").hide();
-                $('#TwelfthForm').hide();
-                $("#SignInBarCode").hide();
-                $("#firstForm").show();
-                $("#SignInBarCodeOut").show();
-                isSignInBarcode = false;
 
-                setTimeout(() => {
-                    if (isSignInBarcode == false) {
-                        $('#TwelfthForm').hide();
-                        $("#SignInBarCode").hide();
-                        $("#firstForm").hide();
-                        $("#SignInBarCodeOut").hide();
-                        $('#TwelfthForm').show();
-                        $("#ShowExit").hide()
-                        isSignInBarcode = true;
-                    }
-                }, 10000)
+
+                      $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("SignInUsingInvite", "Appointment")",
+                            data: { Barcode: SignInBarCode },
+                            success: function (response) {
+
+                                if (response != "Error") {
+                                    $("#val_SignInBarCode").hide();
+                                    $('#TwelfthForm').hide();
+                                    $("#SignInBarCode").hide();
+                                    $("#firstForm").show();
+                                    $("#SignInBarCodeOut").show();
+                                    isSignInBarcode = false;
+                                    setTimeout(() => {
+                                        if (isSignInBarcode == false) {
+                                            $('#TwelfthForm').hide();
+                                            $("#SignInBarCode").hide();
+                                            $("#firstForm").hide();
+                                            $("#SignInBarCodeOut").hide();
+                                            $('#TwelfthForm').show();
+                                            $("#ShowExit").hide()
+                                            isSignInBarcode = true;
+                                        }
+                                    }, 10000)
+                                    $("#val_SignInBarCode").text('Please enter barcode');
+
+
+                                      $.ajax({
+                                            type: "GET",
+                                            url: "@Url.Action("PrintPage", "Admin")",
+                                            data: { Id: response },
+                                            success: function (response1) {
+
+                                
+
+
+                                            },
+                                            failure: function (response1) {
+                                                console.error(response.responseText);
+                                            },
+                                            error: function (response1) {
+                                                console.error(response.responseText);
+                                            }
+                                      })
+
+
+
+                                    return;
+                                } else {
+                                    $("#val_SignInBarCode").text('Please enter the right barcode');
+                                    $("#val_SignInBarCode").show();
+
+                                    return;
+                                }
+
+
+
+
+
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+
+
+
+
 
 
                 return;
@@ -886,7 +946,6 @@
         }
 
         if (formNumber == 13) {
-            console.log("This is from 1")
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
@@ -899,7 +958,6 @@
         }
 
         if (formNumber == 14) {
-            console.log("This is from 1")
 
 
             $("#TwelfthForm").hide();
@@ -919,7 +977,7 @@
                 return;
             } else {
 
-               
+
 
                  $.ajax({
                             type: "POST",
@@ -958,7 +1016,7 @@
                                 }
 
 
-                         
+
 
 
                             },
@@ -973,7 +1031,7 @@
                             }
                         })
 
-            
+
                 return;
             }
             return;
@@ -983,7 +1041,6 @@
 
         if (formNumber == 15) {
 
-            console.log("This is from 1")
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
@@ -1000,7 +1057,7 @@
         }
 
         if (formNumber == 12) {
-            console.log(stepNumber)
+
             $("#TwelfthForm").hide();
             $("#firstForm").show();
             stepNumber = 0;
@@ -1153,7 +1210,6 @@
                     type: "POST",
                     success: function (data) {
 
-                        console.log(data)
 
                         var row = {
                             FullName: $("#formFullName").val(),
@@ -1167,7 +1223,6 @@
                             isFlu: isFlue
                         };
 
-                        console.log(row);
 
 
 
@@ -1177,7 +1232,6 @@
                             data: { appointment: row },
                             success: function (response) {
 
-                                console.log("The response from insert", response);
 
                                 if (response != undefined) {
 
@@ -1197,7 +1251,6 @@
                                         }
                                     })
 
-                                    console.log("Form clear")
                                     meetingType = 0;
 
                                     $("#phoneNumber").val('');
@@ -1220,7 +1273,6 @@
 
                                     //$("#ElventhForm").hide();
                                     //$("#TwelfthForm").show();
-                                    console.log("Form open");
 
                                 }
 
@@ -1250,17 +1302,13 @@
 
         if (stepNumber == 1) {
 
-            console.log("This is from 1")
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
             $("#SignInForm").show();
             //document.getElementById("formFullName").focus();
-            //$("#formFullName").focus(); 
-            setTimeout(function () {
-                console.log("run")
-                $("#formFullName").focus();
-            }, 0);
+            //$("#formFullName").focus();
+           
         }
 
         if (stepNumber == 2) {
@@ -1270,29 +1318,28 @@
             $("#firstForm").hide();
             $("#SecondForm").show();
 
-            document.getElementById("company").focus();
+            document.getElementById("formFullName").focus();
         }
 
         if (stepNumber == 3) {
-            console.log("Run");
 
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#ThirdForm").show();
-            document.getElementById("visitingEmployee").focus();
+            document.getElementById("company").focus();
         }
 
         if (stepNumber == 4) {
-            console.log("Run");
 
             $("#TwelfthForm").hide();
-            $("#ThirdForm").hide(); 
+            $("#ThirdForm").hide();
             $("#FourthForm").show();
+
+            document.getElementById("visitingEmployee").focus();
         }
 
         if (stepNumber == 5) {
 
-            console.log("Run");
 
             $("#TwelfthForm").hide();
             $("#FourthForm").hide();
@@ -1301,7 +1348,6 @@
         }
 
         if (stepNumber == 6) {
-            console.log("Run");
 
 
             $("#TwelfthForm").hide();
@@ -1311,7 +1357,6 @@
         }
 
         if (stepNumber == 7) {
-            console.log("Run");
 
             if (isError == false) {
 
@@ -1328,8 +1373,9 @@
         }
 
         if (stepNumber == 8) {
-            console.log("Run");
-
+            $("#AcknowledgeList").animate({
+                scrollTop: 10
+            }, 500);
             //$("#setEndFullName").text(`Welcome ${fullName}`);
             $("#TwelfthForm").hide();
             $("#SeventhForm").hide();
@@ -1403,7 +1449,6 @@
 
 
 
-        console.log(stepNumber);
         if (stepNumber == 1) {
             $("#firstForm").hide();
             $("#SecondForm").show();
@@ -1567,7 +1612,6 @@
     }
 
     function btnMeetingPurpose(optionNumber) {
-        console.log('This is option number', optionNumber);
         meetingType = optionNumber;
 
         if (optionNumber == 1) {
@@ -1726,7 +1770,6 @@
     }
 
     function Exit() {
-        console.log("This is out of exit")
         if (stepNumber < 11) {
 
 
@@ -1751,7 +1794,6 @@
 
 
 
-                    console.log("This is in of exit")
                     $("#phoneNumber").val('');
                     $("#formFullName").val('');
                     $("#company").val('');
@@ -1789,8 +1831,8 @@
                     $('#TwelfthForm').hide();
                     $("#SignInBarCodeOut").hide();
                     $("#firstForm").hide();
-                    $("#SignInBarCode").show();
-                   
+                    $("#SignInBarCode").hide();
+
                     $("#ShowExit").hide()
 
                     $('#TwelfthForm').show();

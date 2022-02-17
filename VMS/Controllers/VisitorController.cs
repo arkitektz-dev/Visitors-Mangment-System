@@ -44,8 +44,7 @@ namespace VMS.Controllers
                     ProfilePhotoUrl = appointment.PhotoName,
                     IsPhoto = appointment.PhotoName != null ? true : false,
                     VisitingEmployee = appointment.VisitingEmployee,
-                    IsFlu = appointment.isFlu,
-                    CheckIn = appointment.CheckIn.Date,
+                    IsFlu = appointment.isFlu, 
                     CreatedBy = 1
                 };
 
