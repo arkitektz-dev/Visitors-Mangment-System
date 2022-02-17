@@ -68,7 +68,7 @@ namespace VMS.Controllers
         [HttpPost]
         public async Task<JsonResult> AddAppoitment(AddAppointmentDto appointment)
         {
-             
+            
             var objSave = new Appointment()
             {
                 TenantId = 1,
@@ -95,16 +95,14 @@ namespace VMS.Controllers
 
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("arkitektzsolutions@gmail.com", "Example User");
+                var from = new EmailAddress("arkitektzsolutions@gmail.com", "Your appointment is confirmed.");
                 var subject = "A New Appointment is set";
-                var to = new EmailAddress(employerDetail.Email, "Example User");
+                var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                 var plainTextContent = "";
-                var htmlContent = $"<ul> " +
-                    $"<li>${appointment.FullName}</li>" +
-                    $"<li>${appointment.PhoneNumber}</li>" +
-                    $"<li>${appointment.CompanyName}</li>" +
-                    $"<li>${appointment.MeetingPurpose}</li>" +  
-                    $"</ul>";
+                var htmlContent =
+                    $"<p>Dear {employerDetail.Name},</p>" +
+                    $"<p>Your invited person {appointment.FullName} from {appointment.CompanyName} has arrived.</p>" +
+                    $"<p>The purpose of the meeting is {appointment.MeetingPurpose}</p>";
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = await client.SendEmailAsync(msg);
             }
@@ -159,6 +157,13 @@ namespace VMS.Controllers
             }
             
             return Ok("Error");
+        }
+
+
+        public IActionResult SignInBarCode(int Barcode)
+        {
+
+            return Ok();
         }
 
         public IActionResult UnAuthorized()

@@ -236,11 +236,13 @@
                                 </div>
                             </div>
 
+
+
                             <div id="SignInBarCode" style="display:none;">
                                 <div class="form-group">
-                                    <label for="txtBarcode" class="text-info">Enter your invitation number <strong>next*</strong></label><br>
-                                    <input type="number" class="form-control" id="txtBarcode" autocomplete="off" />
-                                    <span class="text-danger" id="val_Barcode" style="display:none;">Please enter your barcode</span>
+                                    <label for="txtSignInBarCode" class="text-info">Enter your invitation number <strong>next*</strong></label><br>
+                                    <input type="number" class="form-control" id="txtSignInBarCode" autocomplete="off" />
+                                    <span class="text-danger" id="val_SignInBarCode" style="display:none;">Please enter your sign in barcode</span>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-change-button btn-block" role="button"
@@ -687,7 +689,8 @@
     var isClickByCancel = false;
     var isClickDeliveryCancel = false;
     var isDelivery = false;
-    var isHomeDelivery = false; 
+    var isHomeDelivery = false;
+    var isSignInBarcode = false;
     var src = {
     }
 
@@ -830,15 +833,44 @@
             $("#SignInBarCodeOut").hide();
             $("#firstForm").show();
             $("#SignInBarCode").show();
-
+            $("#txtSignInBarCode").val('');
             return;
         }
-
+        //txtSignInBarCode
+        //val_SignInBarCode
         if (formNumber == 21) {
-            $('#TwelfthForm').hide();
-            $("#SignInBarCode").hide();
-            $("#firstForm").show();
-            $("#SignInBarCodeOut").show();
+
+            var SignInBarCode = $("#txtSignInBarCode").val();
+
+            if (SignInBarCode != '') {
+                $("#val_SignInBarCode").hide();
+                $('#TwelfthForm').hide();
+                $("#SignInBarCode").hide();
+                $("#firstForm").show();
+                $("#SignInBarCodeOut").show();
+                isSignInBarcode = false;
+
+                setTimeout(() => {
+                    if (isSignInBarcode == false) {
+                        $('#TwelfthForm').hide();
+                        $("#SignInBarCode").hide();
+                        $("#firstForm").hide();
+                        $("#SignInBarCodeOut").hide();
+                        $('#TwelfthForm').show();
+                        $("#ShowExit").hide()
+                        isSignInBarcode = true;
+                    }
+                }, 10000)
+
+
+                return;
+            } else {
+                $("#val_SignInBarCode").show();
+                return;
+            }
+
+
+
             return;
         }
 
@@ -849,6 +881,7 @@
             $("#SignInBarCodeOut").hide();
             $('#TwelfthForm').show();
             $("#ShowExit").hide()
+            isSignInBarcode = true;
             return;
         }
 

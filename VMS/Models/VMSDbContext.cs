@@ -199,6 +199,10 @@ namespace VMS.Models
             {
                 entity.ToTable("GeneratedToken");
 
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.IsUsed).HasColumnName("isUsed");
             });
 

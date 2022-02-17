@@ -10,5 +10,6 @@ namespace VMS.Models
         public int Id { get; set; }
         public string TokenNumber { get; set; }
         public bool? IsUsed { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }
