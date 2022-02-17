@@ -154,7 +154,8 @@ namespace VMS.Controllers
             if (row != null) {
                 if (row.CheckOut == null) { 
                     row.CheckOut = DateTime.Now.Date;
-                    _context.SaveChanges();           
+                    _context.SaveChanges();
+                    return Ok("Saved");
                 }
             }
             

@@ -631,6 +631,12 @@
     GenerateNewToken()
 
 
+    setInterval(function () {
+        if ($('#TwelfthForm').is(':visible') == true) {
+            $("#ShowExit").hide();
+
+        }   
+    }, 2000);
 
     function GenerateNewToken() {
 
@@ -786,14 +792,14 @@
             }
         }
 
-        if ($('#TwelfthForm').is(':visible') != true) {
-            console.log("This is this")
+        if ($('#TwelfthForm').is(':visible') == true) {
+            console.log("Twelftform is visible")
+            isFlue = null;
             $("#ShowExit").hide();
             
         } else {
-            
-            $("#ShowExit").show();
-            isFlue = null;
+            console.log("Twelftform is not visible")
+            $("#ShowExit").show(); 
         }
 
 
@@ -839,6 +845,9 @@
             $("#SignInBarCode").show();
             $("#txtSignInBarCode").val('');
             document.getElementById("txtSignInBarCode").focus();
+            $("#val_SignInBarCode").text("Please enter your barcode");
+            $("#val_SignInBarCode").hide();
+            $("#ShowExit").show();
             return;
         }
         //txtSignInBarCode
@@ -1064,7 +1073,8 @@
 
             $("#TwelfthForm").hide();
             $("#firstForm").show();
-            stepNumber = 0;
+            stepNumber = 0; 
+            $("#ShowExit").show();
             document.getElementById("formFullName").focus();
 
         }
@@ -1401,19 +1411,20 @@
 
         if (stepNumber == 11) {
 
-
+            
 
             isClickByUser = false;
             $("#TwelfthForm").hide();
             $("#TenthForm").hide();
             $("#ElventhForm").show();
             $("#btnAcknowledge").prop("disabled", true);
-
+            $("#ShowExit").hide();
 
             setTimeout(() => {
                 if (isClickByUser == false) {
                     $("#ElventhForm").hide();
                     $("#TwelfthForm").show();
+                    $("#ShowExit").hide();
                     isClickByUser = false;
                     stepNumber = 1;
                 }
@@ -1617,7 +1628,7 @@
 
     function btnMeetingPurpose(optionNumber) {
         meetingType = optionNumber;
-
+        $("#ShowExit").show();
         if (optionNumber == 1) {
             meetingType = 1;
             $("#btnOptionOne").css({ "backgroundColor": "#17a2b8" });
