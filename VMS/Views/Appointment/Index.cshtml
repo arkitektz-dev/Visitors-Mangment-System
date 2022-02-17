@@ -554,7 +554,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-center mt-4">
-                                    <p class="text-white" id="demo">Scan the QR code using your smartphone's camera to sign in</p>
+                                    <p class="text-white" id="demo" style="display:none;">Scan the QR code using your smartphone's camera to sign in</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -646,8 +646,8 @@
                             return;
                         }
 
-                            $("#qrcode").html('');
-
+                        $("#qrcode").html('');
+                        $("#demo").show();
                             qrPageCode = data;
 
 
@@ -838,6 +838,7 @@
             $("#firstForm").show();
             $("#SignInBarCode").show();
             $("#txtSignInBarCode").val('');
+            document.getElementById("txtSignInBarCode").focus();
             return;
         }
         //txtSignInBarCode
@@ -946,14 +947,16 @@
         }
 
         if (formNumber == 13) {
+         
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
             $("#SignInForm").hide();
             $("#txtBarcode").val('');
-
+            $("#ShowExit").show()
             $("#barCodeArea").show();
             $("#SignOutForm").hide();
+            document.getElementById("txtBarcode").focus();
             return;
         }
 
@@ -963,7 +966,7 @@
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
-
+            $("#ShowExit").show()
             if ($('#barCodeArea:visible').length == 0) {
                 $("#barCodeArea").hide();
                 $("#SignOutForm").show();
@@ -1012,6 +1015,7 @@
 
                                 } else {
                                     $("#val_Barcode").text("Please enter right barcode")
+                                    $("#ShowExit").show()
                                     $("#val_Barcode").show();
                                 }
 
@@ -1199,7 +1203,7 @@
             const file = dataURItoBlob($("#profileImage")[0].currentSrc);
             const formData = new FormData();
             formData.append("file", file);
-
+         
 
 
             $.ajax({
