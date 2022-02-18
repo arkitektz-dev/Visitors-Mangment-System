@@ -97,8 +97,8 @@ namespace VMS.Controllers
 
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
-                var from = new EmailAddress("arkitektzsolutions@gmail.com", "Your appointment is confirmed.");
                 var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
+                var from = new EmailAddress("arkitektzsolutions@gmail.com", subject);
                 var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                 var plainTextContent = "";
                 var htmlContent =
@@ -199,8 +199,8 @@ namespace VMS.Controllers
 
                         var apiKey = "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";
                         var client = new SendGridClient(apiKey);
-                        var from = new EmailAddress("arkitektzsolutions@gmail.com", "Your appointment is confirmed.");
                         var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
+                        var from = new EmailAddress("arkitektzsolutions@gmail.com", subject);
                         var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                         var plainTextContent = "";
                         var htmlContent =

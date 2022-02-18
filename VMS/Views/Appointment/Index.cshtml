@@ -617,7 +617,7 @@
     //Mobile Logic
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
-        console.log("Mobile Run")
+       
         $("#TwelfthForm").hide();
         $("#firstForm").show();
         $("#SignInBarCode").show();
@@ -799,7 +799,7 @@
         let visitingEmployee = $("#visitingEmployee").val();
         let barcode = $("#txtBarcode").val();
 
-        console.log("This is " + formNumber)
+         
 
 
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -880,12 +880,12 @@
         }
 
         if ($('#TwelfthForm').is(':visible') == true) {
-            console.log("Twelftform is visible")
+            
             isFlue = null;
             $("#ShowExit").hide();
 
         } else {
-            console.log("Twelftform is not visible")
+        
             $("#ShowExit").show();
         }
 
