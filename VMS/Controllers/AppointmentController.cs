@@ -91,7 +91,7 @@ namespace VMS.Controllers
             _context.Appointments.Add(objSave);
             _context.SaveChanges();
 
-
+            var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();
             var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
             if (employerDetail != null) {
 
@@ -104,7 +104,7 @@ namespace VMS.Controllers
                 var htmlContent =
                     $"<p>Dear {employerDetail.Name},</p>" +
                     $"<p>Your invited person {appointment.FullName} from {appointment.CompanyName} has arrived.</p>" +
-                    $"<p>The purpose of the meeting is {appointment.MeetingPurpose}</p>";
+                    $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = await client.SendEmailAsync(msg);
             }
