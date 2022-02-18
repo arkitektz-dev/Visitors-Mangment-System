@@ -26,7 +26,7 @@ namespace VMS.ActionFilter
                 var checkQr = _context.GeneratedTokens.Where(x => x.TokenNumber == checkParamToken).FirstOrDefault();
                 if (checkQr != null)
                 {
-                    if (checkQr.IsUsed == true && DateTime.Now.Subtract(checkQr.CreatedDate.Value).Minutes > 5) {
+                    if (checkQr.IsUsed == true && DateTime.Now.Subtract(checkQr.CreatedDate.Value).Minutes <= 1) {
 
                         var values = new RouteValueDictionary(new
                         {

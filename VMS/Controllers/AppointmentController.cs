@@ -153,7 +153,7 @@ namespace VMS.Controllers
             var row = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (row != null) {
                 if (row.CheckOut == null) { 
-                    row.CheckOut = DateTime.Now.Date;
+                    row.CheckOut = DateTime.Now;
                     _context.SaveChanges();
                     return Ok("Saved");
                 }
@@ -170,6 +170,12 @@ namespace VMS.Controllers
         }
 
         public IActionResult UnAuthorized()
+        {
+
+            return View();
+        }
+
+        public IActionResult ThankYou()
         {
 
             return View();

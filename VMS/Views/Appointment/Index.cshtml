@@ -546,9 +546,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 mx-auto">
+                                <div class="col-md-4 mx-auto">
                                     <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
+                                  
+                                </div>
+                                
+                                <div class="col-md-4 mx-auto">
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button> 
+                                   
+                                </div>  
+                                
+                                <div class="col-md-4 mx-auto">
+                                   
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(20)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; I have an invitation</span> </button> 
                                 </div>
                             </div>
@@ -610,6 +619,18 @@
 <script src="https://unpkg.com/@@aspnet/signalr@@1.0.0-rc1-final/dist/browser/signalr.js"></script>
 <script>
 
+    //Mobile Logic
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        console.log("Mobile Run")
+        $("#TwelfthForm").hide();
+        $("#firstForm").show();
+        $("#SignInBarCode").show();
+
+
+
+    }
+
     //SignalR Work Here
 
     var qrPageCode = "";
@@ -632,11 +653,17 @@
 
 
     setInterval(function () {
+
         if ($('#TwelfthForm').is(':visible') == true) {
             $("#ShowExit").hide();
+        }
 
-        }   
-    }, 2000);
+        if ($('#SignOutForm').is(':visible') == true) {
+            $("#ShowExit").hide();
+        }
+
+
+    }, 100);
 
     function GenerateNewToken() {
 
@@ -659,8 +686,8 @@
 
                             var qrcode = new QRCode(document.getElementById("qrcode"), {
                                 text: window.location.origin + "/Appointment/Index?Id=" + data,
-                                width: 100,
-                                height: 100,
+                                width: 150,
+                                height: 150,
                                 colorDark: "#000000",
                                 colorLight: "#ffffff",
                                 correctLevel: QRCode.CorrectLevel.H,
@@ -768,6 +795,7 @@
     function btnNext(formNumber) {
 
 
+
         let phoneNumber = $("#phoneNumber").val();
         let fullName = $("#formFullName").val();
         let companyName = $("#company").val();
@@ -777,7 +805,71 @@
         let barcode = $("#txtBarcode").val();
 
         console.log("This is " + formNumber)
-      
+
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+
+            if (formNumber == 21) {
+
+                var letSignBarCode = $("#txtSignInBarCode").val();
+
+                 $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("SignInUsingInvite", "Appointment")",
+                            data: { Barcode: letSignBarCode },
+                            success: function (response) {
+
+                                if (response != "Error") {
+
+
+
+                                   $("#SignInBarCode").hide();
+                                   $("#SignInBarCodeOut").show();
+
+                                    setTimeout(function () {
+
+                                         $("#SignInBarCodeOut").hide();
+                                          window.location.href = '@Url.Action("ThankYou", "Appointment")'
+                                    },1000)
+
+                                    return;
+                                } else {
+                                    $("#val_SignInBarCode").text('Please enter the right barcode');
+                                    $("#val_SignInBarCode").show();
+
+                                    return;
+                                }
+
+
+
+
+
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
+
+
+            }
+
+            if (formNumber == 22) {
+
+                $("#SignInBarCodeOut").hide();
+                window.location.href = '@Url.Action("ThankYou", "Appointment")'
+            }
+
+
+            return;
+
+        }
+
+
 
         if ($('#ElventhForm').is(':visible') == true) {
             if (isDelivery == true) {
@@ -796,10 +888,10 @@
             console.log("Twelftform is visible")
             isFlue = null;
             $("#ShowExit").hide();
-            
+
         } else {
             console.log("Twelftform is not visible")
-            $("#ShowExit").show(); 
+            $("#ShowExit").show();
         }
 
 
@@ -862,7 +954,7 @@
                       $.ajax({
                             type: "POST",
                             url: "@Url.Action("SignInUsingInvite", "Appointment")",
-                            data: { Barcode: SignInBarCode },
+                            data: { Barcode: txtSignInBarCode },
                             success: function (response) {
 
                                 if (response != "Error") {
@@ -892,7 +984,7 @@
                                             data: { Id: response },
                                             success: function (response1) {
 
-                                
+
 
 
                                             },
@@ -956,7 +1048,7 @@
         }
 
         if (formNumber == 13) {
-         
+
             $("#TwelfthForm").hide();
             $("#SecondForm").hide();
             $("#firstForm").show();
@@ -1073,7 +1165,7 @@
 
             $("#TwelfthForm").hide();
             $("#firstForm").show();
-            stepNumber = 0; 
+            stepNumber = 0;
             $("#ShowExit").show();
             document.getElementById("formFullName").focus();
 
@@ -1213,7 +1305,7 @@
             const file = dataURItoBlob($("#profileImage")[0].currentSrc);
             const formData = new FormData();
             formData.append("file", file);
-         
+
 
 
             $.ajax({
@@ -1322,7 +1414,7 @@
             $("#SignInForm").show();
             //document.getElementById("formFullName").focus();
             //$("#formFullName").focus();
-           
+
         }
 
         if (stepNumber == 2) {
@@ -1411,7 +1503,7 @@
 
         if (stepNumber == 11) {
 
-            
+
 
             isClickByUser = false;
             $("#TwelfthForm").hide();
