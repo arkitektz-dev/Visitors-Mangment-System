@@ -98,12 +98,13 @@ namespace VMS.Controllers
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var from = new EmailAddress("arkitektzsolutions@gmail.com", "Your appointment is confirmed.");
-                var subject = "A New Appointment is set";
+                var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
                 var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                 var plainTextContent = "";
                 var htmlContent =
+
                     $"<p>Dear {employerDetail.Name},</p>" +
-                    $"<p>Your invited person {appointment.FullName} from {appointment.CompanyName} has arrived.</p>" +
+                    $"<p>Your visitor {appointment.FullName} from {appointment.CompanyName} has arrived and wating for you,</p>" +
                     $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = await client.SendEmailAsync(msg);
