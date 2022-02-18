@@ -182,13 +182,38 @@ namespace VMS.Controllers
             return View();
         }
 
-        public IActionResult SignInUsingInvite(int Barcode)
+        public async Task<IActionResult> SignInUsingInvite(int Barcode)
         {
             var appointment = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (appointment != null) {
                 if (appointment.CheckIn == null) {
                     appointment.CheckIn = DateTime.Now.Date;
                     _context.SaveChanges();
+
+
+
+                    var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();
+                    var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
+                    if (employerDetail != null)
+                    {
+
+                        var apiKey = "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";
+                        var client = new SendGridClient(apiKey);
+                        var from = new EmailAddress("arkitektzsolutions@gmail.com", "Your appointment is confirmed.");
+                        var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
+                        var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
+                        var plainTextContent = "";
+                        var htmlContent =
+
+                            $"<p>Dear {employerDetail.Name},</p>" +
+                            $"<p>Your visitor {appointment.FullName} from {appointment.CompanyName} has arrived and wating for you,</p>" +
+                            $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
+                        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                        var response = await client.SendEmailAsync(msg);
+                    }
+
+
+
                     return Ok(appointment.Id);
                 }
                 return Ok("Error");
