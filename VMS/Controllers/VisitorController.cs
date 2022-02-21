@@ -26,10 +26,8 @@ namespace VMS.Controllers
         {
 
             var row = _context.Appointments.Where(
-              x => x.FullName == appointment.FullName &&
-              x.VisitingEmployee == appointment.VisitingEmployee &&
-              x.MeetingPurpose == appointment.MeetingPurpose &&
-              x.CheckIn.Value.Date == appointment.CheckIn.Date).FirstOrDefault();
+              x => x.GlobalAppointmentId == appointment.GlobalAppointmentId &&
+              x.FullName == appointment.FullName).FirstOrDefault();
 
             if (row == null) {
                 var objSave = new Appointment()
@@ -45,6 +43,7 @@ namespace VMS.Controllers
                     IsPhoto = appointment.PhotoName != null ? true : false,
                     VisitingEmployee = appointment.VisitingEmployee,
                     IsFlu = appointment.isFlu, 
+                    GlobalAppointmentId = appointment.GlobalAppointmentId,
                     CreatedBy = 1
                 };
 

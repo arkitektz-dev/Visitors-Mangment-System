@@ -194,7 +194,6 @@ namespace VMS.Controllers
         public IActionResult PrintPage(int Id) {
             AppointmentId = Id;
             System.Drawing.Printing.PrintDocument pd = new System.Drawing.Printing.PrintDocument();
-           
             pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
             pd.Print();
 

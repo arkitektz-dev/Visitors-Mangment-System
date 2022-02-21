@@ -17,6 +17,7 @@ namespace VMS.Models
         public string VisitingEmployee { get; set; }
         public string CarRegistration { get; set; }
         public string ProfilePhotoUrl { get; set; }
+        public string GlobalAppointmentId { get; set; }
         public bool? IsPhoto { get; set; }
         public bool? IsFlu { get; set; }
         public DateTime? CheckIn { get; set; }

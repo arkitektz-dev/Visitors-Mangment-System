@@ -33,10 +33,7 @@ namespace VMS.Controllers
 
         [WhiteListFilter]
         public async Task<IActionResult> IndexAsync(string Id)
-        {
-     
-
-
+        { 
             if (Id == null || Id == "") {
                 return View();
             }
@@ -66,6 +63,9 @@ namespace VMS.Controllers
 
             return Json(employeeList);
         }
+
+
+
 
         [HttpPost]
         public async Task<JsonResult> AddAppoitment(AddAppointmentDto appointment)

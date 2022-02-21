@@ -25,7 +25,9 @@ namespace VMS.Dtos
         public bool isFlu { get; set;}
         public DateTime CheckIn { get; set; }
 
-         
+        public string GlobalAppointmentId { get; set; }
+
+
 
     }
 }

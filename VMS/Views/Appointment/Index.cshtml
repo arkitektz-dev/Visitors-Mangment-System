@@ -193,25 +193,25 @@
                                     <div class="col-md-1">
 
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-1">
                                         <button onclick="btnMeetingPurpose(1)" style="height:60px;" id="btnOptionOne" type="button" class="btn btn-info btn-block">Meeting</button>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-1">
                                         <button onclick="btnMeetingPurpose(2)" style="height:60px;" id="btnOptionTwo" type="button" class="btn btn-info btn-block">Contractor</button>
                                     </div>
 
 
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-1">
                                         <button onclick="btnMeetingPurpose(4)" style="height:60px;" id="btnOptionFour" type="button" class="btn btn-info btn-block">Interview</button>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-1">
                                         <button onclick="btnMeetingPurpose(5)" style="height:60px;" id="btnOptionFive" type="button" class="btn btn-info btn-block">Delivery</button>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mb-1">
                                         <button onclick="btnMeetingPurpose(3)" style="height:60px;" id="btnOptionThree" type="button" class="btn btn-info btn-block">Other</button>
                                     </div>
 
@@ -547,7 +547,7 @@
                             </div>
                             <div class="row mx-auto">
                                 <div class="col-md-4 mx-auto">
-                                    <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
+                                    <button class="btn btn-block btn-change-button mt-3" role="button" onclick="btnNext(12)" id="btnSignIn"> <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Sign in</span> </button>
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(13)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; Sign out</span> </button> 
                                     <button class="btn btn-block btn-change-button mt-2" role="button" onclick="btnNext(20)"> <span class="text"><i class="fas fa-sign-out-alt"></i> &nbsp; I have an invitation</span> </button> 
                                    
@@ -617,11 +617,12 @@
     //Mobile Logic
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
-       
-        $("#TwelfthForm").hide();
-        $("#firstForm").show();
-        $("#SignInBarCode").show();
 
+        //$("#TwelfthForm").hide();
+        //$("#firstForm").show();
+        //$("#SignInBarCode").show();
+
+        $("#btnSignIn").click();
 
 
     }
@@ -799,10 +800,10 @@
         let visitingEmployee = $("#visitingEmployee").val();
         let barcode = $("#txtBarcode").val();
 
-         
 
 
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        @*if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
 
             if (formNumber == 21) {
@@ -862,7 +863,7 @@
 
             return;
 
-        }
+        }*@
 
 
 
@@ -880,12 +881,12 @@
         }
 
         if ($('#TwelfthForm').is(':visible') == true) {
-            
+
             isFlue = null;
             $("#ShowExit").hide();
 
         } else {
-        
+
             $("#ShowExit").show();
         }
 
@@ -1351,6 +1352,14 @@
                                             console.error(response.responseText);
                                         }
                                     })
+
+
+
+                                      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+                                          window.location.href = '@Url.Action("ThankYou", "Appointment")';
+                                          return;
+                                      }
 
                                     meetingType = 0;
 
