@@ -217,6 +217,7 @@ namespace VMS.Controllers
             List<int> CheckIn = new List<int>();
             List<int> CheckOut = new List<int>();
             List<int> LastTenDays = new List<int>();
+            List<int> LastTenDaysLabel = new List<int>();
             
 
             //checkIn
@@ -233,11 +234,13 @@ namespace VMS.Controllers
                 CheckOut.Add(totalCheckOutForMonth);
             }
 
-            for (int i = 1; i <= 10; i++) {
+            for (int i = DateTime.Now.AddDays(-10).Date.Day; i <= DateTime.Now.Day; i++) {
                  
-                var totalCheckOutForDay = _context.Appointments.Where(x => x.CheckIn.Value.Date.Day == i 
-                && x.CheckIn.Value.Date.Year == DateTime.Now.Year).ToList().Count;
+
+                var totalCheckOutForDay = _context.Appointments.Where(x => x.CreatedDate.Value.Date.Day == i 
+                && x.CreatedDate.Value.Date.Year == DateTime.Now.Year).ToList().Count;
                 LastTenDays.Add(totalCheckOutForDay);
+                LastTenDaysLabel.Add(i);
             }
 
             model.CheckIn = CheckIn;
@@ -246,6 +249,9 @@ namespace VMS.Controllers
             model.TotalAppointment = _context.Appointments.Where(x => x.CheckIn != null && x.CheckOut != null).ToList().Count();
             model.TotalEmployees = _context.Employees.ToList().Count();
             model.TotalVisitors = _context.Appointments.ToList().Count();
+            model.TodayVisitors = _context.Appointments.Where(x => x.CheckIn.Value.Date == DateTime.Now.Date).Count();
+            model.LastTenDaysLabel = LastTenDaysLabel;
+
 
 
 

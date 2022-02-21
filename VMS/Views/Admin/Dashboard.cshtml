@@ -12,12 +12,7 @@
             <div class="col-sm-6">
                 <h1 class="m-0">Dashboard</h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
-                </ol>
-            </div><!-- /.col -->
+             
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
@@ -41,7 +36,7 @@
             <div class="">
                 <h3 class="display-4 d-block l-h-n m-0 fw-500">
                     <span id="todayEmployee"></span>
-                    <small class="m-0 l-h-n">Total Employees</small>
+                    <small class="m-0 l-h-n">Today Visitors</small>
                 </h3>
             </div>
             <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
@@ -87,31 +82,7 @@
     </div>
     <!-- /.col-md-6 -->
 </div>
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Employees table</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="dt-employee-appointment" class="table table-bordered table-hover">
-                    <thead>
-                        <tr> 
-                            <th>Name</th>
-                            <th>Joined Date</th>
-                        </tr>
-                    </thead>
-
-                </table>
-            </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-        <!-- /.card -->
-    </div>
-    <!-- /.col -->
-</div>
+ 
 
 
 <!-- jQuery -->
@@ -128,7 +99,7 @@
                     type: "GET",
                     success: function (data) {
                         $("#todayVisitor").text(data.totalVisitors);
-                        $("#todayEmployee").text(data.totalEmployees);
+                        $("#todayEmployee").text(data.todayVisitors);
                         $("#todayAppointment").text(data.totalAppointment);
 
                         console.log(data);
@@ -147,7 +118,7 @@
                         var salesChart = new Chart($salesChart, {
                             type: 'bar',
                             data: {
-                                labels: ['1', '2', '3', '4', '5', '6', '7', '8','9','10'],
+                                labels: data.lastTenDaysLabel,
                                 datasets: [
                                     {
                                         backgroundColor: '#007bff',
@@ -172,11 +143,9 @@
                                 scales: {
                                     yAxes: [{
                                         // display: false,
-                                        gridLines: {
-                                            display: true,
-                                            lineWidth: '4px',
-                                            color: 'rgba(0, 0, 0, .2)',
-                                            zeroLineColor: 'transparent'
+                                        
+                                        ticks: {
+                                            stepSize: 1
                                         }
                                     }],
                                     xAxes: [{

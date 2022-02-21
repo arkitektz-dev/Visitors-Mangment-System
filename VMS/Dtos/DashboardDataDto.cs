@@ -12,9 +12,12 @@ namespace VMS.Dtos
 
         public List<int> LastDaysCheckIn { get; set; }
 
+        public List<int> LastTenDaysLabel { get; set; }
+
         public int TotalVisitors { get; set; }
         public int TotalEmployees { get; set; }
         public int TotalAppointment { get; set; }
+        public int TodayVisitors { get; set; }
 
     }
 }
