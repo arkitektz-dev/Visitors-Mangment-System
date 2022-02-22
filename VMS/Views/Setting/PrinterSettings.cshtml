@@ -1,4 +1,4 @@
-﻿
+﻿@model VMS.ViewModels.PrinterSettingViewModel
 @{
     ViewData["Title"] = "PrinterSettings";
     Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="col-md-12" id="AddIPAddress"  >
+<div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
         <div class="card-header">
@@ -29,33 +29,99 @@
         <!-- /.card-header -->
         <!-- form start -->
         <div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="txtIPAddress">IP Address</label>
-                    <input type="text" class="form-control" id="txtIPAddress" placeholder="Enter IP Address">
-                    <span class="text-danger" id="val_IPAddress" style="display:none;"> IP Address is required</span>
-                </div>
+            <form action="@Url.Action("PrinterSettings","Setting")" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body">
 
-                 
 
-            </div>
-            <!-- /.card-body -->
 
-            <div class="card-footer">
-                <div class="row">
-                    <button type="submit" onclick="SaveIPAddress()" class="btn btn-primary col-md-5" style="margin: 0 auto;">
-                        Submit
-                    </button>
-                    <button type="submit" onclick="CancelIPAddress()" class="btn btn-danger col-md-5" style="margin: 0 auto;">
-                        Cancel
-                    </button>
+
+                    <div class="form-group">
+                        <label asp-for="PrinterName"></label>
+                        <input asp-for="PrinterName" id="visitingEmployee" class="form-control" placeholder="Enter Printer Name" value="@Model.PrinterName">
+                        <span asp-validation-for="PrinterName" class="text-danger"></span>
+                    </div>
+
+
 
                 </div>
-            </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary col-md-12" style="margin: 0 auto;">
+                            Change
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
         </div>
     </div>
     <!-- /.card -->
 
-
 </div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="~/js/webcam.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-4-autocomplete/dist/bootstrap-4-autocomplete.min.js" crossorigin="anonymous"></script>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"
+        asp-fallback-src="~/Identity/lib/jquery-validation/dist/jquery.validate.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.validator"
+        crossorigin="anonymous"
+        integrity="sha384-rZfj/ogBloos6wzLGpPkkOr/gpkBNLZ6b6yLy4o+ok+t/SAKlL5mvXLr0OXNi1Hp">
+</script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.9/jquery.validate.unobtrusive.min.js"
+        asp-fallback-src="~/Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive"
+        crossorigin="anonymous"
+        integrity="sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds">
+</script>
+<script>
+    var src = {
+    }
+
+    var EmployeeNameArray = [
+    ];
+
+    LoadEmployeeToArray();
+
+    function LoadEmployeeToArray() {
+
+                $.ajax({
+                    url: "@Url.Action("GetListPrinter", "Admin")",
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        data.map((item, index) => {
+                            console.log(item);
+                            src[item.printerName] = item.printerName;
+                        });
+                        return data;
+
+                    }
+                });
+
+    }
+
+
+    $("#visitingEmployee").autocomplete({
+        treshold: 0,
+        source: src,
+        onSelectItem: onSelectItem,
+        highlightClass: 'text-danger',
+
+    });
+
+
+    function onSelectItem() { }
+
+</script>

@@ -192,10 +192,15 @@ namespace VMS.Controllers
 
         [AllowAnonymous]
         public IActionResult PrintPage(int Id) {
+
+            var getPrinterName = _context.Settings.Where(x => x.SettingKey == "Printer").FirstOrDefault();
+
             AppointmentId = Id;
             System.Drawing.Printing.PrintDocument pd = new System.Drawing.Printing.PrintDocument();
             pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
-            pd.PrinterSettings.PrinterName = "";
+            if (getPrinterName != null) { 
+                pd.PrinterSettings.PrinterName = getPrinterName.SettingValue;
+            }
             pd.Print();
 
             return Ok();
@@ -274,11 +279,13 @@ namespace VMS.Controllers
 
         public IActionResult GetListPrinter() {
 
-            List<string> listPrinter = new List<string>();
+            List<PrinterList> listPrinter = new List<PrinterList>();
 
             foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
             {
-                listPrinter.Add(printer);
+                listPrinter.Add(new PrinterList() { 
+                    PrinterName = printer
+                });
             }
 
             return Json(listPrinter);

@@ -30,6 +30,7 @@ namespace VMS.Models
         public virtual DbSet<ExcelSheetImport> ExcelSheetImports { get; set; }
         public virtual DbSet<GeneratedToken> GeneratedTokens { get; set; }
         public virtual DbSet<MeetingPurpose> MeetingPurposes { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
         public virtual DbSet<WhiteListIpaddress> WhiteListIpaddresses { get; set; }
 
