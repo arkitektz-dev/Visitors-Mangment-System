@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "PrinterSettings";
+    Layout = "~/Views/Admin/_LayoutAdmin.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Printer Settings</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Printer Settings</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" id="AddIPAddress"  >
+    <!-- general form elements -->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Set Printer</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="txtIPAddress">IP Address</label>
+                    <input type="text" class="form-control" id="txtIPAddress" placeholder="Enter IP Address">
+                    <span class="text-danger" id="val_IPAddress" style="display:none;"> IP Address is required</span>
+                </div>
+
+                 
+
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <div class="row">
+                    <button type="submit" onclick="SaveIPAddress()" class="btn btn-primary col-md-5" style="margin: 0 auto;">
+                        Submit
+                    </button>
+                    <button type="submit" onclick="CancelIPAddress()" class="btn btn-danger col-md-5" style="margin: 0 auto;">
+                        Cancel
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+
+
+</div>
+

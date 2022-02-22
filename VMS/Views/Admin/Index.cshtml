@@ -106,6 +106,8 @@
 <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
 
+   
+
     var filterType = "CheckIn";
 
     var tableAppointmnet =  $("#dt-appointment-list").DataTable({
@@ -159,7 +161,7 @@
 
             });
 
-        const ShowAppointment = (id) => {
+    const ShowAppointment = (id) => {
             console.log(id);
 
                $.ajax({
@@ -174,7 +176,7 @@
 
                                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                                     <div class="image mx-auto">
-                                        <img id="imgUser" src="${response.profilePhotoUrl == null ? profileLink : `https://localhost:44308/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
+                                        <img id="imgUser" src="${response.profilePhotoUrl == null ? profileLink : `https://vms-lim-uat.azurewebsites.net/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
                                     </div>
                                 </div>
 
@@ -215,7 +217,7 @@
 
         }
 
-        const ForceSignOut = (id, value) => {
+    const ForceSignOut = (id, value) => {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -268,7 +270,7 @@
 
         }
 
-        function CloseAppointmentDetail() {
+    function CloseAppointmentDetail() {
             $('#appointment-list-table').show();
             $('#show-appointment').hide();
     }
@@ -335,4 +337,7 @@
 
     }
 
+ 
+
+ 
 </script>

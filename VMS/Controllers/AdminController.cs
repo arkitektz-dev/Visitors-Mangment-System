@@ -195,6 +195,7 @@ namespace VMS.Controllers
             AppointmentId = Id;
             System.Drawing.Printing.PrintDocument pd = new System.Drawing.Printing.PrintDocument();
             pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
+            pd.PrinterSettings.PrinterName = "";
             pd.Print();
 
             return Ok();
@@ -269,6 +270,18 @@ namespace VMS.Controllers
             return File(stream, "image/jpeg");
 
 
+        }
+
+        public IActionResult GetListPrinter() {
+
+            List<string> listPrinter = new List<string>();
+
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                listPrinter.Add(printer);
+            }
+
+            return Json(listPrinter);
         }
 
         void pd_PrintPage(object sender, PrintPageEventArgs e)
