@@ -42,9 +42,10 @@ namespace VMS.Controllers
                     ProfilePhotoUrl = appointment.PhotoName,
                     IsPhoto = appointment.PhotoName != null ? true : false,
                     VisitingEmployee = appointment.VisitingEmployee,
-                    IsFlu = appointment.isFlu, 
+                    IsFlu = appointment.isFlu,
                     GlobalAppointmentId = appointment.GlobalAppointmentId,
-                    CreatedBy = 1
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now
                 };
 
                 _context.Appointments.Add(objSave);

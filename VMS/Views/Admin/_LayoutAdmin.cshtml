@@ -28,10 +28,14 @@
     <script>
 
         function CustomerFormatedDate(unformattedDate) {
+            
+            if (unformattedDate == null) {
+                return "";
+            }
+
             const monthNames = ["Jan", "Feb", "March", "April", "May", "June",
                 "July", "August", "Sept", "Oct", "Nov", "Dec"
             ];
-
 
             var customDate = new Date(unformattedDate)
             let day = customDate.getDay();
