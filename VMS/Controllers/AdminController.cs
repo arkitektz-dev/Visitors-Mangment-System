@@ -65,7 +65,7 @@ namespace VMS.Controllers
                 int recordsTotal = 0;
 
                 // getting all Customer data  
-                var appointmentData = (from appointment in _context.Appointments
+                var appointmentData = (from appointment in _context.Appointments orderby appointment.CreatedDate descending
                                        join meeting in _context.MeetingPurposes on appointment.MeetingPurpose equals meeting.Id
                                        select new
                                        {
