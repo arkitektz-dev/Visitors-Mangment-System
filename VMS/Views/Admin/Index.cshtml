@@ -12,7 +12,7 @@
                 <h1 class="m-0">Appointment</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
-                <div class="custom-control custom-checkbox custom-control-inline float-right">
+                <div class="custom-control custom-checkbox custom-control-inline float-right" id="filter">
                     <input type="checkbox" class="custom-control-input" id="defaultInline1"  onclick="FilterTable('CheckIn')">
                     <label class="custom-control-label" for="defaultInline1">Visitors on site</label>
                 </div>
@@ -164,7 +164,7 @@
 
     const ShowAppointment = (id) => {
             console.log(id);
-
+        $('#filter').hide();
                $.ajax({
                             type: "GET",
                             url: "@Url.Action("GetAppointment", "Admin")",
@@ -185,20 +185,20 @@
                                 <dd class="col-sm-8">${response.fullName}.</dd>
 
                                 <dt class="col-sm-4">Phone Number</dt>
-                                <dd class="col-sm-8">${response.phoneNumber}</dd>
+                                <dd class="col-sm-8">${response.phoneNumber == null ? "-" : response.phoneNumber}</dd>
 
                                 <dt class="col-sm-4">Company Name</dt>
-                                <dd class="col-sm-8">${response.companyName}</dd>
+                                <dd class="col-sm-8">${response.companyName == null ? "-" : response.companyName}</dd>
 
 
                                 <dt class="col-sm-4">Meeting Purpose</dt>
-                                <dd class="col-sm-8">${response.name}</dd>
+                                <dd class="col-sm-8">${response.name == null ? "-" : response.name}</dd>
 
                                 <dt class="col-sm-4">Description</dt>
                                 <dd class="col-sm-8">${response.meetingDescription == null ? "-" : response.meetingDescription}</dd>
 
                                 <dt class="col-sm-4">Car Registration</dt>
-                                <dd class="col-sm-8">${response.carRegistration}</dd>
+                                <dd class="col-sm-8">${response.carRegistration == null ? "-" : response.carRegistration}</dd>
                                 `;
 
                                 $('#AppointmentDetail').html(htmlTemplate);
@@ -273,7 +273,8 @@
 
     function CloseAppointmentDetail() {
             $('#appointment-list-table').show();
-            $('#show-appointment').hide();
+        $('#show-appointment').hide();
+        $('#filter').show();
     }
 
     function FilterTable() {
