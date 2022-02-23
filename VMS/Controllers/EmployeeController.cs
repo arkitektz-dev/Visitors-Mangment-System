@@ -256,7 +256,7 @@ namespace VMS.Controllers
 
             int recordsTotal = 0;
 
-            var excelSheetFailedRows = (from sheet in _context.ExcelSheetImports
+            var excelSheetFailedRows = (from sheet in _context.ExcelSheetImports.Where(x => x.Id == ExcelSheetImport)
                                         select sheet.FailedJson).FirstOrDefault();
 
             var failedRowsJson = JsonConvert.DeserializeObject<List<FailedRows>>(excelSheetFailedRows);
@@ -313,7 +313,7 @@ namespace VMS.Controllers
 
             int recordsTotal = 0;
 
-            var excelSheetImportedRows = (from sheet in _context.ExcelSheetImports
+            var excelSheetImportedRows = (from sheet in _context.ExcelSheetImports.Where(x => x.Id == ExcelSheetImport)
                                         select sheet.ImportedJson).FirstOrDefault();
 
             var importedRowsJson = JsonConvert.DeserializeObject<List<ImportedRows>>(excelSheetImportedRows);
@@ -348,10 +348,12 @@ namespace VMS.Controllers
         [HttpPost]
         public IActionResult ImportEmployee(IFormFile file) 
         {
-            List<string> employeeList = new List<string>();
+            List<Employee> employeeList = new List<Employee>();
             List<FailedRows> failedRows = new List<FailedRows>();
             List<ImportedRows> importedRows = new List<ImportedRows>();
             ExcelSheetImport sheet = new ExcelSheetImport();
+            Employee objEmployee = new Employee();
+            int counter = 1;
 
 
             string path = Path.Combine(environment.WebRootPath, Path.GetFileName(file.FileName));
@@ -364,13 +366,39 @@ namespace VMS.Controllers
                 IXLWorksheet worksheet = workbook.Worksheet(1);
                 bool FirstRow = true;
                 //Range for reading the cells based on the last cell used.  
-                string readRange = "1:1";
+                string readRange = "1:3";
                 foreach (IXLRow row in worksheet.RowsUsed())
                 {
                     foreach (IXLCell cell in row.Cells(readRange))
                     {
-                        //Debug.WriteLine(cell.Value.ToString());
-                        employeeList.Add(cell.Value.ToString());
+                        
+                        if (cell.Address.ToString().Contains("A")) {
+                            objEmployee.Name = cell.Value.ToString();
+                        }
+
+                        if (cell.Address.ToString().Contains("B"))
+                        {
+                            objEmployee.Email = cell.Value.ToString();
+                        }
+
+                        if (cell.Address.ToString().Contains("C"))
+                        {
+                            objEmployee.Phone = cell.Value.ToString();
+                        }
+
+                        counter++;
+
+                        if (counter == 4) {
+                            employeeList.Add(objEmployee);
+                            objEmployee = new Employee();
+                            counter = 1;
+                        }
+
+                        Debug.WriteLine(cell.Address);
+                        Debug.WriteLine(cell.Value.ToString());
+                        //employeeList.Add(cell.Value.ToString());
+
+
                     }
 
                 }
@@ -379,28 +407,34 @@ namespace VMS.Controllers
 
             foreach (var item in employeeList) {
 
-                var checkEmployee = _context.Employees.Where(x => x.Name == item).FirstOrDefault();
+                var checkEmployee = _context.Employees.Where(x => x.Name == item.Name || x.Email == item.Name || x.Phone == item.Phone).FirstOrDefault();
                 if (checkEmployee == null)
                 {
                     var rowEmployee = _context.Employees.Add(new Employee()
                     {
-                        Name = item,
+                        Name = item.Name,
                         TenantId = 1,
+                        Email = item.Email,
+                        Phone = item.Phone,
                         CreatedDate = DateTime.Now,
                         CreatedBy = 2
                     });
 
                     importedRows.Add(new ImportedRows()
                     {
-                        EmployeeName = item,
+                        EmployeeName = item.Name,
+                        Email = item.Email,
+                        Phone = item.Phone,
                         AddedDate = DateTime.Now.Date
                     });
                 }
                 else {
                     failedRows.Add(new FailedRows()
                     {
-                        EmployeeName = item,
-                        Error = "Employee Name already exsists",
+                        EmployeeName = item.Name,
+                        Email = item.Email,
+                        Phone = item.Phone,
+                        Error = "Employee already exsists",
                         AddedDate = DateTime.Now.Date
                     });
                 }
@@ -443,6 +477,8 @@ namespace VMS.Controllers
     class FailedRows
     { 
         public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Error { get; set; }
         public DateTime AddedDate { get; set; }
     }
@@ -450,6 +486,8 @@ namespace VMS.Controllers
     class ImportedRows
     { 
         public string EmployeeName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set;}
         public DateTime AddedDate { get; set; }
     }
 }

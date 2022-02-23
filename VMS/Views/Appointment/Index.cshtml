@@ -302,11 +302,11 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-12 mb-3">
                                         <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-12">
                                         <button onclick="btnNext(3)" type="button" class="btn btn-info btn-change-button col-12">Next <i class="fas fa-forward"></i>&nbsp;</button>
                                     </div>
                                 </div>
@@ -317,7 +317,7 @@
                             <h3 class="text-center text-info">Welcome!</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Visiting Employee:</label><br>
-                                <input type="text" class="form-control" id="visitingEmployee" autocomplete="off" />
+                                <input type="text" class="form-control" id="visitingEmployee" autocomplete="off" onkeypress="document.getElementById('val_Visiting_Employee').style.display = 'none';" />
                                 <span class="text-danger" id="val_Visiting_Employee" style="display:none;">Your employee name does'nt match with our record</span>
 
                             </div>
@@ -325,7 +325,7 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
@@ -350,7 +350,7 @@
 
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
@@ -371,7 +371,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
@@ -388,10 +388,10 @@
                                 <div class="row">
 
                                     <div class="col-md-2">
-                                        <button id="btnHasFlu" style="height:60px;" class="btn btn-primary btn-block" onclick="SetFlu(true)">Yes</button>
+                                        <button id="btnHasFlu" style="height:60px;" class="btn btn-danger btn-block mb-3" onclick="SetFlu(true)">Yes</button>
                                     </div>
                                     <div class="col-md-2">
-                                        <button id="btnNoFlu" style="height:60px;" class="btn btn-danger btn-block" onclick="SetFlu(false)">No</button>
+                                        <button id="btnNoFlu" style="height:60px;" class="btn btn-success btn-block" onclick="SetFlu(false)">No</button>
                                     </div>
 
 
@@ -401,7 +401,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12 mb-3"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
@@ -440,7 +440,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12 mb-3"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
                                     <div class="col-md-6">
                                         <button id="btnAcknowledge" onclick="btnNext(8)" type="button" class="btn btn-info btn-change-button col-12" disabled>Acknowledge <i class="fas fa-forward"></i>&nbsp;</button>
@@ -462,7 +462,7 @@
 
 
                                     <div class="col-md-12 text-center">
-                                        <button type="button" id="takePhoto" class="btn btn-info btn-change-button col-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
+                                        <button type="button" id="takePhoto" class="btn btn-info btn-change-button col-md-4 text-center"><i class="fas fa-camera-retro"></i>&nbsp; Take Photo </button>
                                         <input type="file" style="display:none" id="openFile" onchange="previewFile(this);" />
                                     </div>
                                 </div>
@@ -472,7 +472,7 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12"><i class="fas fa-backward"></i>&nbsp; Previous</button>
+                                        <button onclick="btnPrev()" type="button" class="btn btn-change-previous btn-danger col-12 mb-3"><i class="fas fa-backward"></i>&nbsp; Previous</button>
                                     </div>
 
                                     <div class="col-md-6">
@@ -1375,8 +1375,8 @@
                                     $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
                                     $("#btnOptionFour").css({ "backgroundColor": "#17a2b8" });
                                     $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
-                                    $("#btnHasFlu").css({ "backgroundColor": "#007bff" });
-                                    $("#btnNoFlu").css({ "backgroundColor": "#dc3545" });
+                                    $("#btnHasFlu").css({ "backgroundColor": "#c82333" });
+                                    $("#btnNoFlu").css({ "backgroundColor": "#218838" });
                                     $("#openFile").val('');
                                     $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
                                     $('#val_PhoneNumber').hide();
@@ -1652,8 +1652,8 @@
                     $("#btnOptionThree").css({ "backgroundColor": "#17a2b8" });
                     $("#btnOptionFour").css({ "backgroundColor": "#17a2b8" });
                     $("#btnOptionFive").css({ "backgroundColor": "#17a2b8" });
-                    $("#btnHasFlu").css({ "backgroundColor": "#007bff" });
-                    $("#btnNoFlu").css({ "backgroundColor": "#dc3545" });
+                    $("#btnHasFlu").css({ "backgroundColor": "#c82333" });
+                    $("#btnNoFlu").css({ "backgroundColor": "#218838" });
                     $("#openFile").val('');
                     $("#profileImage").attr("src", "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
@@ -1862,15 +1862,16 @@
         isFlue = value;
 
 
-
+        
+        
         if (value == true) {
 
-            $("#btnHasFlu").css({ "backgroundColor": "#007bff" });
-            $("#btnNoFlu").css({ "backgroundColor": "#eb7373" });
+            $("#btnHasFlu").css({ "backgroundColor": "#c82333" });
+            $("#btnNoFlu").css({ "backgroundColor": "#6dbf80" });
 
         } else {
-            $("#btnHasFlu").css({ "backgroundColor": "#5199e5 " });
-            $("#btnNoFlu").css({ "backgroundColor": "#dc3545" });
+            $("#btnHasFlu").css({ "backgroundColor": "#f36876" });
+            $("#btnNoFlu").css({ "backgroundColor": "#218838" });
         }
     }
 

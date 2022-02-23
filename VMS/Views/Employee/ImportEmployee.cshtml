@@ -104,6 +104,8 @@
                         <thead>
                             <tr>
                                 <th>Employee Name</th>
+                                <th>Employee Email</th>
+                                <th>Employee Phone</th> 
                                 <th>Added Date</th>
                             </tr>
                         </thead>
@@ -125,6 +127,8 @@
                         <thead>
                             <tr>
                                 <th>Employee Name</th>
+                                <th>Employee Email</th>
+                                <th>Employee Phone</th>
                                 <th>Error</th>
                                 <th>AddedDate</th>
                             </tr>
@@ -169,13 +173,15 @@
                 "filter": true, // this is for disable filter (search box)
                 "orderMulti": false, // for disable multiple column at once
                 "ajax": {
-                  "url": "@Url.Action("FailedSheetRows", "Employee")" + "?ExcelSheetImport" +@Model.Id,
+                    "url": "@Url.Action("FailedSheetRows", "Employee")" + "?ExcelSheetImport=" +@Model.Id,
                     "type": "POST",
                     "datatype": "json"
                 },
 
                 "columns": [
                     { "data": "employeeName", "name": "employeeName", "autoWidth": true },
+                    { "data": "email", "name": "email", "autoWidth": true },
+                    { "data": "phone", "name": "phone", "autoWidth": true },
                     { "data": "error", "name": "error", "autoWidth": true },
                     /*   { "data": "addedDate", "name": "addedDate", "autoWidth": true },*/
                     {
@@ -194,13 +200,15 @@
                 "filter": true, // this is for disable filter (search box)
                 "orderMulti": false, // for disable multiple column at once
                 "ajax": {
-                  "url": "@Url.Action("SuccessSheetRows", "Employee")" + "?ExcelSheetImport" +@Model.Id,
+                  "url": "@Url.Action("SuccessSheetRows", "Employee")" + "?ExcelSheetImport=" +@Model.Id,
                     "type": "POST",
                     "datatype": "json"
                 },
 
                 "columns": [
                     { "data": "employeeName", "name": "employeeName", "autoWidth": true },
+                    { "data": "email", "name": "email", "autoWidth": true },
+                    { "data": "phone", "name": "phone", "autoWidth": true },
                     /*   { "data": "addedDate", "name": "addedDate", "autoWidth": true },*/
                     {
                         data: null,
