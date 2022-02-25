@@ -45,10 +45,14 @@
             var minutes = customDate.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
 
+            
+        
 
 
-            return day + "/" + Month + "/" + year + "   " + ((hours + 11) % 12 + 1) + ":" + (customDate.getMinutes() < 10 ? '0' : '') + " " + ampm;
+            return day + "/" + Month + "/" + year + "   " + ((hours + 11) % 12 + 1) + ":" + ((customDate.getMinutes() < 10 ? '0' : '') + customDate.getMinutes()) + " " + ampm;
         }
+
+       
 
         function btnUploadSheet() {
             $("#sheetUploadForm").slideToggle();
