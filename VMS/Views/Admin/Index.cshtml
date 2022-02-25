@@ -152,7 +152,7 @@
                             return `
                                 <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
 
-                                ${row.checkOut == null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
 
 
                             `;
@@ -171,7 +171,7 @@
                             data: { Id: id },
                             success: function (response) {
 
-                                let profileLink = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                                let profileLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
                                 console.log(response)
                                 let htmlTemplate = `
 

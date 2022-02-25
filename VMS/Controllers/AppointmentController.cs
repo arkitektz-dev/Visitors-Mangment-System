@@ -88,8 +88,18 @@ namespace VMS.Controllers
                 CreatedBy = 1
             };
 
+            if (appointment.MeetingPurpose == 5) {
+                objSave.CheckOut = DateTime.Now;
+            }
+
             _context.Appointments.Add(objSave);
             _context.SaveChanges();
+
+
+            if (appointment.MeetingPurpose == 5)
+            {
+                objSave.CheckOut = DateTime.Now;
+            }
 
             var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();
             var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
@@ -97,15 +107,41 @@ namespace VMS.Controllers
 
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
-                var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
+                var subject = "";
+                if (appointment.MeetingPurpose == 5)
+                {
+                    subject =
+                          $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
+                }
+                else
+                {
+                    subject =
+                          $"Your delivery has arrived";
+
+                }
+
+
                 var from = new EmailAddress("arkitektzsolutions@gmail.com", subject);
                 var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                 var plainTextContent = "";
-                var htmlContent =
+                var htmlContent = "";
 
-                    $"<p>Dear {employerDetail.Name},</p>" +
-                    $"<p>Your visitor {appointment.FullName} from {appointment.CompanyName} has arrived and wating for you,</p>" +
-                    $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
+
+                if (appointment.MeetingPurpose == 5)
+                {
+                    htmlContent =
+                          $"<p>Dear {employerDetail.Name},</p>" +
+                          $"<p>Your visitor {appointment.FullName} from {appointment.CompanyName} has arrived and wating for you,</p>" +
+                          $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
+                }
+                else {
+                    htmlContent =
+                           $"<p>Dear {employerDetail.Name},</p>" +
+                           $"<p>Your delivery has arrived</p>";  
+                }
+
+
+
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 var response = await client.SendEmailAsync(msg);
             }
@@ -203,11 +239,12 @@ namespace VMS.Controllers
                         var from = new EmailAddress("arkitektzsolutions@gmail.com", subject);
                         var to = new EmailAddress(employerDetail.Email, employerDetail.Name);
                         var plainTextContent = "";
-                        var htmlContent =
-
+                        var htmlContent = 
                             $"<p>Dear {employerDetail.Name},</p>" +
                             $"<p>Your visitor {appointment.FullName} from {appointment.CompanyName} has arrived and wating for you,</p>" +
                             $"<p>The purpose of the meeting is {meetingPurposeName.Name}</p>";
+ 
+
                         var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                         var response = await client.SendEmailAsync(msg);
                     }
