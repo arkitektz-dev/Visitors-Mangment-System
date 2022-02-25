@@ -898,25 +898,86 @@
                 document.getElementById("visitingEmployee").focus();
                 return;
             } else {
-                $('#val_Visiting_Employee').hide();
-                $('#visitingEmployee').blur();
 
 
-                $("#firstForm").hide();
-                $("#FourthForm").hide();
-                $("#ElventhForm").show();
+                var row = {
+                    FullName: $("#formFullName").val(),
+                    PhoneNumber: phoneNumber,
+                    CompanyName: companyName,
+                    MeetingPurpose: meetingType,
+                    MeetingDescription: otherReason,
+                    CarRegistration: carRegistrationNumber, 
+                    VisitingEmployee: visitingEmployee,
+                    isFlu: isFlue
+                };
 
-               setTimeout(() => {
-                   if (isDelivery == true) {
-                       $("#firstForm").hide();
-                       $("#FourthForm").hide();
-                       $("#ElventhForm").hide();
-                       $("#TwelfthForm").show();
-                       $("#visitingEmployee").val('');
-                       stepNumber = 1;
-                       isDelivery = false;
-                   }
-                }, 10000)
+
+                          $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AddAppoitment", "Appointment")",
+                            data: { appointment: row },
+                            success: function (response) {
+
+
+                                if (response != undefined) {
+
+
+                                    $('#val_Visiting_Employee').hide();
+                                    $('#visitingEmployee').blur();
+
+
+                                    $("#firstForm").hide();
+                                    $("#FourthForm").hide();
+                                    $("#ElventhForm").show();
+ 
+
+                                    setTimeout(() => {
+                                        if (isDelivery == true) {
+                                            $("#firstForm").hide();
+                                            $("#FourthForm").hide();
+                                            $("#ElventhForm").hide();
+                                            $("#TwelfthForm").show();
+                                            $("#visitingEmployee").val('');
+                                            stepNumber = 1;
+                                            isDelivery = false;
+                                        }
+                                    }, 10000)
+
+                                  
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "@Url.Action("PrintPage", "Admin")",
+                                        data: { Id: response.id },
+                                        success: function (response) {
+
+
+                                        },
+                                        failure: function (response) {
+                                            console.error(response.responseText);
+                                        },
+                                        error: function (response) {
+                                            console.error(response.responseText);
+                                        }
+                                    })
+
+
+                                     
+ 
+                                }
+
+                            },
+                            failure: function (response) {
+                                console.error(response.responseText);
+
+
+
+                            },
+                            error: function (response) {
+                                console.error(response.responseText);
+                            }
+                        })
+
 
                 return;
 
@@ -945,6 +1006,20 @@
             var SignInBarCode = $("#txtSignInBarCode").val();
 
             if (SignInBarCode != '') {
+
+
+                var row = {
+                    FullName: $("#formFullName").val(),
+                    PhoneNumber: phoneNumber,
+                    CompanyName: companyName,
+                    MeetingPurpose: meetingType,
+                    MeetingDescription: otherReason,
+                    CarRegistration: carRegistrationNumber,
+                    PhotoName: data == undefined ? null : data,
+                    VisitingEmployee: visitingEmployee,
+                    isFlu: isFlue
+                };
+
 
 
                       $.ajax({
@@ -1862,8 +1937,8 @@
         isFlue = value;
 
 
-        
-        
+
+
         if (value == true) {
 
             $("#btnHasFlu").css({ "backgroundColor": "#c82333" });

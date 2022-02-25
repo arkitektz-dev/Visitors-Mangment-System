@@ -177,7 +177,7 @@
 
                                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                                     <div class="image mx-auto">
-                                        <img id="imgUser" src="${response.profilePhotoUrl == null ? profileLink : `https://vms-lim-uat.azurewebsites.net/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
+                                        <img id="imgUser" onerror="imgError(this);" src="${response.profilePhotoUrl == null ? profileLink : `https://vms-lim-uat.azurewebsites.net/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
                                     </div>
                                 </div>
 
@@ -339,6 +339,11 @@
 
     }
 
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+        return true;
+    }
  
 
  
