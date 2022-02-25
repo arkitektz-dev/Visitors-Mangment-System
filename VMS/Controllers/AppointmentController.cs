@@ -108,7 +108,7 @@ namespace VMS.Controllers
                 var apiKey = "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";
                 var client = new SendGridClient(apiKey);
                 var subject = "";
-                if (appointment.MeetingPurpose == 5)
+                if (appointment.MeetingPurpose != 5)
                 {
                     subject =
                           $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
@@ -127,7 +127,7 @@ namespace VMS.Controllers
                 var htmlContent = "";
 
 
-                if (appointment.MeetingPurpose == 5)
+                if (appointment.MeetingPurpose != 5)
                 {
                     htmlContent =
                           $"<p>Dear {employerDetail.Name},</p>" +
