@@ -152,7 +152,7 @@
                             return `
                                 <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
 
-                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
+                                ${ row.checkOut == null && row.checkIn != null ?  "<button onClick='ForceSignOut(" + data.id + ", this)' class='btn btn-danger'>Check Out</button>" : ""}
 
 
                             `;
