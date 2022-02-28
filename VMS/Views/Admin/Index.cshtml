@@ -174,15 +174,14 @@
                                 let profileLink = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
                                 console.log(response)
                                 let htmlTemplate = `
-
-                                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                                     <div class="image mx-auto">
                                         <img id="imgUser" onerror="imgError(this);" src="${response.profilePhotoUrl == null ? profileLink : `https://vms-lim-uat.azurewebsites.net/uploads/${response.profilePhotoUrl}`}" class="elevation-2"  style="width:12.1em" alt="User Image">
                                     </div>
                                 </div>
 
-                                <dt class="col-sm-4">FullName</dt>
-                                <dd class="col-sm-8">${response.fullName == null ? "-" : response.fullName }.</dd>
+                                <dt class="col-sm-4">Full Name</dt>
+                                <dd class="col-sm-8">${response.fullName == null ? "-" : response.fullName}.</dd>
 
                                 <dt class="col-sm-4">Phone Number</dt>
                                 <dd class="col-sm-8">${response.phoneNumber == null ? "-" : response.phoneNumber}</dd>
@@ -190,9 +189,14 @@
                                 <dt class="col-sm-4">Company Name</dt>
                                 <dd class="col-sm-8">${response.companyName == null ? "-" : response.companyName}</dd>
 
-
                                 <dt class="col-sm-4">Meeting Purpose</dt>
                                 <dd class="col-sm-8">${response.name == null ? "-" : response.name}</dd>
+
+                                <dt class="col-sm-4">Visiting Employee</dt>
+                                <dd class="col-sm-8">${response.visitingEmployee == null ? "-" : response.visitingEmployee}</dd>
+
+                                <dt class="col-sm-4">Flu symptoms in last 14 days</dt>
+                                <dd class="col-sm-8">${response.value == false ? "No" : "Yes"}</dd>
 
                                 <dt class="col-sm-4">Description</dt>
                                 <dd class="col-sm-8">${response.meetingDescription == null ? "-" : response.meetingDescription}</dd>

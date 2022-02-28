@@ -183,7 +183,9 @@ namespace VMS.Controllers
                              meeting.Name,
                              appointment.MeetingDescription,
                              appointment.CarRegistration,
-                             appointment.ProfilePhotoUrl
+                             appointment.ProfilePhotoUrl,
+                             appointment.VisitingEmployee,
+                             appointment.IsFlu
 
                          }).FirstOrDefault();
 
@@ -198,9 +200,9 @@ namespace VMS.Controllers
             AppointmentId = Id;
             System.Drawing.Printing.PrintDocument pd = new System.Drawing.Printing.PrintDocument();
             pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
-            if (getPrinterName != null) { 
-                pd.PrinterSettings.PrinterName = getPrinterName.SettingValue;
-            }
+            //if (getPrinterName != null) { 
+            //    pd.PrinterSettings.PrinterName = getPrinterName.SettingValue;
+            //}
             pd.Print();
 
             return Ok();
