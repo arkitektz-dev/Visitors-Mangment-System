@@ -242,13 +242,13 @@ namespace VMS.Controllers
                 CheckOut.Add(totalCheckOutForMonth);
             }
 
-            for (int i = DateTime.Now.AddDays(-10).Date.Day; i <= DateTime.Now.Day; i++) {
+            for (DateTime i = DateTime.Now.AddDays(-10).Date; i <= DateTime.Now.Date; i = i.AddDays(1)) {
                  
 
-                var totalCheckOutForDay = _context.Appointments.Where(x => x.CreatedDate.Value.Date.Day == i 
+                var totalCheckOutForDay = _context.Appointments.Where(x => x.CreatedDate.Value.Date.Day == i.Day 
                 && x.CreatedDate.Value.Date.Year == DateTime.Now.Year).ToList().Count;
                 LastTenDays.Add(totalCheckOutForDay);
-                LastTenDaysLabel.Add(i);
+                LastTenDaysLabel.Add(i.Day);
             }
 
             model.CheckIn = CheckIn;
