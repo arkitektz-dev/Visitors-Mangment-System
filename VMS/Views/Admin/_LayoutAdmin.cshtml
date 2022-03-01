@@ -24,11 +24,12 @@
 
     <link rel="stylesheet" media="screen, print" href="~/Admin/css/datagrid/datatables/datatables.bundle.css">
     <link href="~/plugins/toastr/toastr.css" rel="stylesheet" />
+    <script src="~/admin/js/fontAwesome.js"></script>
 
     <script>
 
         function CustomerFormatedDate(unformattedDate) {
-            
+
             if (unformattedDate == null) {
                 return "";
             }
@@ -45,14 +46,14 @@
             var minutes = customDate.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
 
-            
-        
+
+
 
 
             return day + "/" + Month + "/" + year + "   " + ((hours + 11) % 12 + 1) + ":" + ((customDate.getMinutes() < 10 ? '0' : '') + customDate.getMinutes()) + " " + ampm;
         }
 
-       
+
 
         function btnUploadSheet() {
             $("#sheetUploadForm").slideToggle();
