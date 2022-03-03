@@ -245,8 +245,7 @@ namespace VMS.Controllers
             for (DateTime i = DateTime.Now.AddDays(-10).Date; i <= DateTime.Now.Date; i = i.AddDays(1)) {
                  
 
-                var totalCheckOutForDay = _context.Appointments.Where(x => x.CreatedDate.Value.Date.Day == i.Day 
-                && x.CreatedDate.Value.Date.Year == DateTime.Now.Year).ToList().Count;
+                var totalCheckOutForDay = _context.Appointments.Where(x => x.CreatedDate.Value.Date == i.Date).ToList().Count;
                 LastTenDays.Add(totalCheckOutForDay);
                 LastTenDaysLabel.Add(i.Day);
             }
@@ -257,7 +256,7 @@ namespace VMS.Controllers
             model.TotalAppointment = _context.Appointments.Where(x => x.CheckIn != null && x.CheckOut != null).ToList().Count();
             model.TotalEmployees = _context.Employees.ToList().Count();
             model.TotalVisitors = _context.Appointments.ToList().Count();
-            model.TodayVisitors = _context.Appointments.Where(x => x.CheckIn.Value.Date == DateTime.Now.Date).Count();
+            model.TodayVisitors = _context.Appointments.Where(x => x.CreatedDate.Value.Date == DateTime.Now.Date).ToList().Count;
             model.LastTenDaysLabel = LastTenDaysLabel;
 
 
