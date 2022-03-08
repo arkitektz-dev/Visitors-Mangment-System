@@ -259,10 +259,6 @@ namespace VMS.Controllers
             model.TodayVisitors = _context.Appointments.Where(x => x.CreatedDate.Value.Date == DateTime.Now.Date).ToList().Count;
             model.LastTenDaysLabel = LastTenDaysLabel;
 
-
-
-
-
             return Ok(model);
         }
 
@@ -270,7 +266,7 @@ namespace VMS.Controllers
         public async Task<IActionResult> TestPrintForImage(int AppointmentId)
         {
             var converter = new HtmlConverter();
-            var bytes = converter.FromUrl($"https://localhost:44308/Admin/TestPrint?AppointmentId={AppointmentId}");
+            var bytes = converter.FromUrl($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/TestPrint?AppointmentId={AppointmentId}");
             Stream stream = new MemoryStream(bytes);
 
             return File(stream, "image/jpeg");
@@ -297,7 +293,7 @@ namespace VMS.Controllers
 
             using (WebClient webClient = new WebClient())
             {
-                byte[] data = webClient.DownloadData($"https://localhost:44308/Admin/TestPrintForImage?AppointmentId={AppointmentId}");
+                byte[] data = webClient.DownloadData($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/TestPrintForImage?AppointmentId={AppointmentId}");
 
                 using (MemoryStream mem = new MemoryStream(data))
                 {

@@ -22,6 +22,7 @@ namespace VMS.Models
         public bool? IsFlu { get; set; }
         public DateTime? CheckIn { get; set; }
         public DateTime? CheckOut { get; set; }
+        public bool? IsPrint { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }

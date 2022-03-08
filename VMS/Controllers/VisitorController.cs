@@ -80,5 +80,32 @@ namespace VMS.Controllers
 
             return Ok(insertRow.StartTime);
         }
+
+        [HttpGet("get-appointment")]
+        public IActionResult GetAppointmentId(int tenantId)
+        {
+            var row = _context.Appointments.Where(x => x.IsPrint == null || x.IsPrint == false).FirstOrDefault();
+            if (row != null) {
+                return Ok(row.Id);
+            }
+
+            return Ok(0);
+        }
+
+        [HttpGet("add-printed-appointment")]
+        public IActionResult PostPrintId(int Appointment)
+        {
+            var row = _context.Appointments.Where(x => x.Id == Appointment).FirstOrDefault();
+            if (row != null) {
+                row.IsPrint = true;
+                _context.SaveChanges();
+
+                return Ok("Saved");
+            }
+
+            return Ok("Exsits");
+        }
+
+
     }
 }
