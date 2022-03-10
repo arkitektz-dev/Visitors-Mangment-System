@@ -218,16 +218,15 @@ namespace VMS.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SignInUsingInvite(int Barcode)
+        [HttpPost]
+        public IActionResult SignInUsingInvite(int Barcode)
         {
             var appointment = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (appointment != null) {
                 if (appointment.CheckIn == null) {
                     appointment.CheckIn = DateTime.Now.Date;
                     _context.SaveChanges();
-
-
-
+                     
                     var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();
                     var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
                     if (employerDetail != null)
@@ -246,7 +245,10 @@ namespace VMS.Controllers
  
 
                         var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-                        var response = await client.SendEmailAsync(msg);
+                        //var response = await client.SendEmailAsync(msg);
+
+                        var task2 = Task.Run(() => client.SendEmailAsync(msg));
+                        task2.Wait();
                     }
 
 

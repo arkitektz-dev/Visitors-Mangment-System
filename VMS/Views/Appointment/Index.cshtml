@@ -663,6 +663,11 @@
         }
 
 
+        if ($('#SignInBarCodeOut').is(':visible') == true) {
+            $("#ShowExit").hide();
+        }
+ 
+
     }, 100);
 
     function GenerateNewToken() {
@@ -1006,11 +1011,13 @@
         //txtSignInBarCode
         //val_SignInBarCode
         if (formNumber == 21) {
-
+            console.log("21");
             var SignInBarCode = $("#txtSignInBarCode").val();
 
             if (SignInBarCode != '') {
 
+                console.log("Row Made");
+     
 
                 var row = {
                     FullName: $("#formFullName").val(),
@@ -1019,18 +1026,23 @@
                     MeetingPurpose: meetingType,
                     MeetingDescription: otherReason,
                     CarRegistration: carRegistrationNumber,
-                    PhotoName: data == undefined ? null : data,
+                    PhotoName: null,
                     VisitingEmployee: visitingEmployee,
                     isFlu: isFlue
                 };
 
 
 
+
+
                       $.ajax({
                             type: "POST",
                             url: "@Url.Action("SignInUsingInvite", "Appointment")",
-                            data: { Barcode: txtSignInBarCode },
+                            data: { Barcode: SignInBarCode },
                             success: function (response) {
+
+                                console.log("SignInUsingInvite");
+                                console.log("S")
 
                                 if (response != "Error") {
                                     $("#val_SignInBarCode").hide();
