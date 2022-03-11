@@ -34,7 +34,13 @@ namespace VMS.Controllers
                 Image img = b.Encode(BarcodeLib.TYPE.CODE39, number.ToString(), Color.Black, Color.White, 290, 120);
                 Bitmap bImage = (Bitmap)img;  // Your Bitmap Image
                 System.IO.MemoryStream ms = new MemoryStream();
-               
+
+                string path = Path.Combine(environment.WebRootPath, "barcode");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
                 string uploadsFolder = Path.Combine(environment.WebRootPath, "barcode");
                 uniqueFileName = Guid.NewGuid().ToString() + "." + "png";
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
