@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,20 +21,26 @@ namespace VMS.Controllers
             environment = _environment;
         }
 
-        [HttpPost("upload-barcode")]
-        public async Task<IActionResult> UploadBarcode(IFormFile barcode)
+        [HttpGet("upload-barcode")]
+        public async Task<IActionResult> UploadBarcode(string number)
         {
 
             string uniqueFileName = null;
 
-            if (barcode != null)
+            if (number != null)
             {
+
+                BarcodeLib.Barcode b = new BarcodeLib.Barcode();
+                Image img = b.Encode(BarcodeLib.TYPE.CODE39, number.ToString(), Color.Black, Color.White, 290, 120);
+                Bitmap bImage = (Bitmap)img;  // Your Bitmap Image
+                System.IO.MemoryStream ms = new MemoryStream();
+               
                 string uploadsFolder = Path.Combine(environment.WebRootPath, "barcode");
-                uniqueFileName = Guid.NewGuid().ToString() + "." + barcode.FileName.Split(".").LastOrDefault();
+                uniqueFileName = Guid.NewGuid().ToString() + "." + "png";
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    barcode.CopyTo(fileStream);
+                    bImage.Save(fileStream, ImageFormat.Jpeg);
                 }
             } 
 
