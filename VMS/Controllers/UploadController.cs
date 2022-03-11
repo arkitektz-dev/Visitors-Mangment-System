@@ -20,19 +20,19 @@ namespace VMS.Controllers
         }
 
         [HttpPost("upload-barcode")]
-        public async Task<IActionResult> UploadBarcode(IFormFile ProfileImage)
+        public async Task<IActionResult> UploadBarcode(IFormFile barcode)
         {
 
             string uniqueFileName = null;
 
-            if (ProfileImage != null)
+            if (barcode != null)
             {
                 string uploadsFolder = Path.Combine(environment.WebRootPath, "barcode");
-                uniqueFileName = Guid.NewGuid().ToString() + "." + ProfileImage.FileName.Split(".").LastOrDefault();
+                uniqueFileName = Guid.NewGuid().ToString() + "." + barcode.FileName.Split(".").LastOrDefault();
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    ProfileImage.CopyTo(fileStream);
+                    barcode.CopyTo(fileStream);
                 }
             } 
 
