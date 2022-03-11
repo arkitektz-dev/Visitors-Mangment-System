@@ -196,7 +196,7 @@
                                 <dd class="col-sm-8">${response.visitingEmployee == null ? "-" : response.visitingEmployee}</dd>
 
                                 <dt class="col-sm-4">Flu symptoms in last 14 days</dt>
-                                <dd class="col-sm-8">${response.value == false ? "No" : "Yes"}</dd>
+                                <dd class="col-sm-8">${response.value == null ? "-" : (response.value == false ? "No" : "Yes")}</dd>
 
                                 <dt class="col-sm-4">Description</dt>
                                 <dd class="col-sm-8">${response.meetingDescription == null ? "-" : response.meetingDescription}</dd>
