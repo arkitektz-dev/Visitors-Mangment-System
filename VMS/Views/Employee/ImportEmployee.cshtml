@@ -105,7 +105,7 @@
                             <tr>
                                 <th>Employee Name</th>
                                 <th>Employee Email</th>
-                                <th>Employee Phone</th> 
+                                <th>Employee Phone</th>
                                 <th>Added Date</th>
                             </tr>
                         </thead>
@@ -166,7 +166,8 @@
     <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script src="~/plugins/toastr/toastr.min.js"></script>
     <script>
-      $(document).ready(function () {
+
+        $(document).ready(function () {
           $("#dt-failed-employee-list").DataTable({
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
@@ -220,10 +221,17 @@
                 ]
 
           });
-          
-      });
-   
 
-       
+      });
+
+
+        $("#container-loader").hide();
+    </script>
+}
+else
+{
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script>
+        $("#container-loader").hide();
     </script>
 }

@@ -114,7 +114,7 @@
 <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
-
+    $("#container-loader").hide();
     var tblIPAddresses= $('#dt-ip-addresses-list').DataTable({
                         "processing": true,
                         "serverSide": true,
