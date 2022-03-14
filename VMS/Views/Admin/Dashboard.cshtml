@@ -42,15 +42,15 @@
             <i class="fal fa-gem position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n4" style="font-size: 6rem;"></i>
         </div>
 
-        @*<div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
+        <div class="p-3 bg-success-200 rounded overflow-hidden position-relative text-white mb-g">
             <div class="">
                 <h3 class="display-4 d-block l-h-n m-0 fw-500">
-                    <span id="todayAppointment"></span>
-                    <small class="m-0 l-h-n">Total Appointment</small>
+                    <span id="visitorOnsite"></span>
+                    <small class="m-0 l-h-n">Visitors Onsite</small>
                 </h3>
             </div>
             <i class="fal fa-lightbulb position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
-        </div>*@
+        </div>
     </div>
     <!-- /.col-md-6 -->
     <div class="col-lg-8">
@@ -101,6 +101,7 @@
                         $("#todayVisitor").text(data.totalVisitors);
                         $("#todayEmployee").text(data.todayVisitors);
                         $("#todayAppointment").text(data.totalAppointment);
+                        $("#visitorOnsite").text(data.visitorOnsite);
 
                         console.log(data);
 

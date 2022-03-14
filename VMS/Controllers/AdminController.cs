@@ -258,6 +258,7 @@ namespace VMS.Controllers
             model.TotalVisitors = _context.Appointments.ToList().Count();
             model.TodayVisitors = _context.Appointments.Where(x => x.CreatedDate.Value.Date == DateTime.Now.Date).ToList().Count;
             model.LastTenDaysLabel = LastTenDaysLabel;
+            model.VisitorOnsite = _context.Appointments.Where(x => x.CheckIn != null && x.CheckOut == null).ToList().Count();
 
             return Ok(model);
         }

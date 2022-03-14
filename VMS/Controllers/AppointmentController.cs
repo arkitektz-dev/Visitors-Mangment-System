@@ -224,7 +224,7 @@ namespace VMS.Controllers
             var appointment = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (appointment != null) {
                 if (appointment.CheckIn == null) {
-                    appointment.CheckIn = DateTime.Now.Date;
+                    appointment.CheckIn = DateTime.Now;
                     _context.SaveChanges();
                      
                     var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();

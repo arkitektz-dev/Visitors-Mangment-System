@@ -19,5 +19,7 @@ namespace VMS.Dtos
         public int TotalAppointment { get; set; }
         public int TodayVisitors { get; set; }
 
+        public int VisitorOnsite { get; set; }
+
     }
 }
