@@ -91,6 +91,7 @@
 <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- OPTIONAL SCRIPTS -->
 <script src="~/plugins/chart.js/Chart.min.js"></script>
+
 <script>
     /* global Chart:false */
 
@@ -98,6 +99,8 @@
                     url: "@Url.Action("MontlyVisitors", "Admin")",
                     type: "GET",
                     success: function (data) {
+
+                        $("#container-loader").hide(); 
                         $("#todayVisitor").text(data.totalVisitors);
                         $("#todayEmployee").text(data.todayVisitors);
                         $("#todayAppointment").text(data.totalAppointment);
