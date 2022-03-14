@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-change-button btn-block" role="button"
-                                            onclick="btnNext(14)">
+                                            onclick="btnNext(14)" id="btnBarcodeEnter">
                                         <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span>
                                     </button>
 
@@ -246,7 +246,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-change-button btn-block" role="button"
-                                            onclick="btnNext(21)">
+                                            onclick="btnNext(21)" id="btnInvitationEnter">
                                         <span class="text"><i class="fas fa-sign-in-alt"></i> &nbsp; Next</span>
                                     </button>
 
@@ -669,6 +669,20 @@
  
 
     }, 100);
+
+    document.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+
+            if ($('#barCodeArea').is(':visible') == true) {
+                $("#btnBarcodeEnter").click();
+            }
+
+            if ($('#SignInBarCode').is(':visible') == true) {
+                $("#btnInvitationEnter").click();
+            }
+
+        }
+    });
 
     function GenerateNewToken() {
 
@@ -2035,6 +2049,8 @@
                     $("#SignInBarCodeOut").hide();
                     $("#firstForm").hide();
                     $("#SignInBarCode").hide();
+                    $("#val_Barcode").hide();
+                    $("#val_SignInBarCode").hide();
 
                     $("#ShowExit").hide()
 
