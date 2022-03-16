@@ -84,12 +84,12 @@ namespace VMS.Controllers
                 IsPhoto = appointment.PhotoName != null ?  true : false,
                 VisitingEmployee = appointment.VisitingEmployee,
                 IsFlu = appointment.isFlu,
-                CheckIn = DateTime.Now,
+                CheckIn = DateTime.UtcNow,
                 CreatedBy = 1
             };
 
             if (appointment.MeetingPurpose == 5) {
-                objSave.CheckOut = DateTime.Now;
+                objSave.CheckOut = DateTime.UtcNow;
             }
 
             _context.Appointments.Add(objSave);
@@ -98,7 +98,7 @@ namespace VMS.Controllers
 
             if (appointment.MeetingPurpose == 5)
             {
-                objSave.CheckOut = DateTime.Now;
+                objSave.CheckOut = DateTime.UtcNow;
             }
 
             var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();
@@ -190,7 +190,7 @@ namespace VMS.Controllers
             var row = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (row != null) {
                 if (row.CheckOut == null) { 
-                    row.CheckOut = DateTime.Now;
+                    row.CheckOut = DateTime.UtcNow;
                     _context.SaveChanges();
                     return Ok("Saved");
                 }
@@ -224,7 +224,7 @@ namespace VMS.Controllers
             var appointment = _context.Appointments.Where(x => x.Id == Barcode).FirstOrDefault();
             if (appointment != null) {
                 if (appointment.CheckIn == null) {
-                    appointment.CheckIn = DateTime.Now;
+                    appointment.CheckIn = DateTime.UtcNow;
                     _context.SaveChanges();
                      
                     var meetingPurposeName = _context.MeetingPurposes.Where(x => x.Id == appointment.MeetingPurpose).FirstOrDefault();

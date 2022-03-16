@@ -58,15 +58,9 @@ namespace VMS.Models
             {
                 entity.Property(e => e.CarRegistration).HasMaxLength(50);
 
-                entity.Property(e => e.CheckIn).HasColumnType("datetime");
-
-                entity.Property(e => e.CheckOut).HasColumnType("datetime");
-
                 entity.Property(e => e.CompanyName).HasMaxLength(50);
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.FullName).HasMaxLength(30);
 
@@ -79,8 +73,6 @@ namespace VMS.Models
                 entity.Property(e => e.MeetingDescription).HasMaxLength(50);
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(30);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<AspNetRole>(entity =>

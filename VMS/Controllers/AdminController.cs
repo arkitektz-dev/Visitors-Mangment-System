@@ -326,7 +326,7 @@ namespace VMS.Controllers
         {
             var row = _context.Appointments.Where(x => x.Id == AppointmentId).FirstOrDefault();
             if (row != null) {
-                row.CheckOut = DateTime.Now;
+                row.CheckOut = DateTime.UtcNow;
                 _context.SaveChanges();
 
                 return Ok(row.CheckOut);
