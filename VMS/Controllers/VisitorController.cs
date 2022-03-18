@@ -44,6 +44,7 @@ namespace VMS.Controllers
                     VisitingEmployee = appointment.VisitingEmployee,
                     IsFlu = appointment.isFlu,
                     GlobalAppointmentId = appointment.GlobalAppointmentId,
+                    Source = "Plugin",
                     CreatedBy = 1,
                     CreatedDate = DateTime.Now
                 };

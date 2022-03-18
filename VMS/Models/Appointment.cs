@@ -23,6 +23,7 @@ namespace VMS.Models
         public DateTimeOffset? CheckIn { get; set; }
         public DateTimeOffset? CheckOut { get; set; }
         public bool? IsPrint { get; set; }
+        public string Source { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public int? CreatedBy { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }

@@ -85,6 +85,7 @@ namespace VMS.Controllers
                 VisitingEmployee = appointment.VisitingEmployee,
                 IsFlu = appointment.isFlu,
                 CheckIn = DateTime.UtcNow,
+                Source = "Web",
                 CreatedBy = 1
             };
 

@@ -73,6 +73,8 @@ namespace VMS.Models
                 entity.Property(e => e.MeetingDescription).HasMaxLength(50);
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(30);
+
+                entity.Property(e => e.Source).HasMaxLength(50);
             });
 
             modelBuilder.Entity<AspNetRole>(entity =>

@@ -16,9 +16,15 @@
                     <input type="checkbox" class="custom-control-input" id="defaultInline1"  onclick="FilterTable('CheckIn')">
                     <label class="custom-control-label" for="defaultInline1">Visitors on site</label>
                 </div>
-                @*<button class="btn btn-primary float-right mb-5" onclick="FilterTable('CheckIn')">Check In Employees</button>*@
+               
             </div><!-- /.col -->
         </div><!-- /.row -->
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="cold-md-2">
+                <a class="btn btn-primary float-right mb-5" href="@Url.Action("ExportAppointmentExcel","Export")">Export</a>
+            </div>
+        </div>
     </div><!-- /.container-fluid -->
 </div>
 
