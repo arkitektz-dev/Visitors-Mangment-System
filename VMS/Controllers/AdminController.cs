@@ -84,9 +84,7 @@ namespace VMS.Controllers
                     if (filterType == "CheckIn") {
                          appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.CheckIn != null && x.CheckOut == null);
                     }
-
-                    
-
+                     
                  }
 
             //Sorting  

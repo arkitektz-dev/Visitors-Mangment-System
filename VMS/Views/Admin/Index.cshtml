@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="cold-md-2">
-                <a class="btn btn-primary float-right mb-5" href="@Url.Action("ExportAppointmentExcel","Export")">Export</a>
+                <a class="btn btn-primary float-right mb-5" id="btnExport" href="@Url.Action("ExportAppointmentExcel","Export")?filterType=CheckIn" >Export</a>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -112,7 +112,7 @@
 <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script>
 
-   
+
     $("#container-loader").hide();
     var filterType = "CheckIn";
 
@@ -347,6 +347,8 @@
             filterType = "CheckIn";
         }
 
+        document.getElementById("btnExport").href = "@Url.Action("ExportAppointmentExcel","Export")?filterType=" + filterType;
+
     }
 
     function imgError(image) {
@@ -354,7 +356,7 @@
         image.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
         return true;
     }
- 
 
- 
+
+
 </script>

@@ -19,9 +19,9 @@ namespace VMS.Controllers
         }
 
 
-        public IActionResult ExportAppointmentExcel()
+        public IActionResult ExportAppointmentExcel(string filterType)
         {
-            DataTable dt = getAppointmentData();
+            DataTable dt = getAppointmentData(filterType);
             //Name of File  
             string fileName = $"Appointment{DateTime.Now.Date}.xlsx";
             using (XLWorkbook wb = new XLWorkbook())
@@ -37,7 +37,7 @@ namespace VMS.Controllers
             }
         }
 
-        public DataTable getAppointmentData()
+        public DataTable getAppointmentData(string filterType)
         {
             //Creating DataTable  
             DataTable dt = new DataTable();
@@ -54,11 +54,28 @@ namespace VMS.Controllers
             dt.Columns.Add("CarRegistration", typeof(string));  
             dt.Columns.Add("IsFlu", typeof(string));
             dt.Columns.Add("CheckIn", typeof(string));
-            dt.Columns.Add("CheckOut", typeof(string)); 
+            dt.Columns.Add("CheckOut", typeof(string));
 
             //Add Rows in DataTable  
 
-            var list = _context.Appointments.ToList();
+
+
+
+            var list = (from appointment in _context.Appointments
+                        orderby appointment.CreatedDate descending
+                        join meeting in _context.MeetingPurposes on appointment.MeetingPurpose equals meeting.Id
+                        select appointment).ToList();
+
+            if (filterType != null)
+            {
+
+                if (filterType == "CheckIn")
+                {
+                    list = list.OrderByDescending(x => x.CheckIn).Where(x => x.CheckIn != null && x.CheckOut == null).ToList();
+                }
+
+            }
+
             int counter = 0;
             foreach (var item in list)
             {
