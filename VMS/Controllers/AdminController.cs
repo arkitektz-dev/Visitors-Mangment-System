@@ -30,7 +30,7 @@ namespace VMS.Controllers
         public AdminController(IWebHostEnvironment _environment, VMSDbContext context)
         {
             environment = _environment;
-            _context = context;
+            _context = context; 
         }
 
         public IActionResult Index()
