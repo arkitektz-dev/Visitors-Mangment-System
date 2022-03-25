@@ -8,34 +8,82 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <h1 class="m-0">Appointment</h1>
+                 
             </div><!-- /.col -->
             <div class="col-sm-6">
-                <div class="custom-control custom-checkbox custom-control-inline float-right" id="filter">
-                    <input type="checkbox" class="custom-control-input" id="defaultInline1"  onclick="FilterTable('CheckIn')">
-                    <label class="custom-control-label" for="defaultInline1">Visitors on site</label>
-                </div>
-               
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        <div class="row">
-            <div class="col-md-10"></div>
-            <div class="cold-md-2">
-                <a class="btn btn-primary float-right mb-5" id="btnExport" href="@Url.Action("ExportAppointmentExcel","Export")?filterType=CheckIn" >Export</a>
+
+
             </div>
-        </div>
-    </div><!-- /.container-fluid -->
+            <div class="col-md-2">
+                <a class="btn btn-primary float-right mb-5" id="btnViewSearch"><i class="fas fa-cog text-white"></i></a>
+
+            </div>
+        </div> 
+
+    </div> 
 </div>
 
+
+<div class="row" id="div-appointment-search-options" style="display:none;">
+    <div class="col-12">
+        <div class="card">
+            <p >Filter options</p>
+            <div class="row">
+                <div class="col-md-3 mb-5">
+                    <div class="custom-control custom-checkbox custom-control-inline float-right" id="filter" style=" margin-right: 57%; margin-top: 7px;">
+                        <input type="checkbox" class="custom-control-input" id="defaultInline1" onclick="FilterTable('CheckIn')">
+                        <label class="custom-control-label" for="defaultInline1">Visitors on site</label>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-5">
+                    <div class="form-group">
+                        <label class="form-label" for="txtStartDate">Start Time</label>
+                        <input class="form-control" type="date" id="txtStartDate">
+                    </div>
+                </div>
+                <div class="col-md-3 mb-5">
+                    <div class="form-group">
+                        <label class="form-label" for="txtEndDate">End Time</label>
+                        <input class="form-control" type="date" id="txtEndDate">
+                    </div>
+                </div>
+                <div class="col-md-3 mb-5">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="form-label" for="cmbMeetingPurpose">Meeting Purpose</label>
+                            <select class="form-control" id="cmbMeetingPurpose" asp-items="@ViewBag.MeetingPurposes">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mb-5">Export options</p>
+            <div class="row">
+
+                <div class="col-md-2" style="margin-left:-5%;">
+                    <a class="btn btn-primary float-right mb-5" id="btnExport" href="@Url.Action("ExportAppointmentExcel","Export")?filterType=CheckOut">Export</a>
+                </div>
+                <div class="col-md-2" style="margin-left:-5%;">
+                    <a class="btn btn-primary float-right mb-5 text-white" id="btnSearch">Search</a>
+                </div>
+
+            </div>
+
+        </div> 
+    </div> 
+</div>
 
 <div class="row" id="appointment-list-table">
     <div class="col-12">
         <div class="card">
-            
+
             <!-- /.card-header -->
             <div class="card-body">
-                 
+
                 <table id="dt-appointment-list" class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -72,6 +120,7 @@
 
             <div class="card-footer">
                 <button type="button" onclick="CloseAppointmentDetail()" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+
             </div>
         </div>
     </div>
@@ -113,8 +162,14 @@
 <script>
 
 
+    $("#btnViewSearch").on('click', function () {
+        $("#div-appointment-search-options").slideToggle();
+    });
+
+
+
     $("#container-loader").hide();
-    var filterType = "CheckIn";
+    var filterType = "CheckOut";
 
     var tableAppointmnet =  $("#dt-appointment-list").DataTable({
                 "processing": true, // for show progress bar
@@ -202,7 +257,7 @@
                                 <dd class="col-sm-8">${response.visitingEmployee == null ? "-" : response.visitingEmployee}</dd>
 
                                 <dt class="col-sm-4">Flu symptoms in last 14 days</dt>
-                                <dd class="col-sm-8">${response.value == null ? "-" : (response.value == false ? "No" : "Yes")}</dd>
+                                <dd class="col-sm-8">${response.value == null ? "" : (response.value == false ? "No" : "Yes")}</dd>
 
                                 <dt class="col-sm-4">Description</dt>
                                 <dd class="col-sm-8">${response.meetingDescription == null ? "-" : response.meetingDescription}</dd>
@@ -347,9 +402,75 @@
             filterType = "CheckIn";
         }
 
-        document.getElementById("btnExport").href = "@Url.Action("ExportAppointmentExcel","Export")?filterType=" + filterType;
+        var startDate = $("#txtStartDate").val();
+        var endDate = $("#txtEndDate").val();
+        var meetingPurpose = $("#cmbMeetingPurpose").val();
+
+        document.getElementById("btnExport").href = "@Url.Action("ExportAppointmentExcel", "Export")?filterType=" + `${filterType}&startDate=${startDate}&endDate=${endDate}&meetingId=${meetingPurpose}`;
 
     }
+
+    $("#btnSearch").on("click", function () {
+        var startDate = $("#txtStartDate").val();
+        var endDate = $("#txtEndDate").val();
+        var meetingPurpose = $("#cmbMeetingPurpose").val();
+
+          tableAppointmnet.destroy();
+          tableAppointmnet =  $("#dt-appointment-list").DataTable({
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+              "ajax": {
+                  "url": "@Url.Action("LoadData", "Admin")?filterType=" + `${filterType}&startDate=${startDate}&endDate=${endDate}&meetingId=${meetingPurpose}`,
+                    "type": "POST",
+                    "datatype": "json",
+                },
+
+                "columns": [
+                    { "data": "fullName", "name": "fullName", "autoWidth": true },
+                    { "data": "companyName", "name": "companyName", "autoWidth": true },
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    //{ "data": "checkIn", "name": "checkIn", "autoWidth": true },
+                    //{ "data": "checkOut", "name": "checkOut", "autoWidth": true },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            console.log(data);
+                            return CustomerFormatedDate(data.checkIn);
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            if (data.checkOut != null) {
+                                return CustomerFormatedDate(data.checkOut);
+                            } else {
+                                return data.checkOut;
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+
+                            return `
+                                <button onClick='ShowAppointment(${data.id})' class='btn btn-primary'>View</button>
+                                ${row.checkOut != null ? "" : "<button onClick='ForceSignOut(" + data.id +", this)' class='btn btn-danger'>Check Out</button>"}
+
+
+                            `;
+                        }
+                    },
+                ]
+
+            });
+
+          document.getElementById("btnExport").href = "@Url.Action("ExportAppointmentExcel", "Export")?filterType=" + `${filterType}&startDate=${startDate}&endDate=${endDate}&meetingId=${meetingPurpose}`;
+
+        console.log(startDate, endDate)
+    });
 
     function imgError(image) {
         image.onerror = "";

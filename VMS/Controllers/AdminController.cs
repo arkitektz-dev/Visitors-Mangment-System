@@ -17,6 +17,7 @@ using System.Net;
 using CoreHtmlToImage;
 using VMS.Dtos;
 using VMS.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace VMS.Controllers
 {
@@ -35,9 +36,26 @@ namespace VMS.Controllers
 
         public IActionResult Index()
         {
+
+            var meetingPurpose = _context.MeetingPurposes.ToList();
+            List<SelectListItem> meetingPurposes = new List<SelectListItem>();
+            foreach (var item in meetingPurpose) {
+
+                meetingPurposes.Add(new SelectListItem() { 
+                    Text = item.Name,
+                    Value = item.Id.ToString()
+                }); 
+
+                
+
+            }
+
+            ViewBag.MeetingPurposes = meetingPurposes;
+
+
             return View();
         }
-        public IActionResult LoadData(string filterType)
+        public IActionResult LoadData(string filterType, DateTime? startDate, DateTime? endDate, int meetingId)
         {
              
                 var draw = HttpContext.Request.Form["draw"].FirstOrDefault();
@@ -76,7 +94,10 @@ namespace VMS.Controllers
                                            meeting.Name,
                                            appointment.CarRegistration,
                                            appointment.CheckIn,
-                                           appointment.CheckOut
+                                           appointment.CheckOut,
+                                           appointment.CreatedDate,
+                                           appointment.MeetingPurpose,
+                                           meetingType = meeting.Id
                                        });
 
                  if (filterType != null) {
@@ -86,6 +107,26 @@ namespace VMS.Controllers
                     }
                      
                  }
+
+            if (startDate != null && endDate != null)
+            {
+                appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate > startDate && x.CreatedDate < endDate);
+            }
+            else {
+
+                if (startDate != null) { 
+                    appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate < startDate);
+                }
+
+                if (endDate != null) { 
+                    appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate < endDate);
+                }
+
+            }
+
+            if (meetingId != 0) {
+                appointmentData = appointmentData.OrderByDescending(x => x.CheckIn).Where(x => x.meetingType == meetingId);
+            }
 
             //Sorting  
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))

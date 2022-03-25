@@ -14,14 +14,14 @@ namespace VMS.Controllers
     {
         private VMSDbContext _context;
         public ExportController(VMSDbContext context)
-        { 
+        {
             _context = context;
         }
 
 
-        public IActionResult ExportAppointmentExcel(string filterType)
+        public IActionResult ExportAppointmentExcel(string filterType, DateTime? startDate, DateTime? endDate, int meetingId)
         {
-            DataTable dt = getAppointmentData(filterType);
+            DataTable dt = getAppointmentData(filterType, startDate, endDate, meetingId);
             //Name of File  
             string fileName = $"Appointment{DateTime.Now.Date}.xlsx";
             using (XLWorkbook wb = new XLWorkbook())
@@ -37,7 +37,7 @@ namespace VMS.Controllers
             }
         }
 
-        public DataTable getAppointmentData(string filterType)
+        public DataTable getAppointmentData(string filterType, DateTime? startDate, DateTime? endDate, int meetingId)
         {
             //Creating DataTable  
             DataTable dt = new DataTable();
@@ -51,8 +51,8 @@ namespace VMS.Controllers
             dt.Columns.Add("MeetingPurpose", typeof(string));
             dt.Columns.Add("MeetingDescription", typeof(string));
             dt.Columns.Add("VisitingEmployee", typeof(string));
-            dt.Columns.Add("CarRegistration", typeof(string));  
-            dt.Columns.Add("IsFlu", typeof(string));
+            dt.Columns.Add("CarRegistration", typeof(string));
+            dt.Columns.Add("Has Flu Symptom", typeof(string));
             dt.Columns.Add("CheckIn", typeof(string));
             dt.Columns.Add("CheckOut", typeof(string));
 
@@ -63,8 +63,24 @@ namespace VMS.Controllers
 
             var list = (from appointment in _context.Appointments
                         orderby appointment.CreatedDate descending
+                        join meetingType in _context.MeetingPurposes on appointment.MeetingPurpose equals meetingType.Id
                         join meeting in _context.MeetingPurposes on appointment.MeetingPurpose equals meeting.Id
-                        select appointment).ToList();
+                        select new
+                        {
+                            appointment.FullName,
+                            appointment.PhoneNumber,
+                            appointment.CompanyName,
+                            meetingType.Name,
+                            appointment.MeetingDescription,
+                            appointment.VisitingEmployee,
+                            appointment.CarRegistration,
+                            MeetingType = meetingType.Name,
+                            appointment.IsFlu,
+                            appointment.CheckIn,
+                            appointment.CheckOut,
+                            appointment.CreatedDate,
+                            meetingType = meetingType.Id
+                        }).ToList();
 
             if (filterType != null)
             {
@@ -76,14 +92,38 @@ namespace VMS.Controllers
 
             }
 
+            if (startDate != null && endDate != null)
+            {
+                list = list.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate > startDate && x.CreatedDate < endDate).ToList();
+            }
+            else
+            {
+
+                if (startDate != null)
+                {
+                    list = list.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate < startDate).ToList();
+                }
+
+                if (endDate != null)
+                {
+                    list = list.OrderByDescending(x => x.CheckIn).Where(x => x.CreatedDate < endDate).ToList();
+                }
+
+            }
+
+            if (meetingId != 0)
+            {
+                list = list.OrderByDescending(x => x.CheckIn).Where(x => x.meetingType == meetingId).ToList();
+            }
+
             int counter = 0;
             foreach (var item in list)
             {
                 counter++;
-                dt.Rows.Add(counter, 
+                dt.Rows.Add(counter,
                     item.FullName, item.PhoneNumber, item.CompanyName,
-                    item.MeetingPurpose, item.VisitingEmployee, item.CarRegistration,
-                    item.IsFlu, item.CheckIn,item.CheckOut);
+                    item.MeetingType, item.MeetingDescription, item.VisitingEmployee, item.CarRegistration,
+                    item.IsFlu, item.CheckIn, item.CheckOut);
             }
             dt.AcceptChanges();
             return dt;
