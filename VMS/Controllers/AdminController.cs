@@ -309,9 +309,21 @@ namespace VMS.Controllers
             var bytes = converter.FromUrl($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/TestPrint?AppointmentId={AppointmentId}");
             Stream stream = new MemoryStream(bytes);
 
-            return File(stream, "image/jpeg");
+
+            Image img = System.Drawing.Image.FromStream(stream);
+
+            img.Save(this.GetPathAndFilename($"Appointment{AppointmentId}.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
+
+   
+
+            return Ok($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/appointmentTickets/Appointment{AppointmentId}.jpg");
 
 
+        }
+
+        private string GetPathAndFilename(string filename)
+        {  
+            return environment.WebRootPath + "\\appointmentTickets\\" + filename;
         }
 
         public IActionResult GetListPrinter() {

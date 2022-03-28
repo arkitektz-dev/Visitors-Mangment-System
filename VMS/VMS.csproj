@@ -34,6 +34,7 @@
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\admin\" />
     <Folder Include="wwwroot\barcode\" />
+    <Folder Include="wwwroot\NewFolder\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

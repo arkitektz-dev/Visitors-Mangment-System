@@ -56,5 +56,32 @@ namespace VMS.Controllers
         }
 
 
+        public IActionResult CredentialsManagers()
+        {
+            var apiKey = _context.Settings.Where(x => x.SettingKey == "ApiKey").FirstOrDefault();
+             
+            var model = new EmailConfigViewModel()
+            {
+                ApiKey = apiKey.SettingValue
+            };
+            
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult CredentialsManagers(EmailConfigViewModel model)
+        {
+            var emailConfig = _context.Settings.Where(x => x.SettingKey == "ApiKey").FirstOrDefault();
+            if (emailConfig != null) {
+                emailConfig.SettingValue = model.ApiKey;
+                _context.SaveChanges();
+            }
+
+            return View(model);
+        }
+
+
+
     }
 }

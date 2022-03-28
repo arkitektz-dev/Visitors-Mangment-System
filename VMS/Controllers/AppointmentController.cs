@@ -106,7 +106,9 @@ namespace VMS.Controllers
             var employerDetail = _context.Employees.Where(x => x.Name == appointment.VisitingEmployee).FirstOrDefault();
             if (employerDetail != null) {
 
-                var apiKey = "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";
+
+                //var apiKey = "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";
+                var apiKey = _context.Settings.Where(x => x.SettingKey == "ApiKey").FirstOrDefault().SettingValue;
                 var client = new SendGridClient(apiKey);
                 var subject = "";
                 if (appointment.MeetingPurpose != 5)
@@ -233,7 +235,8 @@ namespace VMS.Controllers
                     if (employerDetail != null)
                     {
 
-                        var apiKey = "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";
+                        //var apiKey = "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";
+                        var apiKey = _context.Settings.Where(x => x.SettingKey == "ApiKey").FirstOrDefault().SettingValue;
                         var client = new SendGridClient(apiKey);
                         var subject = $"{appointment.FullName} ({appointment.CompanyName}) is here to see you";
                         var from = new EmailAddress("info@tech-rescue.co.nz", subject);
