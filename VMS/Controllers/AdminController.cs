@@ -18,6 +18,9 @@ using CoreHtmlToImage;
 using VMS.Dtos;
 using VMS.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Firebase.Auth;
+using System.Threading;
+using Firebase.Storage;
 
 namespace VMS.Controllers
 {
@@ -27,6 +30,12 @@ namespace VMS.Controllers
         int AppointmentId;
         private IWebHostEnvironment environment;
         private VMSDbContext _context;
+
+        public static string apiKey = "AIzaSyD8Kz6UaELdFPGMAxxMzbuhdSvVRKYrDz4";
+        public static string Bucket = "showroom-66254.appspot.com";
+        public static string AuthEmail = "arkitektzsolutions@gmail.com";
+        public static string AuthPassword = "Admin@123#";
+
 
         public AdminController(IWebHostEnvironment _environment, VMSDbContext context)
         {
@@ -307,15 +316,38 @@ namespace VMS.Controllers
         {
             var converter = new HtmlConverter();
             var bytes = converter.FromUrl($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/TestPrint?AppointmentId={AppointmentId}");
-            Stream stream = new MemoryStream(bytes);
-            Guid fileNumber = Guid.NewGuid();
-            
-
-            SaveStreamAsFile(environment.WebRootPath + "\\appointmentTickets", stream, $"{fileNumber}.jpg");
-
-            return Ok($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/appointmentTickets/{fileNumber}.jpg");
+            //Stream stream = new MemoryStream(bytes);
+            //Guid fileNumber = Guid.NewGuid();
 
 
+            //SaveStreamAsFile(environment.WebRootPath + "\\appointmentTickets", stream, $"{fileNumber}.jpg");
+
+            //return Ok($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/appointmentTickets/{fileNumber}.jpg");
+
+
+            MemoryStream ms = new MemoryStream(Convert.FromBase64String(Convert.ToBase64String(bytes)));
+
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(apiKey));
+            var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail,AuthPassword);
+
+            var cancellation = new CancellationTokenSource();
+            var task = new FirebaseStorage(
+                      Bucket,
+                      new FirebaseStorageOptions
+                      {
+                          AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                          ThrowOnCancel = true // when you cancel the upload, exception is thrown. By default no exception is thrown
+                    })
+                      .Child("receipts")
+                      .Child("test")
+                      .Child($"aspcore.png")
+                      .PutAsync(ms, cancellation.Token);
+
+
+            string link = await task;
+
+
+            return Ok(link);
         }
 
         public static void SaveStreamAsFile(string filePath, Stream inputStream, string fileName)
