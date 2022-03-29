@@ -308,10 +308,29 @@ namespace VMS.Controllers
             var converter = new HtmlConverter();
             var bytes = converter.FromUrl($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/TestPrint?AppointmentId={AppointmentId}");
             Stream stream = new MemoryStream(bytes);
+            Guid fileNumber = Guid.NewGuid();
+            
 
-            return File(stream, "image/jpeg");
+            SaveStreamAsFile(environment.WebRootPath + "\\appointmentTickets", stream, $"{fileNumber}.jpg");
+
+            return Ok($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/appointmentTickets/{fileNumber}.jpg");
 
 
+        }
+
+        public static void SaveStreamAsFile(string filePath, Stream inputStream, string fileName)
+        {
+            DirectoryInfo info = new DirectoryInfo(filePath);
+            if (!info.Exists)
+            {
+                info.Create();
+            }
+
+            string path = Path.Combine(filePath, fileName);
+            using (FileStream outputFileStream = new FileStream(path, FileMode.Create))
+            {
+                inputStream.CopyTo(outputFileStream);
+            }
         }
 
         public IActionResult GetListPrinter() {

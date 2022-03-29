@@ -13,14 +13,12 @@ namespace VMS.Controllers
     [ApiController]
     public class VisitorController : ControllerBase
     {
-         
         private VMSDbContext _context;
         public VisitorController(VMSDbContext context)
         {
             _context = context;
         }
 
-     
         [HttpPost("add-appointment")]
         public IActionResult AddAppointment(AddAppointmentDto appointment)
         {
@@ -106,7 +104,5 @@ namespace VMS.Controllers
 
             return Ok("Exsits");
         }
-
-
     }
 }
